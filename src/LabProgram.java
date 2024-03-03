@@ -1,6 +1,11 @@
 /**
- * LabProgram.java
- * CIS 22C, Lab 12
+ * Executable main file
+ * @author Avin Rai
+ * @author Victor Fugere
+ * @author Myles Vongnakhone
+ * @author Aung Aung
+ * @author Trista Chen
+ * @author Shreyana Bolleddu
  */
 import java.util.Comparator;
 import java.util.NoSuchElementException;

@@ -1,7 +1,11 @@
 /**
- * HashTable.java
+ * Defines a HashTable class
  * @author Avin Rai
- * CIS 22C, Lab 13.2
+ * @author Victor Fugere
+ * @author Myles Vongnakhone
+ * @author Aung Aung
+ * @author Trista Chen
+ * @author Shreyana Bolleddu
  */
 import java.util.ArrayList;
 

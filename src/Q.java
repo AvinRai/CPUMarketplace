@@ -1,7 +1,11 @@
 /**
+ * Defines a Queue interface
  * @author Avin Rai
- * CIS 22C, Lab 7
- * IMPORTANT: DO NOT ALTER THIS FILE
+ * @author Victor Fugere
+ * @author Myles Vongnakhone
+ * @author Aung Aung
+ * @author Trista Chen
+ * @author Shreyana Bolleddu
  */
 import java.util.NoSuchElementException;
 
