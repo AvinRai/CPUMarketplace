@@ -1,4 +1,4 @@
-<mxfile host="app.diagrams.net" modified="2024-03-08T06:59:50.695Z" agent="Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/122.0.0.0 Safari/537.36" etag="r0YcTbopSo8vp6ZziwUY" version="24.0.2" type="github">
+<mxfile host="app.diagrams.net" modified="2024-03-08T07:00:44.330Z" agent="Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/122.0.0.0 Safari/537.36" etag="XLJX1GQYeROhhs8KFxf2" version="24.0.2" type="github">
   <diagram name="Page-1" id="VIbLfAjZlDnv_QIKt-9u">
     <mxGraphModel dx="2043" dy="634" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="850" pageHeight="1100" math="0" shadow="0">
       <root>
@@ -53,7 +53,7 @@
           <mxGeometry y="60" width="160" height="26" as="geometry" />
         </mxCell>
         <mxCell id="pu-xaRb8zsEWkZCLDYAN-25" value="Employee" style="swimlane;fontStyle=1;align=center;verticalAlign=top;childLayout=stackLayout;horizontal=1;startSize=26;horizontalStack=0;resizeParent=1;resizeParentMax=0;resizeLast=0;collapsible=1;marginBottom=0;whiteSpace=wrap;html=1;" parent="1" vertex="1">
-          <mxGeometry x="200" y="400" width="250" height="160" as="geometry" />
+          <mxGeometry x="200" y="400" width="250" height="150" as="geometry" />
         </mxCell>
         <mxCell id="pu-xaRb8zsEWkZCLDYAN-26" value="- isManager(): boolean" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=top;spacingLeft=4;spacingRight=4;overflow=hidden;rotatable=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;whiteSpace=wrap;html=1;" parent="pu-xaRb8zsEWkZCLDYAN-25" vertex="1">
           <mxGeometry y="26" width="250" height="26" as="geometry" />
@@ -62,7 +62,7 @@
           <mxGeometry y="52" width="250" height="8" as="geometry" />
         </mxCell>
         <mxCell id="pu-xaRb8zsEWkZCLDYAN-28" value="&lt;div&gt;+ Employee()&lt;/div&gt;&lt;div&gt;+ Employee(String, String, String, String, boolean)&lt;/div&gt;&lt;div&gt;+ isManager(): boolean&lt;/div&gt;&lt;div&gt;+ setManager(boolean): void&lt;/div&gt;" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=top;spacingLeft=4;spacingRight=4;overflow=hidden;rotatable=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;whiteSpace=wrap;html=1;" parent="pu-xaRb8zsEWkZCLDYAN-25" vertex="1">
-          <mxGeometry y="60" width="250" height="100" as="geometry" />
+          <mxGeometry y="60" width="250" height="90" as="geometry" />
         </mxCell>
         <mxCell id="pu-xaRb8zsEWkZCLDYAN-29" value="Comparable" style="swimlane;fontStyle=1;align=center;verticalAlign=top;childLayout=stackLayout;horizontal=1;startSize=26;horizontalStack=0;resizeParent=1;resizeParentMax=0;resizeLast=0;collapsible=1;marginBottom=0;whiteSpace=wrap;html=1;" parent="1" vertex="1">
           <mxGeometry x="370" y="270" width="160" height="86" as="geometry" />
