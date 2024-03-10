@@ -59,11 +59,41 @@ public class CPU {
     @Override
     public String toString() {
         String result = "Name: " + name +
-                "Brand: " + brand +
-                "Cores: " + cores +
-                "Threads: " + threads +
-                "Clock Speed: " + clockSpeed +
-                "Price: " + price;
+                "\nBrand: " + brand +
+                "\nClock Speed: " + clockSpeed +
+                "\nCores: " + cores +
+                "\nThreads: " + threads +
+                "\nPrice: $" + String.format("%.2f", price) +
+                "\nStock: " + stock;
         return result + "\n";
+    }
+
+    /**
+     * Determines if two CPUs are equal
+     * @returns if two CPU objects are equal
+     */
+    @Override
+    public boolean equals(Object obj){
+        if (this == obj) {
+            return true;
+        } else if (!(obj instanceof CPU)) {
+            return false;
+        } else {
+            return this.name.equals(((CPU) obj).name);
+        }
+    }
+
+    /**
+     * Returns the hash code of the CPU
+     * @return hash code
+     */
+    @Override
+    public int hashCode(){
+        String key = name + brand;
+        int sum = 0;
+        for (int i = 0; i < key.length(); i++) {
+            sum += key.charAt(i);
+        }
+        return sum;
     }
 }
