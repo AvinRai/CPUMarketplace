@@ -9,7 +9,7 @@
  */
 public class CPU {
     String name, brand; // respective primary and secondary key
-    int cores, threads;
+    int cores, threads, stock;
     double clockSpeed, price;
 
     /****CONSTRUCTORS****/
@@ -21,10 +21,11 @@ public class CPU {
     public CPU(){
         this.name = "";
         this.brand = "";
+        this.clockSpeed = 0;
         this.cores = 0;
         this.threads = 0;
-        this.clockSpeed = 0;
         this.price = 0;
+        this.stock = 0;
     }
 
     /***
@@ -37,13 +38,14 @@ public class CPU {
      * @param price in dollars (ex. 450)
      * @postcondition a new CPU object with assigned values
      */
-    public CPU(String name, String brand, int cores, int threads, double clockSpeed, double price) {
+    public CPU(String name, String brand, double clockSpeed, int cores, int threads, double price, int stock) {
         this.name = name;
         this.brand = brand;
+        this.clockSpeed = clockSpeed;
         this.cores = cores;
         this.threads = threads;
-        this.clockSpeed = clockSpeed;
         this.price = price;
+        this.stock = stock;
     }
 
     /****ADDITIONAL OPERATIONS****/
