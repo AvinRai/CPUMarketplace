@@ -7,7 +7,38 @@ public abstract class User {
 	private String firstName;
 	private String lastName;
 	private String username;
-	private String password;	
+	private String password;
+	
+    /**CONSTRUCTORS*/	
+	
+    /**
+     * Creates a new User when only email
+     * and password are known
+     * @param username the User username
+     * @param password the User password
+     * Assigns firstName to "first name unknown"
+     * Assigns lastName to "last name unknown"
+     */
+    public User(String username, String password) {
+       this.username = username;
+       this.password = password;
+       this.firstName = "first name unknown";
+       this.lastName = "last name unknown";
+    }
+    
+    /**
+     * Creates a new User
+     * @param username the User username
+     * @param password the User password
+     * @param firstName User first name
+     * @param lastName User last name
+     */
+    public User(String firstName, String lastName, String username, String password) {
+       this.username = username;
+       this.password = password;
+       this.firstName = firstName;
+       this.lastName = lastName;
+    }
 	
     /**ACCESSORS*/
 
@@ -77,4 +108,3 @@ public abstract class User {
        this.password = password;
     }
 }
-
