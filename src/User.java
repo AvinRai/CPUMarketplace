@@ -1,13 +1,18 @@
+/*
+ * @author Shreyana Bolleddu
+ * CIS 22C Team 1 Final Project
+ */
+
 public abstract class User {
-  private String firstName;
+	private String firstName;
 	private String lastName;
 	private String username;
-	private String password;
-		
+	private String password;	
+	
     /**ACCESSORS*/
 
     /**
-     * Accesses the customer first name
+     * Accesses the User first name
      * @return the first name
      */
     public String getFirstName() {
@@ -15,7 +20,7 @@ public abstract class User {
     }
     
     /**
-     * Accesses the customer last name
+     * Accesses the User last name
      * @return the last name
      */
     public String getLastName() {
@@ -23,7 +28,7 @@ public abstract class User {
     }
 	
     /**
-     * Accesses the customer username
+     * Accesses the User username
      * @return the username
      */
     public String getUsername() {
@@ -31,7 +36,7 @@ public abstract class User {
     }
     
     /**
-     * Accesses the customer password
+     * Accesses the User password
      * @return the password
      */
     public String getPassword() {
@@ -41,7 +46,7 @@ public abstract class User {
     /**MUTATORS*/
 
     /**
-     * Updates the user first name
+     * Updates the User first name
      * @param firstName a new first name
      */
     public void setFirstName(String firstName) {
@@ -49,7 +54,7 @@ public abstract class User {
     }
 
     /**
-     * Updates the user last name
+     * Updates the User last name
      * @param lastName a new last name
      */
     public void setLastName(String lastName) {
@@ -72,3 +77,4 @@ public abstract class User {
        this.password = password;
     }
 }
+
