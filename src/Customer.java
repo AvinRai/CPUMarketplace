@@ -204,7 +204,7 @@ public class Customer extends User {
     /**ADDITIONAL OPERATIONS*/
 
     /**
-     * Creates a String of customer information in the form
+     * Creates a String of Customer information in the form
      * Name: <firstName> <lastName>
      * Username: <userName>
      * Address: <address> 
@@ -220,7 +220,7 @@ public class Customer extends User {
     	StringBuilder sb = new StringBuilder();
     	sb.append("Name: " + getFirstName() + " " + getLastName());
     	sb.append("\nUsername: " + getUsername());
-    	sb.append("Address: " + address);
+    	sb.append("\nAddress: " + address);
     	sb.append("\n" + city + ", " + state + " " + zip);
     	sb.append("\nOrder History");
     	sb.append("\nShipped Orders\n" + shippedOrders.toString());
