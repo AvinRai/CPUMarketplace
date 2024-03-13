@@ -87,6 +87,29 @@ public class Order {
     public void setPriority(int priority) {
         this.priority = priority;
     }
+
+    /**
+     * Determines if 2 orders are the same
+     * @param the order that this order will be compared to
+     * @return true if both orders are the same, false otherwise
+     */
+    @SuppressWarnings("unchecked")
+    @Override
+    public boolean equals(Object obj) {
+        if(obj == this) {
+            return true;
+        } else if (!(obj instanceof Order)) {
+            return false;
+        } else {
+            Order o = (Order) obj; 
+            return this.orderId == o.orderId &&
+            this.customer.equals(o.customer) &&
+            this.date.equals(o.date) &&
+            this.shippedSpeed == o.shippedSpeed &&
+            this.priority == o.priority &&
+            this.orderContents.equals(o.orderContents);
+        }
+    }
 }// end class Order
 
 class customerUsernameComparator implements Comparator<Order> {
