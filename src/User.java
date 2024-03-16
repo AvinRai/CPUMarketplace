@@ -1,8 +1,7 @@
-/*
+/**
  * @author Shreyana Bolleddu
  * CIS 22C Team 1 Final Project
  */
-
 public abstract class User {
 	private String firstName;
 	private String lastName;
@@ -94,7 +93,7 @@ public abstract class User {
 
     /**
      * Updates the value of the username
-     * @param name the User username
+     * @param username of the User
      */
     public void setEmail(String username) {
        this.username = username;

@@ -1,4 +1,4 @@
-/*
+/**
  * @author Shreyana Bolleddu
  * CIS 22C Team 1 Final Project
  */
@@ -161,7 +161,7 @@ public class Customer extends User {
     
     /**
      * Updates the Customer zip
-     * @param the new zip
+     * @param zip of the new zip
      */
     public void setZip(String zip) {
     	this.zip = zip;

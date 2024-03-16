@@ -1,12 +1,7 @@
 /**
- * Defines a Queue class
+ * Queue.java
  * @author Avin Rai
- * @author Victor Fugere
- * @author Myles Vongnakhone
- * @author Aung Aung
- * @author Trista Chen
- * @author Shreyana Bolleddu
- * @param <T> the generic data stored in the Queue
+ * Team 1 Final Project
  */
 import java.util.NoSuchElementException;
 

@@ -1,11 +1,7 @@
 /**
- * Defines a Queue interface
+ * Q.java
  * @author Avin Rai
- * @author Victor Fugere
- * @author Myles Vongnakhone
- * @author Aung Aung
- * @author Trista Chen
- * @author Shreyana Bolleddu
+ * Team 1 Final Project
  */
 import java.util.NoSuchElementException;
 

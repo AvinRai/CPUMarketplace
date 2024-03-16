@@ -19,7 +19,7 @@ public class Heap<T> {
      * Sets heapSize to data size, stores parameters, inserts null at heap
      * element 0, and calls buildHeap().
      * @param data an unordered ArrayList, where element 0 is not used.
-     * @param comparator that determines organization of heap
+     * @param cmp comparator that determines organization of heap
      * based on priority.
      */
     public Heap(ArrayList<T> data, Comparator<T> cmp) {

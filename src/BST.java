@@ -1,7 +1,7 @@
 /**
  * BST.java
  * @author Avin Rai
- * CIS 22C Lab 9
+ * Team 1 Final Project
  */
 import java.util.Comparator;
 import java.util.NoSuchElementException;

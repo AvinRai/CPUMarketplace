@@ -1,6 +1,5 @@
 /*
- * order.java
-
+ * Order.java
  * @author Trista Chen
  * CIS 22C Team 1 Final Project
  */
@@ -90,7 +89,7 @@ public class Order {
 
     /**
      * Determines if 2 orders are the same
-     * @param the order that this order will be compared to
+     * @param obj order that this order will be compared to
      * @return true if both orders are the same, false otherwise
      */
     @SuppressWarnings("unchecked")
@@ -147,6 +146,7 @@ class orderIdComparator implements Comparator<Order> {
     /**
      * Compares the two orders by username of the customers who made the order
      * uses whichever order ID is higher
+     *
      * @param order1 the first order
      * @param order2 the second order
      * @return The comparison.
@@ -155,7 +155,8 @@ class orderIdComparator implements Comparator<Order> {
     public int compare(Order order1, Order order2) {
         Integer priority1 = (Integer) order1.getPriority();
         Integer priority2 = (Integer) order2.getPriority();
-        
-        return Integer.compare(priority1, priority2); 
+
+        return Integer.compare(priority1, priority2);
     }
+}
 

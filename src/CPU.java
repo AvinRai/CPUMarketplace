@@ -1,6 +1,7 @@
 /**
- * Defines a CPU class
+ * CPU.java
  * @author Avin Rai
+ * Team 1 Final Project
  */
 public class CPU {
     String name, brand; // respective primary and secondary key

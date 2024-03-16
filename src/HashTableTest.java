@@ -1,7 +1,7 @@
 /**
  * HashTableTest.java
  * @author Avin Rai
- * CIS 22C
+ * Team 1 Final Project
  */
 
 import static org.junit.jupiter.api.Assertions.*;

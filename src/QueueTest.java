@@ -1,9 +1,8 @@
 /**
  * QueueTest.java
  * @author Avin Rai
- * CIS 22C
+ * Team 1 Final Project
  */
-
 import static org.junit.jupiter.api.Assertions.*;
 import org.junit.jupiter.api.Test;
 import java.util.NoSuchElementException;
