@@ -1,11 +1,6 @@
 /**
  * Defines a CPU class
  * @author Avin Rai
- * @author Victor Fugere
- * @author Myles Vongnakhone
- * @author Aung Aung
- * @author Trista Chen
- * @author Shreyana Bolleddu
  */
 public class CPU {
     String name, brand; // respective primary and secondary key
