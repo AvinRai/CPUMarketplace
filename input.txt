@@ -13,3 +13,5 @@ Ryzen 7 7700X         	  AMD   	4.5        8         16        288.60
 Ryzen 7 5800X             AMD   	3.8        8         16        207.67
 Ryzen 9 7950X3D           AMD   	4.2        16        32        592.89
 Ryzen 9 3950X             AMD   	3.8        16        32        515.00
+
+George Washington georgewashington firstpresident
