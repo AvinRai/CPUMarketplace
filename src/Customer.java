@@ -37,7 +37,7 @@ public class Customer extends User {
      */
     public Customer(String firstName, String lastName, String username, String password) {
     	super(firstName, lastName, username, password);
-	this.address = "address unknown";
+	    this.address = "address unknown";
     	this.city = "city unknown";
     	this.state = "state unknown";
     	this.zip = "zip unknown";
