@@ -63,6 +63,14 @@ public class CPU {
         return this.brand;
     }
 
+    /**
+     * Return the cpu price
+     * @return cpu price
+     */
+    public double getPrice() {
+        return this.price;
+    }
+
 
     /****ADDITIONAL OPERATIONS****/
 
@@ -128,16 +136,21 @@ class cpuNameComparator implements Comparator<CPU> {
     }
 }
 
-class cpuBrandComparator implements Comparator<CPU> {
+class cpuPriceComparator implements Comparator<CPU> {
     /**
-     * Compares the two cpus by brand
-     * uses the String compareTo method to make the comparison
+     * Compares the two cpus by price
+     * uses the static Double compare method to make the
+     * comparison
      * @param cpu1 the first cpu
      * @param cpu2 the second cpu
      * @return The comparison.
      */
     @Override
     public int compare(CPU cpu1, CPU cpu2) {
-        return cpu1.getBrand().compareTo(cpu2.getBrand());
+
+        Double cpu1Price = cpu1.getPrice();
+        Double cpu2Price = cpu2.getPrice();
+
+        return cpu1Price.compareTo(cpu2Price);
     }
 }
