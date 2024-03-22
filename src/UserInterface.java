@@ -13,6 +13,11 @@ public class UserInterface {
         Scanner input = new Scanner(System.in);
         HashTable<Customer> customers = new HashTable<>(SIZE);
         HashTable<Employee> employees = new HashTable<>(SIZE);
+        CustomerUsernameComparator customerUsernameComparator = new CustomerUsernameComparator();
+        PriorityComparator priorityComparator = new PriorityComparator();
+        OrderIdComparator orderIdComparator = new OrderIdComparator();
+        CpuNameComparator cpuNameComparator = new CpuNameComparator();
+        CpuPriceComparator cpuPriceComparator = new CpuPriceComparator();
         BST<CPU> cpusByName = new BST<>();
         BST<CPU> cpusByBrand = new BST<>();
         System.out.println("Welcome to the CPU Store!");

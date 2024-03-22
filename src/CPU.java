@@ -122,7 +122,7 @@ public class CPU {
     }
 }
 
-class cpuNameComparator implements Comparator<CPU> {
+class CpuNameComparator implements Comparator<CPU> {
     /**
      * Compares the two cpus by name
      * uses the String compareTo method to make the comparison
@@ -136,7 +136,7 @@ class cpuNameComparator implements Comparator<CPU> {
     }
 }
 
-class cpuPriceComparator implements Comparator<CPU> {
+class CpuPriceComparator implements Comparator<CPU> {
     /**
      * Compares the two cpus by price
      * uses the static Double compare method to make the

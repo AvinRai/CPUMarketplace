@@ -1,4 +1,4 @@
-/**
+/*
  * Order.java
  * @author Trista Chen
  * CIS 22C Team 1 Final Project
@@ -111,7 +111,7 @@ public class Order {
     }
 }// end class Order
 
-class customerUsernameComparator implements Comparator<Order> {
+class CustomerUsernameComparator implements Comparator<Order> {
     /**
      * Compares the two orders by username of the customers who made the order
      * uses the String compareTo method to make the comparison
@@ -125,7 +125,7 @@ class customerUsernameComparator implements Comparator<Order> {
     }
 }
 //waiting for priority queue to be finished. Assuming it will look a little like this...
-class priorityComparator implements Comparator<Order> {
+class PriorityComparator implements Comparator<Order> {
     /**
      * Compares the two orders by priority
      * uses which order is highest in the heap to determine which is of higher priority.
@@ -142,7 +142,7 @@ class priorityComparator implements Comparator<Order> {
     }
 }
 
-class orderIdComparator implements Comparator<Order> {
+class OrderIdComparator implements Comparator<Order> {
     /**
      * Compares the two orders by username of the customers who made the order
      * uses whichever order ID is higher
