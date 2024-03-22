@@ -1,11 +1,10 @@
 /**
  * Heap.java
- * @author Victor Fugere
+ * @author Avin Rai
  * CIS 22C, Lab 18
  */
 import java.util.ArrayList;
 import java.util.Comparator;
-import java.util.NoSuchElementException;
 
 public class Heap<T> {
     private int heapSize;
@@ -14,21 +13,20 @@ public class Heap<T> {
 
     /**Constructors/
 
-    /**
+     /**
      * Constructor for the Heap class.
      * Sets heapSize to data size, stores parameters, inserts null at heap
      * element 0, and calls buildHeap().
      * @param data an unordered ArrayList, where element 0 is not used.
-     * @param cmp comparator that determines organization of heap
+     * @param cmp that determines organization of heap
      * based on priority.
      */
     public Heap(ArrayList<T> data, Comparator<T> cmp) {
-    	heapSize = data.size();
-    	heap = new ArrayList<T>(this.heapSize + 1);
-    	heap.add(null);
-    	heap.addAll(data);
-    	this.cmp = cmp;
-    	buildHeap();
+        this.heapSize = data.size();
+        this.heap = data;
+        this.heap.add(0, null);
+        this.cmp = cmp;
+        buildHeap();
     }
 
     /**Mutators*/
@@ -38,11 +36,9 @@ public class Heap<T> {
      * Calls helper method heapify.
      */
     public void buildHeap() {
-    	int floor = heapSize/2;
-    	
-    	for (int i = floor; i >= 1; i--) {
-    		heapify(i);
-    	}
+        for (int i = heapSize / 2; i > 0; i--) {
+            heapify(i);
+        }
     }
 
     /**
@@ -51,22 +47,21 @@ public class Heap<T> {
      * @param index an index in the heap
      */
     private void heapify(int index) {
-    	int left = getLeft(index);
-    	int right = getRight(index);
-    	int max = index;
-    	
-    	if (left <= heapSize && cmp.compare(heap.get(left), heap.get(max)) > 0) {
-    		max = left;
-    	} 
-    	if (right <= heapSize && cmp.compare(heap.get(right), heap.get(max)) > 0) {
-    		max = right;
-    	}
-    	if (max != index) {
-    		T temp = heap.get(index);
-    		heap.set(index, heap.get(max));
-    		heap.set(max, temp);
-    		heapify(max);
-    	}
+        int maxIndex = index;
+        int left = getLeft(index);
+        int right = getRight(index);
+        if (left <= heapSize && cmp.compare(heap.get(left), heap.get(index)) > 0) {
+            maxIndex = left;
+        }
+        if (right <= heapSize && cmp.compare(heap.get(right), heap.get(maxIndex)) > 0) {
+            maxIndex = right;
+        }
+        if (index != maxIndex) {
+            T temp = heap.get(index);
+            heap.set(index, heap.get(maxIndex));
+            heap.set(maxIndex, temp);
+            heapify(maxIndex);
+        }
     }
 
     /**
@@ -75,7 +70,9 @@ public class Heap<T> {
      * @param key the data to insert
      */
     public void insert(T key) {
-
+        heapSize++;
+        heap.add(key);
+        heapIncreaseKey(heapSize, key);
     }
 
     /**
@@ -85,7 +82,15 @@ public class Heap<T> {
      * @param key the data
      */
     private void heapIncreaseKey(int index, T key) {
-
+        if (cmp.compare(key, heap.get(index)) < 0) {
+            heap.set(index, key);
+        }
+        while (index > 1 && cmp.compare(heap.get(getParent(index)), heap.get(index)) < 0) {
+            T temp = heap.get(index);
+            heap.set(index, heap.get(getParent(index)));
+            heap.set(getParent(index), temp);
+            index = getParent(index);
+        }
     }
 
     /**
@@ -94,7 +99,16 @@ public class Heap<T> {
      * @param index the index of the element to remove
      */
     public void remove(int index) {
-
+        if (index >= 0 && index <= heapSize) {
+            T temp = heap.get(index);
+            heap.set(index, heap.get(heapSize));
+            heap.set(heapSize, temp);
+            heap.remove(heapSize);
+            heapSize--;
+            if (heapSize > 1) {
+                heapify(1);
+            }
+        }
     }
 
     /**Accessors*/
@@ -116,10 +130,10 @@ public class Heap<T> {
      * @throws IndexOutOfBoundsException when precondition is violated.
      */
     public int getLeft(int index) throws IndexOutOfBoundsException {
-    	if (index < 1 || index > heapSize) {
-    		throw new IndexOutOfBoundsException();
-    	}
-    	return index * 2;
+        if (1 > index || index > heapSize) {
+            throw new IndexOutOfBoundsException("getLeft: index out of bounds");
+        }
+        return index * 2;
     }
 
     /**
@@ -131,10 +145,10 @@ public class Heap<T> {
      * @throws IndexOutOfBoundsException when precondition is violated.
      */
     public int getRight(int index) throws IndexOutOfBoundsException {
-    	if (index < 1 || index > heapSize) {
-    		throw new IndexOutOfBoundsException();
-    	}
-    	return index * 2 + 1;
+        if (1 > index || index > heapSize) {
+            throw new IndexOutOfBoundsException("getRight: index out of bounds");
+        }
+        return index * 2 + 1;
     }
 
     /**
@@ -146,10 +160,10 @@ public class Heap<T> {
      * @throws IndexOutOfBoundsException when precondition is violated.
      */
     public int getParent(int index) throws IndexOutOfBoundsException {
-    	if (index <= 1 || index > heapSize) {
-    		throw new IndexOutOfBoundsException();
-    	}
-    	return index / 2;
+        if (1 >= index || index > heapSize) {
+            throw new IndexOutOfBoundsException("getParent: index out of bounds");
+        }
+        return index / 2;
     }
 
     /**
@@ -168,10 +182,10 @@ public class Heap<T> {
      * @throws IndexOutOfBoundsException when precondition is violated.
      */
     public T getElement(int index) throws IndexOutOfBoundsException {
-    	if (index < 1 || index > heapSize) {
-    		throw new IndexOutOfBoundsException();
-    	}
-    	return heap.get(index);
+        if (0 >= index || index > heapSize) {
+            throw new IndexOutOfBoundsException("getElement: index out of bounds");
+        }
+        return heap.get(index);
     }
 
     /**Additional Operations*/
@@ -182,14 +196,15 @@ public class Heap<T> {
      */
     @Override
     public String toString() {
-        String output = "";
-        for (int i = 1; i < heap.size(); i++) {
-        	output += heap.get(i);
-        	if (i != heap.size() - 1) {
-        		output += ", ";
-        	}
+        StringBuilder result = new StringBuilder();
+        for (int i = 1; i < this.heap.size(); i++) {
+            if (i != heap.size() - 1) {
+                result.append(this.heap.get(i)).append(", ");
+            } else {
+                result.append(this.heap.get(i));
+            }
         }
-        return output;
+        return result + "";
     }
 
     /**
@@ -199,6 +214,20 @@ public class Heap<T> {
      * @postcondition heap remains a valid heap
      */
     public ArrayList<T> sort() {
-        return new ArrayList<T>();
+        ArrayList<T> save = new ArrayList<>(heap);
+        int n = heapSize;
+        for (int i = n; i >= 2; i--) {
+            T temp = heap.get(i);
+            heap.set(i, heap.get(1));
+            heap.set(1, temp);
+            heapSize--;
+            heapify(1);
+        }
+        ArrayList<T> result = new ArrayList<>();
+        for (int i = 1; i < save.size(); i++) {
+            result.add(heap.get(i));
+        }
+        heap = save;
+        return result;
     }
 }

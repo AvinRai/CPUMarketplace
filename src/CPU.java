@@ -2,7 +2,7 @@ import java.util.Comparator;
 
 /**
  * CPU.java
- * @author Avin Rai
+ * @author Avin Rai, Victor Fugere
  * Team 1 Final Project
  */
 public class CPU {

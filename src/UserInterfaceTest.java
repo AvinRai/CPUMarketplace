@@ -3,5 +3,5 @@
  * @author Avin Rai
  * Team 1 Final Project
  */
-public class CustomerInterfaceTest {
+public class UserInterfaceTest {
 }
