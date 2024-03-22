@@ -1,4 +1,5 @@
 /**
+ * User.java
  * @author Shreyana Bolleddu
  * CIS 22C Team 1 Final Project
  */

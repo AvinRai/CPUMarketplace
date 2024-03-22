@@ -1,5 +1,5 @@
 /**
- * BST.java
+ * HeapTest.java
  * @author Avin Rai
  * Team 1 Final Project
  */
