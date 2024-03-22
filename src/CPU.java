@@ -57,7 +57,7 @@ public class CPU {
 
     /**
      * Return the cpu brand
-     * @return cpu name
+     * @return cpu brand
      */
     public String getBrand() {
         return this.brand;
@@ -118,8 +118,8 @@ class cpuNameComparator implements Comparator<CPU> {
     /**
      * Compares the two cpus by name
      * uses the String compareTo method to make the comparison
-     * @param order1 the first cpu
-     * @param order2 the second cpu
+     * @param cpu1 the first cpu
+     * @param cpu2 the second cpu
      * @return The comparison.
      */
     @Override
@@ -132,8 +132,8 @@ class cpuBrandComparator implements Comparator<CPU> {
     /**
      * Compares the two cpus by brand
      * uses the String compareTo method to make the comparison
-     * @param order1 the first cpu
-     * @param order2 the second cpu
+     * @param cpu1 the first cpu
+     * @param cpu2 the second cpu
      * @return The comparison.
      */
     @Override
