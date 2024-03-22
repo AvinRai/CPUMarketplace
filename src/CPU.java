@@ -1,3 +1,5 @@
+import java.util.Comparator;
+
 /**
  * CPU.java
  * @author Avin Rai
@@ -43,6 +45,24 @@ public class CPU {
         this.price = price;
         this.stock = stock;
     }
+    /**ACCESSORS */
+
+    /**
+     * Return the cpu name
+     * @return cpu name
+     */
+    public String getName() {
+        return this.name;
+    }
+
+    /**
+     * Return the cpu brand
+     * @return cpu name
+     */
+    public String getBrand() {
+        return this.brand;
+    }
+
 
     /****ADDITIONAL OPERATIONS****/
 
@@ -91,5 +111,33 @@ public class CPU {
             sum += key.charAt(i);
         }
         return sum;
+    }
+}
+
+class cpuNameComparator implements Comparator<CPU> {
+    /**
+     * Compares the two cpus by name
+     * uses the String compareTo method to make the comparison
+     * @param order1 the first cpu
+     * @param order2 the second cpu
+     * @return The comparison.
+     */
+    @Override
+    public int compare(CPU cpu1, CPU cpu2) {
+        return cpu1.getName().compareTo(cpu2.getName());
+    }
+}
+
+class cpuBrandComparator implements Comparator<CPU> {
+    /**
+     * Compares the two cpus by brand
+     * uses the String compareTo method to make the comparison
+     * @param order1 the first cpu
+     * @param order2 the second cpu
+     * @return The comparison.
+     */
+    @Override
+    public int compare(CPU cpu1, CPU cpu2) {
+        return cpu1.getBrand().compareTo(cpu2.getBrand());
     }
 }
