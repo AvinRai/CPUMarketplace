@@ -65,7 +65,114 @@ public class Employee extends User {
     public void setIsManager(boolean isManager) {
        this.isManager = isManager;
     }
+	
+    /**
+     * Updates the CPU BSTs to include a new product
+     * @param newCPU the CPU to be added
+     * @return if the product (CPU) was successfully added
+     */
+    public boolean addProduct(CPU newCPU, BST<CPU> cpusByName, BST<CPU> cpusByBrand, 
+    		Comparator<T> cmpName, Comparator<T> cmpBrand) { 
+    	//should change parameters to exist inside this class, static member variable?
+    	//the BSTs need to be updated everywhere, and cannot return two BSTs within method
+    	if(!getIsManager()) {
+    		System.out.println("Invalid request: Restricted to manager");    		
+    		return false;
+    	}
+    	cpusByName.insert(newCPU, cmpName);
+    	cpusByBrand.insert(newCPU, cmpBrand);
+    	return true;
+    }
     
+    /**
+     * Updates an existing product's stock in the CPU BSTs
+     * @return if the product (CPU) was successfully updated
+     */
+    public boolean updateProductStock(CPU updateCPU, int updateStock, BST<CPU> cpusByName, BST<CPU> cpusByBrand, 
+    		Comparator<T> cmpName, Comparator<T> cmpBrand) {
+    	//should change parameters to exist inside this class, static member variable?
+    	//the BSTs need to be updated everywhere, and cannot return two BSTs within method
+    	if(!getIsManager()) {
+    		System.out.println("Invalid request: Restricted to manager");    		
+    		return false;
+    	}
+    	if(cpusByName.search(updateCPU, cmpName) == null) {
+    		System.out.println("Invalid request: The CPU Store does not carry this product");
+    		return false;
+    	}
+    	CPU tempCPU = cpusByName.search(updateCPU, cmpName);
+    	
+    	cpusByName.remove(updateCPU, cmpName);
+    	cpusByBrand.remove(updateCPU, cmpBrand);
+    	
+    	tempCPU.updateStock(updateStock); //need to add updateStock() method to CPU class, written below
+    	
+    	cpusByName.insert(tempCPU, cmpName);
+    	cpusByBrand.insert(tempCPU, cmpBrand);
+    	return true;
+    }
+    
+    //COPY AND PASTE INTO CPU CLASS
+    /**
+     * Increases/Decreases the stock by adding to/subtracting from the existing stock.
+     * @param stock the amount of stock to add
+     */
+    /*public void updateStock(int stock) {
+       this.stock += stock;
+      }
+     */
+    
+    
+    /**
+     * Updates an existing product's stock in the CPU BSTs
+     * @return if the product (CPU) was successfully updated
+     */
+    public boolean updateProductPrice(CPU updateCPU, double updatePrice, BST<CPU> cpusByName, BST<CPU> cpusByBrand, 
+    		Comparator<T> cmpName, Comparator<T> cmpBrand) {
+    	//should change parameters to exist inside this class, static member variable?
+    	//the BSTs need to be updated everywhere, and cannot return two BSTs within method
+    	if(!getIsManager()) {
+    		System.out.println("Invalid request: Restricted to manager");    		
+    		return false;
+    	}
+    	if(cpusByName.search(updateCPU, cmpName) == null) {
+    		System.out.println("Invalid request: The CPU Store does not carry this product");
+    		return false;
+    	}
+    	CPU tempCPU = cpusByName.search(updateCPU, cmpName);
+    	
+    	cpusByName.remove(updateCPU, cmpName);
+    	cpusByBrand.remove(updateCPU, cmpBrand);
+    	
+    	tempCPU.setPrice(updatePrice); //need to add setters to CPU class
+    	
+    	cpusByName.insert(tempCPU, cmpName);
+    	cpusByBrand.insert(tempCPU, cmpBrand);
+    	return true;
+    }
+    
+    /**
+     * Updates the CPU BSTs to remove a product
+     * @param removeCPU the CPU to be removed
+     * @return if the product (CPU) was successfully removed
+     */
+    public boolean removeProduct(CPU removeCPU, BST<CPU> cpusByName, BST<CPU> cpusByBrand, 
+    		Comparator<T> cmpName, Comparator<T> cmpBrand) { 
+    	//should change parameters to exist inside this class, static member variable?
+    	//the BSTs need to be updated everywhere, and cannot return two BSTs within method
+    	if(!getIsManager()) {
+    		System.out.println("Invalid request: Restricted to manager");    		
+    		return false;
+    	}
+    	if(cpusByName.search(removeCPU, cmpName) == null) {
+    		System.out.println("Invalid request: The CPU Store does not carry this product");
+    		return false;
+    	}
+    	cpusByName.remove(removeCPU, cmpName);
+    	cpusByBrand.remove(removeCPU, cmpBrand);
+    	return true;
+    }
+	
     /**ADDITIONAL OPERATIONS*/
 
     /**
