@@ -10,7 +10,7 @@ import java.util.ArrayList;
 public class HeapTest {
     @Test
     void buildHeap() {
-        cpuNameComparator nameCMP = new cpuNameComparator();
+        CpuNameComparator nameCMP = new CpuNameComparator();
         ArrayList<CPU> data = new ArrayList<>();
         data.add(new CPU("i9-14900K", "Intel", 3.2, 24, 48, 544.54, 14));
         data.add(new CPU("i7-13700k", "Intel", 3.4, 16, 32, 370.99, 5));
@@ -23,7 +23,7 @@ public class HeapTest {
 
     @Test
     void insert() {
-        cpuNameComparator nameCMP = new cpuNameComparator();
+        CpuNameComparator nameCMP = new CpuNameComparator();
         ArrayList<CPU> data = new ArrayList<>();
         data.add(new CPU("i9-14900K", "Intel", 3.2, 24, 48, 544.54, 14));
         data.add(new CPU("i7-13700k", "Intel", 3.4, 16, 32, 370.99, 5));
@@ -37,7 +37,7 @@ public class HeapTest {
 
     @Test
     void remove() {
-        cpuNameComparator nameCMP = new cpuNameComparator();
+        CpuNameComparator nameCMP = new CpuNameComparator();
         ArrayList<CPU> data = new ArrayList<>();
         data.add(new CPU("i9-14900K", "Intel", 3.2, 24, 48, 544.54, 14));
         data.add(new CPU("i7-13700k", "Intel", 3.4, 16, 32, 370.99, 5));
@@ -53,7 +53,7 @@ public class HeapTest {
 
     @Test
     void testToString() {
-        cpuNameComparator nameCMP = new cpuNameComparator();
+        CpuNameComparator nameCMP = new CpuNameComparator();
         ArrayList<CPU> data = new ArrayList<>();
         data.add(new CPU("i9-14900K", "Intel", 3.2, 24, 48, 544.54, 14));
         data.add(new CPU("i7-13700k", "Intel", 3.4, 16, 32, 370.99, 5));
@@ -88,7 +88,7 @@ public class HeapTest {
         equal.add(new CPU("Ryzen 5 7800X3D", "AMD", 4.2, 8, 16, 349.00, 7));
         equal.add(new CPU("i7-13700k", "Intel", 3.4, 16, 32, 370.99, 5));
         equal.add(new CPU("i9-14900K", "Intel", 3.2, 24, 48, 544.54, 14));
-        cpuNameComparator nameCMP = new cpuNameComparator();
+        CpuNameComparator nameCMP = new CpuNameComparator();
         ArrayList<CPU> data = new ArrayList<>();
         data.add(new CPU("i9-14900K", "Intel", 3.2, 24, 48, 544.54, 14));
         data.add(new CPU("i7-13700k", "Intel", 3.4, 16, 32, 370.99, 5));
