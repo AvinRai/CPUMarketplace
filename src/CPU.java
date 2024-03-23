@@ -72,6 +72,22 @@ public class CPU {
         return this.price;
     }
 
+    /**
+     * Return the number of cpus in stock 
+     * @return cpu stock 
+     */
+    public int getStockNum() {
+        return this.stock;
+    } 
+    
+    /**MUTATORS */
+
+    /**
+     * Updates the price of the cpu
+     */
+    public void updatePrice(double price) {
+        this.price = price;
+    }
 
     /****ADDITIONAL OPERATIONS****/
 
