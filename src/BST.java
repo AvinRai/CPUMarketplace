@@ -369,7 +369,7 @@ public class BST<T> {
         if (node == null){
             return;
         }
-        preOrder.append(node.data).append(" ");
+        preOrder.append(node.data);
         preOrderString(node.left, preOrder);
         preOrderString(node.right, preOrder);
     }
@@ -395,7 +395,7 @@ public class BST<T> {
             return;
         }
         inOrderString(node.left, inOrder);
-        inOrder.append(node.data).append(" ");
+        inOrder.append(node.data);
         inOrderString(node.right, inOrder);
     }
 
@@ -421,7 +421,7 @@ public class BST<T> {
         }
         postOrderString(node.left, postOrder);
         postOrderString(node.right, postOrder);
-        postOrder.append(node.data).append(" ");
+        postOrder.append(node.data);
     }
 
     /**
