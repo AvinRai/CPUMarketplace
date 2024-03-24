@@ -19,15 +19,15 @@ public class UserInterface {
         CpuNameComparator cpuNameComparator = new CpuNameComparator();
         CpuPriceComparator cpuPriceComparator = new CpuPriceComparator();
         BST<CPU> cpusByName = new BST<>();
-        BST<CPU> cpusByBrand = new BST<>();
+        BST<CPU> cpusByPrice = new BST<>();
         System.out.println("Welcome to the CPU Store!");
-        inputInfo(customers, employees, cpusByName, cpusByBrand);
+        inputInfo(customers, employees, cpusByName, cpusByPrice);
         User user = logIn(input);
         System.out.println(user);
         if (user instanceof Customer) {
-            customerInterface(cpusByName, cpusByBrand, user, input);
+            customerInterface(cpusByName, cpusByPrice, user, input);
         } else if (user instanceof Employee) {
-            employeeInterface(cpusByName, cpusByBrand, user, input);
+            employeeInterface(cpusByName, cpusByPrice, user, input);
         }
     }
 
@@ -92,6 +92,28 @@ public class UserInterface {
         } catch (FileNotFoundException e) {
             throw new RuntimeException(e);
         }
+    }
+
+
+    /**
+     * Searches for a product depending on the key passed
+     * @param <T>
+     * @param cpusByName the cpus available
+     * @param key the key provided. either the model name or the price
+     * @return the cpu searched for if it exists
+     */
+    private static CPU searchForproduct(BST<CPU> cpusByName, CPU key, CpuNameComparator cpuNameComparator, CpuPriceComparator cpuPriceComparator) {
+        CPU findByName = cpusByName.search(key, cpuNameComparator);
+        CPU findByValue = cpusByName.search(key, cpuPriceComparator);
+
+        if (findByName != null) {
+            return findByName;
+        } else if (findByValue != null) {
+            return findByValue;
+        } else {
+            return null;
+        }
+
     }
 
 }
