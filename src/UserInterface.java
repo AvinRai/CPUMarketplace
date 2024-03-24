@@ -51,14 +51,14 @@ public class UserInterface {
     private static void customerInterface(BST<CPU> cpusByName, BST<CPU> cpusByPrice, User user, Scanner input) {
     }
 
-        /**
+    /**
      * Updates the CPU BSTs to include a new product
      * @param newCPU the CPU to be added
      * @return if the product (CPU) was successfully added
      */
-    public boolean addProduct(User user, CPU newCPU, BST<CPU> cpusByName, BST<CPU> cpusByPrice, 
-    		Comparator<T> cmpName, Comparator<T> cmpPrice) { 
-    	if(!(Employee)user.getIsManager()) {
+    public boolean addProduct(Employee emp, CPU newCPU, BST<CPU> cpusByName, BST<CPU> cpusByPrice, 
+    		CpuNameComparator cmpName, CpuPriceComparator cmpPrice) { 
+    	if(!emp.getIsManager()) {
     		System.out.println("Invalid request: Restricted to manager");    		
     		return false;
     	}
@@ -71,9 +71,9 @@ public class UserInterface {
      * Updates an existing product's stock in the CPU BSTs
      * @return if the product (CPU) was successfully updated
      */
-    public boolean updateProductStock(User user, CPU updateCPU, int updateStock, BST<CPU> cpusByName,
-    		BST<CPU> cpusByPrice, Comparator<T> cmpName, Comparator<T> cmpPrice) {
-    	if(!(Employee)user.getIsManager()) {
+    public boolean updateProductStock(Employee emp, CPU updateCPU, int updateStock, BST<CPU> cpusByName,
+    		BST<CPU> cpusByPrice, CpuNameComparator cmpName, CpuPriceComparator cmpPrice) {
+    	if(!emp.getIsManager()) {
     		System.out.println("Invalid request: Restricted to manager");    		
     		return false;
     	}
@@ -97,9 +97,9 @@ public class UserInterface {
      * Updates an existing product's stock in the CPU BSTs
      * @return if the product (CPU) was successfully updated
      */
-    public boolean updateProductPrice(User user, CPU updateCPU, double updatePrice, BST<CPU> cpusByName,
-    		BST<CPU> cpusByPrice, Comparator<T> cmpName, Comparator<T> cmpPrice) {
-    	if(!(Employee)user.getIsManager()) {
+    public boolean updateProductPrice(Employee emp, CPU updateCPU, double updatePrice, BST<CPU> cpusByName,
+    		BST<CPU> cpusByPrice, CpuNameComparator cmpName, CpuPriceComparator cmpPrice) {
+    	if(!emp.getIsManager()) {
     		System.out.println("Invalid request: Restricted to manager");    		
     		return false;
     	}
@@ -112,7 +112,7 @@ public class UserInterface {
     	cpusByName.remove(updateCPU, cmpName);
     	cpusByPrice.remove(updateCPU, cmpPrice);
     	
-    	tempCPU.setPrice(updatePrice); //need to add setters to CPU class
+    	tempCPU.updatePrice(updatePrice); //need to add setters to CPU class
     	
     	cpusByName.insert(tempCPU, cmpName);
     	cpusByPrice.insert(tempCPU, cmpPrice);
@@ -124,9 +124,9 @@ public class UserInterface {
      * @param removeCPU the CPU to be removed
      * @return if the product (CPU) was successfully removed
      */
-    public boolean removeProduct(User user, CPU removeCPU, BST<CPU> cpusByName, BST<CPU> cpusByPrice, 
-    		Comparator<T> cmpName, Comparator<T> cmpPrice) { 
-    	if(!(Employee)user.getIsManager()) {
+    public boolean removeProduct(Employee emp, CPU removeCPU, BST<CPU> cpusByName, BST<CPU> cpusByPrice, 
+    		CpuNameComparator cmpName, CpuPriceComparator cmpPrice) {
+    	if(!emp.getIsManager()) {
     		System.out.println("Invalid request: Restricted to manager");    		
     		return false;
     	}
@@ -138,7 +138,6 @@ public class UserInterface {
     	cpusByPrice.remove(removeCPU, cmpPrice);
     	return true;
     }
-
     /**
      * Prompt the user to login
      * @param input to read user input
