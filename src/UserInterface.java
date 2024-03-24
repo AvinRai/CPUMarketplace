@@ -234,11 +234,9 @@ public class UserInterface {
                 threads = cpuReader.nextInt();
                 price = cpuReader.nextDouble();
                 stock = cpuReader.nextInt();
-                CPU toAdd = new CPU(cpuName, brand, clockSpeed, cores, threads, price, stock);
-                // cpus.insert(toAdd, nameCMP);
+                CPU cpus = new CPU(cpuName, brand, clockSpeed, cores, threads, price, stock);
             }
-            // add another bst call
-            // INSERT USERS
+
             while (userReader.hasNextLine()) {
                 firstName = userReader.next();
                 lastName = userReader.next();
@@ -246,12 +244,14 @@ public class UserInterface {
                 password = userReader.next();
                 String userType = userReader.next();
 
-                if (userType.equals("customer")) {
+                if (userType.equals("C")) {
                     Customer customer = new Customer(firstName, lastName, username, password);
                     customers.add(customer);
-                } else if (userType.equals("employee")) {
-                    boolean isManager = userReader.nextBoolean();
+                } else if (userType.equals("E")) {
                     Employee employee = new Employee(firstName, lastName, username, password);
+                    employees.add(employee);
+                } else if (userType.equals("M")) {
+                    Employee employee = new Employee(firstName, lastName, username, password, true);
                     employees.add(employee);
                 }
             }
