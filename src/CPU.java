@@ -89,6 +89,14 @@ public class CPU {
         this.price = price;
     }
 
+     /**
+     * Updates the stock of the cpu
+     * @param stock the amount of stock to add or subtract
+     */
+    public void updateStock(int stock) {
+    	this.stock += stock;
+    }
+
     /****ADDITIONAL OPERATIONS****/
 
     /**
