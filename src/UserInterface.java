@@ -68,7 +68,7 @@ public class UserInterface {
      * @param cpusByBrand BST of cpus sorted by brand
      */
     private static void inputInfo(HashTable<Customer> customers, HashTable<Employee> employees,
-                                  BST<CPU> cpusByName, BST<CPU> cpusByBrand) {
+                                  BST<CPU> cpusByName, BST<CPU> cpusByPrice, CpuNameComparator cpuNameComparator, CpuPriceComparator CpuPriceComparator) {
         String firstName, lastName, username, password, cpuName, brand;
         int cores, threads, stock;
         double clockSpeed, price;
@@ -85,8 +85,9 @@ public class UserInterface {
                 stock = cpuReader.nextInt();
                 clockSpeed = cpuReader.nextDouble();
                 price = cpuReader.nextDouble();
-                CPU toAdd = new CPU(cpuName, brand, cores, threads, stock, clockSpeed, price);
-                cpus.insert(toAdd, nameCMP);
+                CPU toAdd = new CPU(cpuName, brand, clockSpeed, cores, threads, price, stock);
+                cpusByName.insert(toAdd, cpuNameComparator);
+                cpusByPrice.insert(toAdd, CpuPriceComparator);
             }
             // add another bst call
             // INSERT USERS
