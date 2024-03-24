@@ -28,12 +28,12 @@ public class Order {
         this.priority = 0;
     }
 
-    public Order(int orderId, Customer customer, LinkedList<CPU> orderContents,
+    public Order(int orderId, Customer customer, String orderContents,
                  String shippedSpeed) {
         this.orderId = orderId;
         this.customer = customer;
         this.dateTime = LocalDateTime.now();
-        this.orderContents = orderContents;
+        this.orderContents = addContents(orderContents);
         this.shippedSpeed = shippedSpeed;
         this.priority = calculatePriority(dateTime, shippedSpeed);
     }
@@ -92,6 +92,15 @@ public class Order {
 
     public void setPriority(int priority) {
         this.priority = priority;
+    }
+
+    /**
+     * returns a linked list of CPUS a customer ordered
+     * @param orderContents The customer's input (the cpus ordered)
+     * @return a linked list of CPUS a customer ordered
+     */
+    private LinkedList<CPU> addContents(String orderContents) {
+        return null;
     }
 
     /**
