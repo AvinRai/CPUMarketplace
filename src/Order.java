@@ -5,12 +5,15 @@
  */
 import java.util.LinkedList;
 import java.util.Comparator;
+import java.time.LocalDateTime;
+import java.time.temporal.ChronoUnit;
+import java.time.format.DateTimeFormatter;
 public class Order {
     private int orderId;
     private Customer customer;
-    private String date;
+    private LocalDateTime dateTime;
     private LinkedList<CPU> orderContents;
-    private int shippedSpeed;
+    private String shippedSpeed;
     private int priority;
 
     /* Constructors */
@@ -19,20 +22,20 @@ public class Order {
     public Order() {
         this.orderId = 0;
         this.customer = null;
-        this.date = "";
+        this.dateTime = null;
         this.orderContents = new LinkedList<>();
-        this.shippedSpeed = 0;
+        this.shippedSpeed = "nil";
         this.priority = 0;
     }
 
-    public Order(int orderId, Customer customer, String date, LinkedList<CPU> orderContents,
-                 int shippedSpeed, int priority) {
+    public Order(int orderId, Customer customer, LocalDateTime dateTime, LinkedList<CPU> orderContents,
+                 String shippedSpeed, int priority) {
         this.orderId = orderId;
         this.customer = customer;
-        this.date = date;
+        this.dateTime = dateTime;
         this.orderContents = orderContents;
         this.shippedSpeed = shippedSpeed;
-        this.priority = priority;
+        this.priority = calculatePriority(dateTime, shippedSpeed);
     }
 
     /* Accessors */
@@ -46,14 +49,17 @@ public class Order {
     }
 
     public String getDate() {
-        return date;
+
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
+        // Format the current date and time using the formatter
+        return dateTime.format(formatter);
     }
 
     public LinkedList<CPU> getOrderContents() {
         return orderContents;
     }
 
-    public int getShippedSpeed() {
+    public String getShippedSpeed() {
         return shippedSpeed;
     }
 
@@ -71,15 +77,16 @@ public class Order {
         this.customer = customer;
     }
 
-    public void setDate(String date) {
-        this.date = date;
+    public void setDate(LocalDateTime date) {
+
+        this.dateTime = date;
     }
 
     public void setOrderContents(LinkedList<CPU> orderContents) {
         this.orderContents = orderContents;
     }
 
-    public void setShippedSpeed(int shippedSpeed) {
+    public void setShippedSpeed(String shippedSpeed) {
         this.shippedSpeed = shippedSpeed;
     }
 
@@ -100,14 +107,45 @@ public class Order {
         } else if (!(obj instanceof Order)) {
             return false;
         } else {
-            Order o = (Order) obj; 
-            return this.orderId == o.orderId &&
-            this.customer.equals(o.customer) &&
-            this.date.equals(o.date) &&
-            this.shippedSpeed == o.shippedSpeed &&
-            this.priority == o.priority &&
-            this.orderContents.equals(o.orderContents);
+            Order temp = (Order) obj;
+            return this.orderId == temp.orderId &&
+            this.customer.equals(temp.customer) &&
+            this.dateTime.equals(temp.dateTime) &&
+                    this.shippedSpeed.equals(temp.shippedSpeed) &&
+            this.priority == temp.priority &&
+            this.orderContents.equals(temp.orderContents);
         }
+    }
+    // Method to calculate priority value based on order date/time and shipping speed
+    public int calculatePriority(LocalDateTime orderDateTime, String shippingSpeed) {
+        // Define priority factors (adjust these values based on your requirements)
+        final int BASE_PRIORITY = 100;  // Base priority value
+        final int DATE_FACTOR = 10;      // Priority increase per day
+        final int SPEED_FACTOR = 20;     // Priority increase per faster shipping speed
+
+        // Calculate days until order needs to be delivered
+        LocalDateTime currentDateTime = LocalDateTime.now();
+        long daysUntilDelivery = ChronoUnit.DAYS.between(currentDateTime, orderDateTime);
+
+        // Calculate priority based on days until delivery and shipping speed
+        int priority = BASE_PRIORITY - (int) (daysUntilDelivery * DATE_FACTOR);
+
+        switch (shippingSpeed) {
+            case "standard":
+                priority -= 0;  // No change in priority for standard shipping
+                break;
+            case "rush":
+                priority -= SPEED_FACTOR;  // Increase priority for express shipping
+                break;
+            case "overnight":
+                priority -= 2 * SPEED_FACTOR;  // Increase priority even more for overnight shipping
+                break;
+            // Add more cases if needed for other shipping speeds
+            default:
+                System.out.println("Unknown shipping speed: " + shippingSpeed);
+        }
+
+        return priority;
     }
 }// end class Order
 
@@ -151,6 +189,7 @@ class OrderIdComparator implements Comparator<Order> {
      * @param order2 the second order
      * @return The comparison.
      */
+
     @Override
     public int compare(Order order1, Order order2) {
         Integer priority1 = (Integer) order1.getPriority();
@@ -158,5 +197,7 @@ class OrderIdComparator implements Comparator<Order> {
 
         return Integer.compare(priority1, priority2);
     }
+
 }
+
 
