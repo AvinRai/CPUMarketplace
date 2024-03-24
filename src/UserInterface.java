@@ -51,6 +51,94 @@ public class UserInterface {
     private static void customerInterface(BST<CPU> cpusByName, BST<CPU> cpusByPrice, User user, Scanner input) {
     }
 
+        /**
+     * Updates the CPU BSTs to include a new product
+     * @param newCPU the CPU to be added
+     * @return if the product (CPU) was successfully added
+     */
+    public boolean addProduct(User user, CPU newCPU, BST<CPU> cpusByName, BST<CPU> cpusByPrice, 
+    		Comparator<T> cmpName, Comparator<T> cmpPrice) { 
+    	if(!(Employee)user.getIsManager()) {
+    		System.out.println("Invalid request: Restricted to manager");    		
+    		return false;
+    	}
+    	cpusByName.insert(newCPU, cmpName);
+    	cpusByPrice.insert(newCPU, cmpPrice);
+    	return true;
+    }
+    
+    /**
+     * Updates an existing product's stock in the CPU BSTs
+     * @return if the product (CPU) was successfully updated
+     */
+    public boolean updateProductStock(User user, CPU updateCPU, int updateStock, BST<CPU> cpusByName,
+    		BST<CPU> cpusByPrice, Comparator<T> cmpName, Comparator<T> cmpPrice) {
+    	if(!(Employee)user.getIsManager()) {
+    		System.out.println("Invalid request: Restricted to manager");    		
+    		return false;
+    	}
+    	if(cpusByName.search(updateCPU, cmpName) == null) {
+    		System.out.println("Invalid request: The CPU Store does not carry this product");
+    		return false;
+    	}
+    	CPU tempCPU = cpusByName.search(updateCPU, cmpName);
+    	
+    	cpusByName.remove(updateCPU, cmpName);
+    	cpusByPrice.remove(updateCPU, cmpPrice);
+    	
+    	tempCPU.updateStock(updateStock); //need to add updateStock() method to CPU class, written below
+    	
+    	cpusByName.insert(tempCPU, cmpName);
+    	cpusByPrice.insert(tempCPU, cmpPrice);
+    	return true;
+    }   
+    
+    /**
+     * Updates an existing product's stock in the CPU BSTs
+     * @return if the product (CPU) was successfully updated
+     */
+    public boolean updateProductPrice(User user, CPU updateCPU, double updatePrice, BST<CPU> cpusByName,
+    		BST<CPU> cpusByPrice, Comparator<T> cmpName, Comparator<T> cmpPrice) {
+    	if(!(Employee)user.getIsManager()) {
+    		System.out.println("Invalid request: Restricted to manager");    		
+    		return false;
+    	}
+    	if(cpusByName.search(updateCPU, cmpName) == null) {
+    		System.out.println("Invalid request: The CPU Store does not carry this product");
+    		return false;
+    	}
+    	CPU tempCPU = cpusByName.search(updateCPU, cmpName);
+    	
+    	cpusByName.remove(updateCPU, cmpName);
+    	cpusByPrice.remove(updateCPU, cmpPrice);
+    	
+    	tempCPU.setPrice(updatePrice); //need to add setters to CPU class
+    	
+    	cpusByName.insert(tempCPU, cmpName);
+    	cpusByPrice.insert(tempCPU, cmpPrice);
+    	return true;
+    }
+    
+    /**
+     * Updates the CPU BSTs to remove a product
+     * @param removeCPU the CPU to be removed
+     * @return if the product (CPU) was successfully removed
+     */
+    public boolean removeProduct(User user, CPU removeCPU, BST<CPU> cpusByName, BST<CPU> cpusByPrice, 
+    		Comparator<T> cmpName, Comparator<T> cmpPrice) { 
+    	if(!(Employee)user.getIsManager()) {
+    		System.out.println("Invalid request: Restricted to manager");    		
+    		return false;
+    	}
+    	if(cpusByName.search(removeCPU, cmpName) == null) {
+    		System.out.println("Invalid request: The CPU Store does not carry this product");
+    		return false;
+    	}
+    	cpusByName.remove(removeCPU, cmpName);
+    	cpusByPrice.remove(removeCPU, cmpPrice);
+    	return true;
+    }
+
     /**
      * Prompt the user to login
      * @param input to read user input
