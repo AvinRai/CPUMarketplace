@@ -21,7 +21,7 @@ public class UserInterface {
         BST<CPU> cpusByName = new BST<>();
         BST<CPU> cpusByPrice = new BST<>();
         System.out.println("Welcome to the CPU Store!");
-        inputInfo(customers, employees, cpusByName, cpusByPrice);
+        inputInfo(customers, employees, cpusByName, cpusByPrice, cpuNameComparator, cpuPriceComparator);
         User user = logIn(input);
         System.out.println(user);
         if (user instanceof Customer) {
@@ -65,10 +65,10 @@ public class UserInterface {
      * @param customers hash table of customers
      * @param employees hash table of employees
      * @param cpusByName BST of cpus sorted by name
-     * @param cpusByBrand BST of cpus sorted by brand
+     * @param cpusByPrice BST of cpus sorted by brand
      */
     private static void inputInfo(HashTable<Customer> customers, HashTable<Employee> employees,
-                                  BST<CPU> cpusByName, BST<CPU> cpusByBrand) {
+                                  BST<CPU> cpusByName, BST<CPU> cpusByPrice, CpuNameComparator cpuNameComparator, CpuPriceComparator CpuPriceComparator) {
         String firstName, lastName, username, password, cpuName, brand;
         int cores, threads, stock;
         double clockSpeed, price;
@@ -85,36 +85,15 @@ public class UserInterface {
                 stock = cpuReader.nextInt();
                 clockSpeed = cpuReader.nextDouble();
                 price = cpuReader.nextDouble();
-                CPU toAdd = new CPU(cpuName, brand, cores, threads, stock, clockSpeed, price);
-                cpus.insert(toAdd, nameCMP);
+                CPU toAdd = new CPU(cpuName, brand, clockSpeed, cores, threads, price, stock);
+                cpusByName.insert(toAdd, cpuNameComparator);
+                cpusByPrice.insert(toAdd, CpuPriceComparator);
             }
             // add another bst call
             // INSERT USERS
         } catch (FileNotFoundException e) {
             throw new RuntimeException(e);
         }
-    }
-
-
-    /**
-     * Searches for a product depending on the key passed
-     * @param <T>
-     * @param cpusByName the cpus available
-     * @param key the key provided. either the model name or the price
-     * @return the cpu searched for if it exists
-     */
-    private static CPU searchForproduct(BST<CPU> cpusByName, CPU key, CpuNameComparator cpuNameComparator, CpuPriceComparator cpuPriceComparator) {
-        CPU findByName = cpusByName.search(key, cpuNameComparator);
-        CPU findByValue = cpusByName.search(key, cpuPriceComparator);
-
-        if (findByName != null) {
-            return findByName;
-        } else if (findByValue != null) {
-            return findByValue;
-        } else {
-            return null;
-        }
-
     }
 
 }
