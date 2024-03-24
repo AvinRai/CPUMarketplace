@@ -174,4 +174,25 @@ public class UserInterface {
             throw new RuntimeException(e);
         }
     }
+
+        /**
+     * Searches for a product depending on the key passed
+     * @param <T>
+     * @param cpusByName the cpus available
+     * @param key the key provided. either the model name or the price
+     * @return the cpu searched for if it exists
+     */
+    private static CPU searchForproduct(BST<CPU> cpusByName, CPU key, CpuNameComparator cpuNameComparator, CpuPriceComparator cpuPriceComparator) {
+        CPU findByName = cpusByName.search(key, cpuNameComparator);
+        CPU findByValue = cpusByName.search(key, cpuPriceComparator);
+
+        if (findByName != null) {
+            return findByName;
+        } else if (findByValue != null) {
+            return findByValue;
+        } else {
+            return null;
+        }
+
+    }
 }
