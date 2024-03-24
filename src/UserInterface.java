@@ -19,36 +19,36 @@ public class UserInterface {
         CpuNameComparator cpuNameComparator = new CpuNameComparator();
         CpuPriceComparator cpuPriceComparator = new CpuPriceComparator();
         BST<CPU> cpusByName = new BST<>();
-        BST<CPU> cpusByBrand = new BST<>();
+        BST<CPU> cpusByPrice = new BST<>();
         System.out.println("Welcome to the CPU Store!");
-        inputInfo(customers, employees, cpusByName, cpusByBrand);
+        inputInfo(customers, employees, cpusByName, cpusByPrice);
         User user = logIn(input, customers, employees);
         System.out.println(user);
         if (user instanceof Customer) {
-            customerInterface(cpusByName, cpusByBrand, user, input);
+            customerInterface(cpusByName, cpusByPrice, user, input);
         } else if (user instanceof Employee) {
-            employeeInterface(cpusByName, cpusByBrand, user, input);
+            employeeInterface(cpusByName, cpusByPrice, user, input);
         }
     }
 
     /**
      * Interface for Employee Users
      * @param cpusByName BST of cpus sorted by name
-     * @param cpusByBrand BST of cpus sorted by brand
+     * @param cpusByPrice BST of cpus sorted by cpusByPrice
      * @param user of current user
      * @param input to read user input
      */
-    private static void employeeInterface(BST<CPU> cpusByName, BST<CPU> cpusByBrand, User user, Scanner input) {
+    private static void employeeInterface(BST<CPU> cpusByName, BST<CPU> cpusByPrice, User user, Scanner input) {
     }
 
     /**
      * Interface for Customer Users
      * @param cpusByName BST of cpus sorted by name
-     * @param cpusByBrand BST of cpus sorted by brand
+     * @param cpusByPrice BST of cpus sorted by price
      * @param user of current user
      * @param input to read user input
      */
-    private static void customerInterface(BST<CPU> cpusByName, BST<CPU> cpusByBrand, User user, Scanner input) {
+    private static void customerInterface(BST<CPU> cpusByName, BST<CPU> cpusByPrice, User user, Scanner input) {
     }
 
     /**
@@ -126,10 +126,10 @@ public class UserInterface {
      * @param customers hash table of customers
      * @param employees hash table of employees
      * @param cpusByName BST of cpus sorted by name
-     * @param cpusByBrand BST of cpus sorted by brand
+     * @param cpusByPrice BST of cpus sorted by price
      */
     private static void inputInfo(HashTable<Customer> customers, HashTable<Employee> employees,
-                                  BST<CPU> cpusByName, BST<CPU> cpusByBrand) {
+                                  BST<CPU> cpusByName, BST<CPU> cpusByPrice) {
         String firstName, lastName, username, password, cpuName, brand;
         int cores, threads, stock;
         double clockSpeed, price;
