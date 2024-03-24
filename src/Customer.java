@@ -28,6 +28,12 @@ public class Customer extends User {
      */
     public Customer(String username, String password) {
     	super(username, password);
+        this.address = "address unknown";
+        this.city = "city unknown";
+        this.state = "state unknown";
+        this.zip = "zip unknown";
+        this.shippedOrders = new LinkedList<Order>();
+        this.unshippedOrders = new LinkedList<Order>();
     }
     
     /**
