@@ -19,15 +19,15 @@ public class UserInterface {
         CpuNameComparator cpuNameComparator = new CpuNameComparator();
         CpuPriceComparator cpuPriceComparator = new CpuPriceComparator();
         BST<CPU> cpusByName = new BST<>();
-        BST<CPU> cpusByBrand = new BST<>();
+        BST<CPU> cpusByPrice = new BST<>();
         System.out.println("Welcome to the CPU Store!");
-        inputInfo(customers, employees, cpusByName, cpusByBrand);
+        inputInfo(customers, employees, cpusByName, cpusByPrice, cpuNameComparator, cpuPriceComparator);
         User user = logIn(input);
         System.out.println(user);
         if (user instanceof Customer) {
-            customerInterface(cpusByName, cpusByBrand, user, input);
+            customerInterface(cpusByName, cpusByPrice, user, input);
         } else if (user instanceof Employee) {
-            employeeInterface(cpusByName, cpusByBrand, user, input);
+            employeeInterface(cpusByName, cpusByPrice, user, input);
         }
     }
 
@@ -56,6 +56,7 @@ public class UserInterface {
      * @param input to read user input
      */
     private static User logIn(Scanner input) {
+
         return new Customer("abc", "abc");
     }
 
@@ -64,10 +65,10 @@ public class UserInterface {
      * @param customers hash table of customers
      * @param employees hash table of employees
      * @param cpusByName BST of cpus sorted by name
-     * @param cpusByBrand BST of cpus sorted by brand
+     * @param cpusByPrice BST of cpus sorted by brand
      */
     private static void inputInfo(HashTable<Customer> customers, HashTable<Employee> employees,
-                                  BST<CPU> cpusByName, BST<CPU> cpusByBrand) {
+                                  BST<CPU> cpusByName, BST<CPU> cpusByPrice, CpuNameComparator cpuNameComparator, CpuPriceComparator CpuPriceComparator) {
         String firstName, lastName, username, password, cpuName, brand;
         int cores, threads, stock;
         double clockSpeed, price;
@@ -84,8 +85,9 @@ public class UserInterface {
                 stock = cpuReader.nextInt();
                 clockSpeed = cpuReader.nextDouble();
                 price = cpuReader.nextDouble();
-                CPU toAdd = new CPU(cpuName, brand, cores, threads, stock, clockSpeed, price);
-                cpus.insert(toAdd, nameCMP);
+                CPU toAdd = new CPU(cpuName, brand, clockSpeed, cores, threads, price, stock);
+                cpusByName.insert(toAdd, cpuNameComparator);
+                cpusByPrice.insert(toAdd, CpuPriceComparator);
             }
             // add another bst call
             // INSERT USERS
