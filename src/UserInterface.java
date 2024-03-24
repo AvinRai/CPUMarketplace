@@ -13,9 +13,9 @@ public class UserInterface {
         Scanner input = new Scanner(System.in);
         HashTable<Customer> customers = new HashTable<>(SIZE);
         HashTable<Employee> employees = new HashTable<>(SIZE);
-//        CustomerUsernameComparator customerUsernameComparator = new CustomerUsernameComparator();
-//        PriorityComparator priorityComparator = new PriorityComparator();
-//        OrderIdComparator orderIdComparator = new OrderIdComparator();
+        CustomerUsernameComparator customerUsernameComparator = new CustomerUsernameComparator();
+        PriorityComparator priorityComparator = new PriorityComparator();
+        OrderIdComparator orderIdComparator = new OrderIdComparator();
         CpuNameComparator cpuNameComparator = new CpuNameComparator();
         CpuPriceComparator cpuPriceComparator = new CpuPriceComparator();
         BST<CPU> cpusByName = new BST<>();
@@ -36,8 +36,8 @@ public class UserInterface {
      *
      * @param cpusByName  BST of cpus sorted by name
      * @param cpusByPrice BST of cpus sorted by cpusByPrice
-     * @param user        of current user
-     * @param input       to read user input
+     * @param user of current user
+     * @param input to read user input
      */
     private static void employeeInterface(BST<CPU> cpusByName, BST<CPU> cpusByPrice, User user, Scanner input) {
     }
@@ -47,16 +47,20 @@ public class UserInterface {
      *
      * @param cpusByName  BST of cpus sorted by name
      * @param cpusByPrice BST of cpus sorted by price
-     * @param user        of current user
-     * @param input       to read user input
+     * @param user of current user
+     * @param input to read user input
      */
     private static void customerInterface(BST<CPU> cpusByName, BST<CPU> cpusByPrice, User user, Scanner input) {
     }
 
     /**
      * Updates the CPU BSTs to include a new product
-     *
+     * @param emp current employee user
      * @param newCPU the CPU to be added
+     * @param cpusByName BST of cpus sorted by name
+     * @param cpusByPrice BST of cpus sorted by price
+     * @param cmpName compares CPUs by name
+     * @param cmpPrice compares CPUs by price
      * @return if the product (CPU) was successfully added
      */
     public boolean addProduct(Employee emp, CPU newCPU, BST<CPU> cpusByName, BST<CPU> cpusByPrice,
@@ -72,9 +76,15 @@ public class UserInterface {
 
     /**
      * Updates an existing product's stock in the CPU BSTs
-     *
+     * @param emp current employee
+     * @param updateCPU the CPU to be updated
+     * @param cpusByName BST of cpus sorted by name
+     * @param cpusByPrice BST of cpus sorted by price
+     * @param cmpName compares CPUs by name
+     * @param cmpPrice compares CPUs by price
      * @return if the product (CPU) was successfully updated
      */
+
     public boolean updateProductStock(Employee emp, CPU updateCPU, int updateStock, BST<CPU> cpusByName,
                                       BST<CPU> cpusByPrice, CpuNameComparator cmpName, CpuPriceComparator cmpPrice) {
         if (!emp.getIsManager()) {
@@ -98,8 +108,13 @@ public class UserInterface {
     }
 
     /**
-     * Updates an existing product's stock in the CPU BSTs
-     *
+     * Updates an existing product's price in the CPU BSTs
+     * @param emp current employee
+     * @param updateCPU the CPU to be updated
+     * @param cpusByName BST of cpus sorted by name
+     * @param cpusByPrice BST of cpus sorted by price
+     * @param cmpName compares CPUs by name
+     * @param cmpPrice compares CPUs by price
      * @return if the product (CPU) was successfully updated
      */
     public boolean updateProductPrice(Employee emp, CPU updateCPU, double updatePrice, BST<CPU> cpusByName,
@@ -126,8 +141,12 @@ public class UserInterface {
 
     /**
      * Updates the CPU BSTs to remove a product
-     *
+     * @param emp current employee
      * @param removeCPU the CPU to be removed
+     * @param cpusByName BST of cpus sorted by name
+     * @param cpusByPrice BST of cpus sorted by price
+     * @param cmpName compares CPUs by name
+     * @param cmpPrice compares CPUs by price
      * @return if the product (CPU) was successfully removed
      */
     public boolean removeProduct(Employee emp, CPU removeCPU, BST<CPU> cpusByName, BST<CPU> cpusByPrice,
@@ -147,8 +166,10 @@ public class UserInterface {
 
     /**
      * Prompt the user to login
-     *
      * @param input to read user input
+     * @param customers hashtable of customers
+     * @param employees hashtable of employees
+     * @postcondition enable the user to log in or register/sign in as guest
      */
     private static User logIn(Scanner input, HashTable<Customer> customers, HashTable<Employee> employees) {
         int choice;
