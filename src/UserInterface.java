@@ -56,6 +56,7 @@ public class UserInterface {
      * @param input to read user input
      */
     private static User logIn(Scanner input) {
+
         return new Customer("abc", "abc");
     }
 

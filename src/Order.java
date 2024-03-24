@@ -28,11 +28,11 @@ public class Order {
         this.priority = 0;
     }
 
-    public Order(int orderId, Customer customer, LocalDateTime dateTime, LinkedList<CPU> orderContents,
-                 String shippedSpeed, int priority) {
+    public Order(int orderId, Customer customer, LinkedList<CPU> orderContents,
+                 String shippedSpeed) {
         this.orderId = orderId;
         this.customer = customer;
-        this.dateTime = dateTime;
+        this.dateTime = LocalDateTime.now();
         this.orderContents = orderContents;
         this.shippedSpeed = shippedSpeed;
         this.priority = calculatePriority(dateTime, shippedSpeed);
@@ -122,6 +122,7 @@ public class Order {
         final int BASE_PRIORITY = 100;  // Base priority value
         final int DATE_FACTOR = 10;      // Priority increase per day
         final int SPEED_FACTOR = 20;     // Priority increase per faster shipping speed
+
 
         // Calculate days until order needs to be delivered
         LocalDateTime currentDateTime = LocalDateTime.now();
