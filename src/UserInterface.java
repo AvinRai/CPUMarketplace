@@ -42,7 +42,7 @@ public class UserInterface {
     }
 
     /**
-     * Interface for Employee Users
+     * Runs interface for Employee Users
      */
     private static void employeeInterface() {
         System.out.println("Welcome to Microcenter's CPU store!");
@@ -126,7 +126,7 @@ public class UserInterface {
     }
 
     /**
-     * Interface for Customer Users
+     * Runs interface for Customer Users
      */
     private static void customerInterface() {
         System.out.println("Welcome to Microcenter's CPU store!");
@@ -147,11 +147,11 @@ public class UserInterface {
             input.nextLine();
             switch (choice) {
                 case 1:
-                    //call method for search product
-
+                    searchForProduct();
+                    break;
                 case 2:
                     //call method to list database of products
-
+                    break;
                 case 3:
                     finished2 = false;
                     while(!finished2) {
@@ -182,16 +182,16 @@ public class UserInterface {
 
                 case 4:
                     finished2 = false;
-                    while(!finished2) {
+                    while(true) {
                         System.out.println("View Purchases Options:\n1: View Shipped orders\n2: View Unshipped orders");
                         System.out.print("Please enter the number of your option: ");
                         searchOption = input.nextInt();
                         input.nextLine();
                         if (searchOption == 1) {
-                            //call method for view shipped orders
+                            viewShippedOrders();
                             finished2 = true;
                         } else if (searchOption == 2) {
-                            //call method for view unshipped orders
+                            viewUnshippedOrders();
                             finished2 = true;
                         } else {
                             System.out.println("Invalid option. Please try again.");
@@ -209,7 +209,7 @@ public class UserInterface {
         }
     }
 
-/* EMPLOYEE METHODS*/
+    /***EMPLOYEE METHODS***/
 
     /**
      * Updates the CPU BSTs to include a new product
@@ -231,7 +231,6 @@ public class UserInterface {
      * @param updateCPU the CPU to be updated
      * @return if the product (CPU) was successfully updated
      */
-
     public boolean updateProductStock(CPU updateCPU, int updateStock) {
         if (!((Employee)user).getIsManager()) {
             System.out.println("Invalid request: Restricted to manager");
@@ -298,7 +297,7 @@ public class UserInterface {
         return true;
     }
 
-    /*CUSTOMER METHODS*/
+    /***CUSTOMER METHODS***/
 
     /**
      * Searches for a product depending on the key passed
@@ -329,7 +328,42 @@ public class UserInterface {
 
     }
 
-    /* ADDITIONAL METHODS*/
+    /**
+     * Views shipped orders
+     * @postcondition prints a list of user's current shipped orders
+     */
+    private static void viewShippedOrders() {
+        try {
+            LinkedList<Order> shipped = ((Customer) user).getShippedOrders();
+            shipped.positionIterator();
+            for (int i = 0; i < shipped.getLength(); i++) {
+                System.out.println(shipped.getIterator());
+                shipped.advanceIterator();
+            }
+        } catch (NullPointerException e) {
+            System.out.println("No shipped orders!");
+        }
+    }
+
+    /**
+     * Views unshipped orders
+     * @postcondition prints a list of user's current unshipped orders
+     */
+    private static void viewUnshippedOrders() {
+        try {
+            LinkedList<Order> shipped = ((Customer) user).getUnshippedOrders();
+            shipped.positionIterator();
+            for (int i = 0; i < shipped.getLength(); i++) {
+                System.out.println(shipped.getIterator());
+                shipped.advanceIterator();
+            }
+        } catch (NullPointerException e) {
+            System.out.println("No unshipped orders!");
+        }
+    }
+
+
+    /***ADDITIONAL METHODS***/
 
     /**
      * Prompt the user to login
@@ -406,6 +440,7 @@ public class UserInterface {
 
     /**
      * Read from CPUs.txt and Users.txt
+     * @postcondition all information from CPUs.txt and Users.txt is inputted
      */
     private static void inputInfo() {
         String firstName, lastName, username, password, cpuName, brand;

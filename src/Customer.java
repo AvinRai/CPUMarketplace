@@ -4,7 +4,6 @@
  */
 
 import java.time.LocalDateTime;
-import java.util.LinkedList;
 //import order package/class, add later
 
 public class Customer extends User {
