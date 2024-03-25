@@ -40,6 +40,84 @@ public class UserInterface {
      * @param input to read user input
      */
     private static void employeeInterface(BST<CPU> cpusByName, BST<CPU> cpusByPrice, User user, Scanner input) {
+        System.out.println("Welcome to Microcenter's CPU store!");
+        boolean finished1 = false;
+        boolean finished2;
+        int choice;
+        int searchOption;
+        String searchKey;
+        while(!finished1) {
+            System.out.println("Customer Options: ");
+            System.out.println("1: Search for a product");
+            System.out.println("2: List Database of Products");
+            System.out.println("3: Place an order");
+            System.out.println("4: View Purchases");
+            System.out.println("5: Quit/Finish ");
+            System.out.print("Please enter your option:  ");
+            choice = input.nextInt();
+            input.nextLine();
+            switch (choice) {
+                case 1:
+                    //call method for search product
+
+                case 2:
+                    //call method to list database of products
+
+                case 3:
+                    finished2 = false;
+                    while(!finished2) {
+                        System.out.println("Place Order Options:\n1: Search by order id\n2: Search by customer name");
+                        System.out.print("Please enter the number of your option: ");
+                        searchOption = input.nextInt();
+                        input.nextLine();
+                        switch(searchOption) {
+                            case 1:
+                            case 2:
+                            case 3:
+                            case 4:
+                            case 5:
+                            case 6:
+                            case 7:
+                            case 8:
+                            case 9:
+                            case 10:
+                            case 11:
+                            case 12:
+                            case 13:
+                            case 14:
+                            case 15:
+                            default:
+                        }
+                    }
+                    //call method to place order
+
+                case 4:
+                    finished2 = false;
+                    while(!finished2) {
+                        System.out.println("View Purchases Options:\n1: View Shipped orders\n2: View Unshipped orders");
+                        System.out.print("Please enter the number of your option: ");
+                        searchOption = input.nextInt();
+                        input.nextLine();
+                        if (searchOption == 1) {
+                            //call method for view shipped orders
+                            finished2 = true;
+                        } else if (searchOption == 2) {
+                            //call method for view unshipped orders
+                            finished2 = true;
+                        } else {
+                            System.out.println("Invalid option. Please try again.");
+                        }
+                    }
+                    //call method to view purchases
+                case 5:
+                    //call read to file and quit method
+                    System.out.println("Quiting program. Thanks for choosing Microcenter's CPU Store!");
+                    finished1 = true;
+
+                default:
+                    System.out.println("Invalid choice. Please try again.\n");
+            }
+        }
     }
 
     /**
@@ -51,6 +129,59 @@ public class UserInterface {
      * @param input to read user input
      */
     private static void customerInterface(BST<CPU> cpusByName, BST<CPU> cpusByPrice, User user, Scanner input) {
+        System.out.println("Welcome to Microcenter's CPU store!");
+        boolean finish = false;
+        int choice;
+        int searchOption;
+        String searchKey;
+        while(!finish) {
+            System.out.println("Employee Options: ");
+            System.out.println("1: Search for an order");
+            System.out.println("2: View order with the highest priority");
+            System.out.println("3: View all orders sorted by priority");
+            System.out.println("4: ship an order");
+            System.out.println("5: Quit/Finish");
+            System.out.print("Please enter your option: ");
+            choice = input.nextInt();
+            input.nextLine();
+            switch (choice) {
+                case 1:
+                    boolean finished1 = false;
+                    while(!finished1) {
+                        System.out.println("Order Search Options:\n1: Search by order id\n2: Search by customer name");
+                        System.out.print("Please enter the number of your option: ");
+                        searchOption = input.nextInt();
+                        input.nextLine();
+                        if (searchOption == 1) {
+                            System.out.print("Please enter the id of the order you are searching for: ");
+                            searchKey = input.nextLine();
+                            //call method for search order
+                            finished1 = true;
+                        } else if (searchOption == 2) {
+                            //call method for search order using user.getFirstName() and user.getFirstName()
+                            finished1 = true;
+                        } else {
+                            System.out.println("Invalid option. Please try again.");
+                        }
+                    }
+
+                case 2:
+                    //call method of view order with highest priority
+
+                case 3:
+                    //call method of view all orders sorted by priority
+
+                case 4:
+                    //call method to ship order
+                case 5:
+                    //call read to file and quit method
+                    System.out.println("Quiting program. See you next time!");
+                    finish = true;
+
+                default:
+                    System.out.println("Invalid choice. Please try again.\n");
+            }
+        }
     }
 
     /**
