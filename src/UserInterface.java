@@ -19,6 +19,7 @@ public class UserInterface {
     static HashTable<Customer> customers;
     static HashTable<Employee> employees;
     static Scanner input;
+    static int orderCount; //calculated when read
     static final int SIZE = 100;
 
     public static void main(String[] args) {
@@ -298,6 +299,17 @@ public class UserInterface {
     }
 
     /***CUSTOMER METHODS***/
+
+    /**
+     * Creates a new order
+     * @param shippedSpeed the type of shippingSpeed
+     *
+     */
+    public void placeOrders(String shippedSpeed, String orderContents) {
+        orderCount++;
+        // Order newOrder = new Order(orderCount, this, orderContents, shippedSpeed);
+        //add the order to heap of orders
+    }
 
     /**
      * Searches for a product depending on the key passed
