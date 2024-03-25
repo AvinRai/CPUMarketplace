@@ -46,6 +46,14 @@ public class CPU {
         this.price = price;
         this.stock = stock;
     }
+
+    public CPU(double price) {
+        this.price = price;
+    }
+
+    public CPU(String name) {
+        this.name = name;
+    }
     /**ACCESSORS */
 
     /**

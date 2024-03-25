@@ -8,18 +8,31 @@ import java.io.FileNotFoundException;
 import java.util.Scanner;
 
 public class UserInterface {
+
+    static User user;
+    static BST<CPU> cpusByName;
+    static BST<CPU> cpusByPrice;
+    static PriorityComparator priorityComparator;
+    static OrderIdComparator orderIdComparator;
+    static CpuNameComparator cpuNameComparator;
+    static CpuPriceComparator cpuPriceComparator;
+    static CustomerUsernameComparator customerUsernameComparator;
+    static HashTable<Customer> customers;
+    static HashTable<Employee> employees;
+    static Scanner input;
+    static final int SIZE = 100;
+
     public static void main(String[] args) {
-        final int SIZE = 100;
-        Scanner input = new Scanner(System.in);
-        HashTable<Customer> customers = new HashTable<>(SIZE);
-        HashTable<Employee> employees = new HashTable<>(SIZE);
-//        CustomerUsernameComparator customerUsernameComparator = new CustomerUsernameComparator();
-        PriorityComparator priorityComparator = new PriorityComparator();
-        OrderIdComparator orderIdComparator = new OrderIdComparator();
-        CpuNameComparator cpuNameComparator = new CpuNameComparator();
-        CpuPriceComparator cpuPriceComparator = new CpuPriceComparator();
-        BST<CPU> cpusByName = new BST<>();
-        BST<CPU> cpusByPrice = new BST<>();
+        input = new Scanner(System.in);
+        customers = new HashTable<>(SIZE);
+        employees = new HashTable<>(SIZE);
+        customerUsernameComparator = new CustomerUsernameComparator();
+        priorityComparator = new PriorityComparator();
+        orderIdComparator = new OrderIdComparator();
+        cpuNameComparator = new CpuNameComparator();
+        cpuPriceComparator = new CpuPriceComparator();
+        cpusByName = new BST<>();
+        cpusByPrice = new BST<>();
         System.out.println("Welcome to the CPU Store!");
         inputInfo(customers, employees, cpusByName, cpusByPrice, cpuNameComparator, cpuPriceComparator);
         User user = logIn(input, customers, employees);
@@ -326,8 +339,18 @@ public class UserInterface {
      * @return the cpu searched for if it exists
      */
     private static CPU searchForProduct(BST<CPU> cpusByName, CPU key, CpuNameComparator cpuNameComparator, CpuPriceComparator cpuPriceComparator) {
-        CPU findByName = cpusByName.search(key, cpuNameComparator);
-        CPU findByValue = cpusByName.search(key, cpuPriceComparator);
+        System.out.print("Please enter the model name or the price of the cpu you are looking for: ");
+        String key = input.next();
+        CPU cpuToLookFor;
+        if (key.matches("\\d{3}\\.\\d{2}")) {
+            double price = Double.parseDouble(key);
+            cpuToLookFor = new CPU(price);
+        } else {
+            cpuToLookFor = new CPU(key);
+        }
+
+        CPU findByName = cpusByName.search(cpuToLookFor, cpuNameComparator);
+        CPU findByValue = cpusByName.search(cpuToLookFor, cpuPriceComparator);
 
         if (findByName != null) {
             return findByName;
@@ -336,6 +359,7 @@ public class UserInterface {
         } else {
             return null;
         }
+
 
     }
 
