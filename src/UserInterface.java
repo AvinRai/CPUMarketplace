@@ -217,6 +217,8 @@ public class UserInterface {
         }
     }
 
+/* EMPLOYEE METHODS*/
+
     /**
      * Updates the CPU BSTs to include a new product
      * @param emp current employee user
@@ -327,6 +329,33 @@ public class UserInterface {
         cpusByPrice.remove(removeCPU, cmpPrice);
         return true;
     }
+
+    /*CUSTOMER METHODS8/
+
+     */
+    /**
+     * Searches for a product depending on the key passed
+     * @param cpusByName the cpus available
+     * @param key the key provided. either the model name or the price
+     * @param cpuNameComparator compares CPUs by name
+     * @param cpuPriceComparator compares CPUs by price
+     * @return the cpu searched for if it exists
+     */
+    private static CPU searchForProduct(BST<CPU> cpusByName, CPU key, CpuNameComparator cpuNameComparator, CpuPriceComparator cpuPriceComparator) {
+        CPU findByName = cpusByName.search(key, cpuNameComparator);
+        CPU findByValue = cpusByName.search(key, cpuPriceComparator);
+
+        if (findByName != null) {
+            return findByName;
+        } else if (findByValue != null) {
+            return findByValue;
+        } else {
+            return null;
+        }
+
+    }
+
+    /* ADDITIONAL METHODS*/
 
     /**
      * Searches for a product depending on the key passed

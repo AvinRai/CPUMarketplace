@@ -12,7 +12,7 @@ public class Order {
     private int orderId;
     private Customer customer;
     private LocalDateTime dateTime;
-    private LinkedList<CPU> orderContents;
+    private CPU orderContents;
     private String shippedSpeed;
     private int priority;
 
@@ -23,17 +23,17 @@ public class Order {
         this.orderId = 0;
         this.customer = null;
         this.dateTime = null;
-        this.orderContents = new LinkedList<>();
+        this.orderContents = null;
         this.shippedSpeed = "nil";
         this.priority = 0;
     }
 
-    public Order(int orderId, Customer customer, String orderContents,
+    public Order(int orderId, Customer customer, CPU orderContents,
                  String shippedSpeed) {
         this.orderId = orderId;
         this.customer = customer;
         this.dateTime = LocalDateTime.now();
-        this.orderContents = addContents(orderContents);
+        this.orderContents = orderContents;
         this.shippedSpeed = shippedSpeed;
         this.priority = calculatePriority(dateTime, shippedSpeed);
     }
@@ -53,10 +53,6 @@ public class Order {
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
         // Format the current date and time using the formatter
         return dateTime.format(formatter);
-    }
-
-    public LinkedList<CPU> getOrderContents() {
-        return orderContents;
     }
 
     public String getShippedSpeed() {
@@ -82,7 +78,7 @@ public class Order {
         this.dateTime = date;
     }
 
-    public void setOrderContents(LinkedList<CPU> orderContents) {
+    public void setOrderContents(CPU orderContents) {
         this.orderContents = orderContents;
     }
 
@@ -92,15 +88,6 @@ public class Order {
 
     public void setPriority(int priority) {
         this.priority = priority;
-    }
-
-    /**
-     * returns a linked list of CPUS a customer ordered
-     * @param orderContents The customer's input (the cpus ordered)
-     * @return a linked list of CPUS a customer ordered
-     */
-    private LinkedList<CPU> addContents(String orderContents) {
-        return null;
     }
 
     /**

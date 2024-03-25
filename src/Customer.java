@@ -81,7 +81,7 @@ public class Customer extends User {
         */
     }
 	
-    /**ACCESSORS*/
+    /*ACCESSORS*/
 
     /**
      * Accesses the Customer address
@@ -248,7 +248,7 @@ public class Customer extends User {
      */
     public void placeOrders(String shippedSpeed, String orderContents) {
         orderCount++;
-        Order newOrder = new Order(orderCount, this, orderContents, shippedSpeed);
+       // Order newOrder = new Order(orderCount, this, orderContents, shippedSpeed);
         //add the order to heap of orders
     }
 
