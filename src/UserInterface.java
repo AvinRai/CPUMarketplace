@@ -16,7 +16,6 @@ public class UserInterface {
     static OrderIdComparator orderIdComparator;
     static CpuNameComparator cpuNameComparator;
     static CpuPriceComparator cpuPriceComparator;
-    static CustomerUsernameComparator customerUsernameComparator;
     static HashTable<Customer> customers;
     static HashTable<Employee> employees;
     static Scanner input;
@@ -26,7 +25,6 @@ public class UserInterface {
         input = new Scanner(System.in);
         customers = new HashTable<>(SIZE);
         employees = new HashTable<>(SIZE);
-        customerUsernameComparator = new CustomerUsernameComparator();
         priorityComparator = new PriorityComparator();
         orderIdComparator = new OrderIdComparator();
         cpuNameComparator = new CpuNameComparator();
