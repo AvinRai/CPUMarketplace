@@ -13,7 +13,7 @@ public class UserInterface {
         Scanner input = new Scanner(System.in);
         HashTable<Customer> customers = new HashTable<>(SIZE);
         HashTable<Employee> employees = new HashTable<>(SIZE);
-        CustomerUsernameComparator customerUsernameComparator = new CustomerUsernameComparator();
+//        CustomerUsernameComparator customerUsernameComparator = new CustomerUsernameComparator();
         PriorityComparator priorityComparator = new PriorityComparator();
         OrderIdComparator orderIdComparator = new OrderIdComparator();
         CpuNameComparator cpuNameComparator = new CpuNameComparator();
@@ -23,7 +23,6 @@ public class UserInterface {
         System.out.println("Welcome to the CPU Store!");
         inputInfo(customers, employees, cpusByName, cpusByPrice, cpuNameComparator, cpuPriceComparator);
         User user = logIn(input, customers, employees);
-        System.out.println(user);
         if (user instanceof Customer) {
             customerInterface(cpusByName, cpusByPrice, user, input);
         } else if (user instanceof Employee) {
@@ -33,7 +32,6 @@ public class UserInterface {
 
     /**
      * Interface for Employee Users
-     *
      * @param cpusByName  BST of cpus sorted by name
      * @param cpusByPrice BST of cpus sorted by cpusByPrice
      * @param user of current user
@@ -122,7 +120,6 @@ public class UserInterface {
 
     /**
      * Interface for Customer Users
-     *
      * @param cpusByName  BST of cpus sorted by name
      * @param cpusByPrice BST of cpus sorted by price
      * @param user of current user
@@ -130,53 +127,78 @@ public class UserInterface {
      */
     private static void customerInterface(BST<CPU> cpusByName, BST<CPU> cpusByPrice, User user, Scanner input) {
         System.out.println("Welcome to Microcenter's CPU store!");
-        boolean finish = false;
+        boolean finished1 = false;
+        boolean finished2;
         int choice;
         int searchOption;
         String searchKey;
-        while(!finish) {
-            System.out.println("Employee Options: ");
-            System.out.println("1: Search for an order");
-            System.out.println("2: View order with the highest priority");
-            System.out.println("3: View all orders sorted by priority");
-            System.out.println("4: ship an order");
-            System.out.println("5: Quit/Finish");
-            System.out.print("Please enter your option: ");
+        while(!finished1) {
+            System.out.println("Customer Options: ");
+            System.out.println("1: Search for a product");
+            System.out.println("2: List Database of Products");
+            System.out.println("3: Place an order");
+            System.out.println("4: View Purchases");
+            System.out.println("5: Quit/Finish ");
+            System.out.print("Please enter your option:  ");
             choice = input.nextInt();
             input.nextLine();
             switch (choice) {
                 case 1:
-                    boolean finished1 = false;
-                    while(!finished1) {
-                        System.out.println("Order Search Options:\n1: Search by order id\n2: Search by customer name");
+                    //call method for search product
+
+                case 2:
+                    //call method to list database of products
+
+                case 3:
+                    finished2 = false;
+                    while(!finished2) {
+                        System.out.println("Place Order Options:\n1: Search by order id\n2: Search by customer name");
+                        System.out.print("Please enter the number of your option: ");
+                        searchOption = input.nextInt();
+                        input.nextLine();
+                        switch(searchOption) {
+                            case 1:
+                            case 2:
+                            case 3:
+                            case 4:
+                            case 5:
+                            case 6:
+                            case 7:
+                            case 8:
+                            case 9:
+                            case 10:
+                            case 11:
+                            case 12:
+                            case 13:
+                            case 14:
+                            case 15:
+                            default:
+                        }
+                    }
+                    //call method to place order
+
+                case 4:
+                    finished2 = false;
+                    while(!finished2) {
+                        System.out.println("View Purchases Options:\n1: View Shipped orders\n2: View Unshipped orders");
                         System.out.print("Please enter the number of your option: ");
                         searchOption = input.nextInt();
                         input.nextLine();
                         if (searchOption == 1) {
-                            System.out.print("Please enter the id of the order you are searching for: ");
-                            searchKey = input.nextLine();
-                            //call method for search order
-                            finished1 = true;
+                            //call method for view shipped orders
+                            finished2 = true;
                         } else if (searchOption == 2) {
-                            //call method for search order using user.getFirstName() and user.getFirstName()
-                            finished1 = true;
+                            //call method for view unshipped orders
+                            finished2 = true;
                         } else {
                             System.out.println("Invalid option. Please try again.");
                         }
                     }
-
-                case 2:
-                    //call method of view order with highest priority
-
-                case 3:
-                    //call method of view all orders sorted by priority
-
-                case 4:
-                    //call method to ship order
+                    //call method to view purchases
                 case 5:
                     //call read to file and quit method
-                    System.out.println("Quiting program. See you next time!");
-                    finish = true;
+                    System.out.println("Quiting program. Thanks for choosing Microcenter's CPU Store!");
+                    finished1 = true;
 
                 default:
                     System.out.println("Invalid choice. Please try again.\n");
@@ -296,6 +318,28 @@ public class UserInterface {
     }
 
     /**
+     * Searches for a product depending on the key passed
+     * @param cpusByName the cpus available
+     * @param key the key provided. either the model name or the price
+     * @param cpuNameComparator compares CPUs by name
+     * @param cpuPriceComparator compares CPUs by price
+     * @return the cpu searched for if it exists
+     */
+    private static CPU searchForProduct(BST<CPU> cpusByName, CPU key, CpuNameComparator cpuNameComparator, CpuPriceComparator cpuPriceComparator) {
+        CPU findByName = cpusByName.search(key, cpuNameComparator);
+        CPU findByValue = cpusByName.search(key, cpuPriceComparator);
+
+        if (findByName != null) {
+            return findByName;
+        } else if (findByValue != null) {
+            return findByValue;
+        } else {
+            return null;
+        }
+
+    }
+
+    /**
      * Prompt the user to login
      * @param input to read user input
      * @param customers hashtable of customers
@@ -324,7 +368,7 @@ public class UserInterface {
 
                     Customer customer = customers.get(new Customer(null, null, username, password));
                     if (customer != null) {
-                        System.out.println("Login successful!");
+                        System.out.println("Login successful!\n");
                         return customer;
                     } else {
                         System.out.println("Invalid username or password.");
@@ -343,11 +387,11 @@ public class UserInterface {
 
                     Customer newCustomer = new Customer(firstName, lastName, newUsername, newPassword);
                     customers.add(newCustomer);
-                    System.out.println("New customer account created successfully!");
+                    System.out.println("New customer account created successfully!\n");
                     return newCustomer;
 
                 case 3:
-                    System.out.println("Logged in as a Guest.");
+                    System.out.println("Logged in as a Guest.\n");
                     return new Customer("Guest", "abc123");
 
                 case 4:
@@ -358,7 +402,7 @@ public class UserInterface {
 
                     Employee employee = employees.get(new Employee(null, null, employeeUsername, employeePassword));
                     if (employee != null) {
-                        System.out.println("Login successful!");
+                        System.out.println("Login successful!\n");
                         return employee;
                     } else {
                         System.out.println("Invalid username or password.");
@@ -373,7 +417,6 @@ public class UserInterface {
 
     /**
      * Read from CPUs.txt and Users.txt
-     *
      * @param customers hash table of customers
      * @param employees hash table of employees
      * @param cpusByName BST of cpus sorted by name
@@ -428,27 +471,5 @@ public class UserInterface {
         } catch (FileNotFoundException e) {
             throw new RuntimeException(e);
         }
-    }
-
-    /**
-     * Searches for a product depending on the key passed
-     * @param cpusByName the cpus available
-     * @param key the key provided. either the model name or the price
-     * @param cpuNameComparator compares CPUs by name
-     * @param cpuPriceComparator compares CPUs by price
-     * @return the cpu searched for if it exists
-     */
-    private static CPU searchForProduct(BST<CPU> cpusByName, CPU key, CpuNameComparator cpuNameComparator, CpuPriceComparator cpuPriceComparator) {
-        CPU findByName = cpusByName.search(key, cpuNameComparator);
-        CPU findByValue = cpusByName.search(key, cpuPriceComparator);
-
-        if (findByName != null) {
-            return findByName;
-        } else if (findByValue != null) {
-            return findByValue;
-        } else {
-            return null;
-        }
-
     }
 }
