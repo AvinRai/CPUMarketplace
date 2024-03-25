@@ -32,23 +32,19 @@ public class UserInterface {
         cpusByName = new BST<>();
         cpusByPrice = new BST<>();
         System.out.println("Welcome to the CPU Store!");
-        inputInfo(customers, employees, cpusByName, cpusByPrice, cpuNameComparator, cpuPriceComparator);
-        User user = logIn(input, customers, employees);
+        inputInfo();
+        User user = logIn();
         if (user instanceof Customer) {
-            customerInterface(cpusByName, cpusByPrice, user, input);
+            customerInterface();
         } else if (user instanceof Employee) {
-            employeeInterface(cpusByName, cpusByPrice, user, input);
+            employeeInterface();
         }
     }
 
     /**
      * Interface for Employee Users
-     * @param cpusByName  BST of cpus sorted by name
-     * @param cpusByPrice BST of cpus sorted by cpusByPrice
-     * @param user of current user
-     * @param input to read user input
      */
-    private static void employeeInterface(BST<CPU> cpusByName, BST<CPU> cpusByPrice, User user, Scanner input) {
+    private static void employeeInterface() {
         System.out.println("Welcome to Microcenter's CPU store!");
         boolean finished1 = false;
         boolean finished2;
@@ -131,12 +127,8 @@ public class UserInterface {
 
     /**
      * Interface for Customer Users
-     * @param cpusByName  BST of cpus sorted by name
-     * @param cpusByPrice BST of cpus sorted by price
-     * @param user of current user
-     * @param input to read user input
      */
-    private static void customerInterface(BST<CPU> cpusByName, BST<CPU> cpusByPrice, User user, Scanner input) {
+    private static void customerInterface() {
         System.out.println("Welcome to Microcenter's CPU store!");
         boolean finished1 = false;
         boolean finished2;
@@ -221,151 +213,98 @@ public class UserInterface {
 
     /**
      * Updates the CPU BSTs to include a new product
-     * @param emp current employee user
      * @param newCPU the CPU to be added
-     * @param cpusByName BST of cpus sorted by name
-     * @param cpusByPrice BST of cpus sorted by price
-     * @param cmpName compares CPUs by name
-     * @param cmpPrice compares CPUs by price
      * @return if the product (CPU) was successfully added
      */
-    public boolean addProduct(Employee emp, CPU newCPU, BST<CPU> cpusByName, BST<CPU> cpusByPrice,
-                              CpuNameComparator cmpName, CpuPriceComparator cmpPrice) {
-        if (!emp.getIsManager()) {
+    public boolean addProduct(CPU newCPU) {
+        if (!((Employee)user).getIsManager()) {
             System.out.println("Invalid request: Restricted to manager");
             return false;
         }
-        cpusByName.insert(newCPU, cmpName);
-        cpusByPrice.insert(newCPU, cmpPrice);
+        cpusByName.insert(newCPU, cpuNameComparator);
+        cpusByPrice.insert(newCPU, cpuPriceComparator);
         return true;
     }
 
     /**
      * Updates an existing product's stock in the CPU BSTs
-     * @param emp current employee
      * @param updateCPU the CPU to be updated
-     * @param cpusByName BST of cpus sorted by name
-     * @param cpusByPrice BST of cpus sorted by price
-     * @param cmpName compares CPUs by name
-     * @param cmpPrice compares CPUs by price
      * @return if the product (CPU) was successfully updated
      */
 
-    public boolean updateProductStock(Employee emp, CPU updateCPU, int updateStock, BST<CPU> cpusByName,
-                                      BST<CPU> cpusByPrice, CpuNameComparator cmpName, CpuPriceComparator cmpPrice) {
-        if (!emp.getIsManager()) {
+    public boolean updateProductStock(CPU updateCPU, int updateStock) {
+        if (!((Employee)user).getIsManager()) {
             System.out.println("Invalid request: Restricted to manager");
             return false;
         }
-        if (cpusByName.search(updateCPU, cmpName) == null) {
+        if (cpusByName.search(updateCPU, cpuNameComparator) == null) {
             System.out.println("Invalid request: The CPU Store does not carry this product");
             return false;
         }
-        CPU tempCPU = cpusByName.search(updateCPU, cmpName);
+        CPU tempCPU = cpusByName.search(updateCPU, cpuNameComparator);
 
-        cpusByName.remove(updateCPU, cmpName);
-        cpusByPrice.remove(updateCPU, cmpPrice);
+        cpusByName.remove(updateCPU, cpuNameComparator);
+        cpusByPrice.remove(updateCPU, cpuPriceComparator);
 
         tempCPU.updateStock(updateStock); //need to add updateStock() method to CPU class, written below
 
-        cpusByName.insert(tempCPU, cmpName);
-        cpusByPrice.insert(tempCPU, cmpPrice);
+        cpusByName.insert(tempCPU, cpuNameComparator);
+        cpusByPrice.insert(tempCPU, cpuPriceComparator);
         return true;
     }
 
     /**
      * Updates an existing product's price in the CPU BSTs
-     * @param emp current employee
      * @param updateCPU the CPU to be updated
-     * @param cpusByName BST of cpus sorted by name
-     * @param cpusByPrice BST of cpus sorted by price
-     * @param cmpName compares CPUs by name
-     * @param cmpPrice compares CPUs by price
      * @return if the product (CPU) was successfully updated
      */
-    public boolean updateProductPrice(Employee emp, CPU updateCPU, double updatePrice, BST<CPU> cpusByName,
-                                      BST<CPU> cpusByPrice, CpuNameComparator cmpName, CpuPriceComparator cmpPrice) {
-        if (!emp.getIsManager()) {
+    public boolean updateProductPrice(CPU updateCPU, double updatePrice) {
+        if (!((Employee)user).getIsManager()) {
             System.out.println("Invalid request: Restricted to manager");
             return false;
         }
-        if (cpusByName.search(updateCPU, cmpName) == null) {
+        if (cpusByName.search(updateCPU, cpuNameComparator) == null) {
             System.out.println("Invalid request: The CPU Store does not carry this product");
             return false;
         }
-        CPU tempCPU = cpusByName.search(updateCPU, cmpName);
+        CPU tempCPU = cpusByName.search(updateCPU, cpuNameComparator);
 
-        cpusByName.remove(updateCPU, cmpName);
-        cpusByPrice.remove(updateCPU, cmpPrice);
+        cpusByName.remove(updateCPU, cpuNameComparator);
+        cpusByPrice.remove(updateCPU, cpuPriceComparator);
 
         tempCPU.updatePrice(updatePrice); //need to add setters to CPU class
 
-        cpusByName.insert(tempCPU, cmpName);
-        cpusByPrice.insert(tempCPU, cmpPrice);
+        cpusByName.insert(tempCPU, cpuNameComparator);
+        cpusByPrice.insert(tempCPU, cpuPriceComparator);
         return true;
     }
 
     /**
      * Updates the CPU BSTs to remove a product
-     * @param emp current employee
      * @param removeCPU the CPU to be removed
-     * @param cpusByName BST of cpus sorted by name
-     * @param cpusByPrice BST of cpus sorted by price
-     * @param cmpName compares CPUs by name
-     * @param cmpPrice compares CPUs by price
      * @return if the product (CPU) was successfully removed
      */
-    public boolean removeProduct(Employee emp, CPU removeCPU, BST<CPU> cpusByName, BST<CPU> cpusByPrice,
-                                 CpuNameComparator cmpName, CpuPriceComparator cmpPrice) {
-        if (!emp.getIsManager()) {
+    public boolean removeProduct(CPU removeCPU) {
+        if (!((Employee) user).getIsManager()) {
             System.out.println("Invalid request: Restricted to manager");
             return false;
         }
-        if (cpusByName.search(removeCPU, cmpName) == null) {
+        if (cpusByName.search(removeCPU, cpuNameComparator) == null) {
             System.out.println("Invalid request: The CPU Store does not carry this product");
             return false;
         }
-        cpusByName.remove(removeCPU, cmpName);
-        cpusByPrice.remove(removeCPU, cmpPrice);
+        cpusByName.remove(removeCPU, cpuNameComparator);
+        cpusByPrice.remove(removeCPU, cpuPriceComparator);
         return true;
     }
 
-    /*CUSTOMER METHODS8/
-
-     */
-    /**
-     * Searches for a product depending on the key passed
-     * @param cpusByName the cpus available
-     * @param key the key provided. either the model name or the price
-     * @param cpuNameComparator compares CPUs by name
-     * @param cpuPriceComparator compares CPUs by price
-     * @return the cpu searched for if it exists
-     */
-    private static CPU searchForProduct(BST<CPU> cpusByName, CPU key, CpuNameComparator cpuNameComparator, CpuPriceComparator cpuPriceComparator) {
-        CPU findByName = cpusByName.search(key, cpuNameComparator);
-        CPU findByValue = cpusByName.search(key, cpuPriceComparator);
-
-        if (findByName != null) {
-            return findByName;
-        } else if (findByValue != null) {
-            return findByValue;
-        } else {
-            return null;
-        }
-
-    }
-
-    /* ADDITIONAL METHODS*/
+    /*CUSTOMER METHODS*/
 
     /**
      * Searches for a product depending on the key passed
-     * @param cpusByName the cpus available
-     * @param key the key provided. either the model name or the price
-     * @param cpuNameComparator compares CPUs by name
-     * @param cpuPriceComparator compares CPUs by price
      * @return the cpu searched for if it exists
      */
-    private static CPU searchForProduct(BST<CPU> cpusByName, CPU key, CpuNameComparator cpuNameComparator, CpuPriceComparator cpuPriceComparator) {
+    private static CPU searchForProduct() {
         System.out.print("Please enter the model name or the price of the cpu you are looking for: ");
         String key = input.next();
         CPU cpuToLookFor;
@@ -390,14 +329,13 @@ public class UserInterface {
 
     }
 
+    /* ADDITIONAL METHODS*/
+
     /**
      * Prompt the user to login
-     * @param input to read user input
-     * @param customers hashtable of customers
-     * @param employees hashtable of employees
      * @postcondition enable the user to log in or register/sign in as guest
      */
-    private static User logIn(Scanner input, HashTable<Customer> customers, HashTable<Employee> employees) {
+    private static User logIn() {
         int choice;
         while (true) {
             System.out.println("\nLogin options: ");
@@ -468,15 +406,8 @@ public class UserInterface {
 
     /**
      * Read from CPUs.txt and Users.txt
-     * @param customers hash table of customers
-     * @param employees hash table of employees
-     * @param cpusByName BST of cpus sorted by name
-     * @param cpusByPrice BST of cpus sorted by price
-     * @param cpuNameComparator compares CPUs by name
-     * @param cpuPriceComparator compares CPUs by price
      */
-    private static void inputInfo(HashTable<Customer> customers, HashTable<Employee> employees,
-                                  BST<CPU> cpusByName, BST<CPU> cpusByPrice, CpuNameComparator cpuNameComparator, CpuPriceComparator cpuPriceComparator) {
+    private static void inputInfo() {
         String firstName, lastName, username, password, cpuName, brand;
         int cores, threads, stock;
         double clockSpeed, price;
