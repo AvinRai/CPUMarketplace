@@ -86,7 +86,7 @@ public class Employee extends User {
     /**
      * Compares this Employee to another Object for equality.
      * @param obj another Object
-     * @return true if obj is a Employee and has a matching username and password
+     * @return true if obj is an Employee and has a matching username and password
      * to this Employee.
      */
     @Override
@@ -94,13 +94,13 @@ public class Employee extends User {
        if (this == obj) {
           return true;
        }
-       else if (!(obj instanceof Customer)) {
+       else if (!(obj instanceof Employee)) {
           return false;
        }
        else {
-          Employee employee = (Employee) obj;
-          return this.getUsername().equals(employee.getUsername()) 
-          && this.getPassword().equals(employee.getPassword());
+          Employee other = (Employee) obj;
+          return this.getUsername().equals(other.getUsername())
+          && this.getPassword().equals(other.getPassword());
        }
     }
 
