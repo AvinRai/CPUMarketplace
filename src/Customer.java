@@ -12,7 +12,6 @@ public class Customer extends User {
 	private String city;
 	private String state;
 	private String zip;
-    private int orderCount = 0;
 	private LinkedList<Order> shippedOrders;
 	private LinkedList<Order> unshippedOrders;
 	
@@ -240,16 +239,6 @@ public class Customer extends User {
     	sb.append("\nShipped Orders\n" + shippedOrders.toString());
     	sb.append("\nUnshipped Orders\n" + unshippedOrders.toString());
         return sb.toString();
-    }
-    /**
-     * Creates a new order
-     * @param shippedSpeed the type of shippingSpeed
-     *                     
-     */
-    public void placeOrders(String shippedSpeed, String orderContents) {
-        orderCount++;
-       // Order newOrder = new Order(orderCount, this, orderContents, shippedSpeed);
-        //add the order to heap of orders
     }
 
     /**
