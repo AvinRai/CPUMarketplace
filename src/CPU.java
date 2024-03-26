@@ -72,6 +72,18 @@ public class CPU {
         return this.brand;
     }
 
+    public double getClockSpeed() {
+        return this.clockSpeed;
+    }
+
+    public int getCores() {
+        return this.cores;
+    }
+    
+    public int getThreads() {
+        return this.threads;
+    }
+
     /**
      * Return the cpu price
      * @return cpu price

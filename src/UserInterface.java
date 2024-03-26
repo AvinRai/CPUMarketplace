@@ -3,8 +3,11 @@
  * @author DSA Team 1
  * Team 1 Final Project
  */
+import java.io.BufferedWriter;
 import java.io.File;
 import java.io.FileNotFoundException;
+import java.io.FileWriter;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Scanner;
 
@@ -45,6 +48,71 @@ public class UserInterface {
                 customerInterface();
             } else if (user instanceof Employee) {
                 employeeInterface();
+            } else if (user instanceof Employee && ((Employee)user).getIsManager()) {
+                managerInterface();
+            }
+        }
+    }
+
+    private static void managerInterface() {
+        System.out.println("Welcome to Microcenter's CPU store!");
+        boolean finished1 = false;
+        boolean finished2;
+        int choice;
+        int searchOption;
+        String searchKey;
+        while(!finished1) {
+            System.out.println("Customer Options: ");
+            System.out.println("1: Search for an order");
+            System.out.println("2: View order with highest priority");
+            System.out.println("3: View all orders sorted by priority");
+            System.out.println("4: Ship and order");
+            System.out.println("5: Log out ");
+            System.out.println("5: Log out ");
+            System.out.println("5: Log out ");
+            System.out.print("Please enter your option:  ");
+            choice = input.nextInt();
+            input.nextLine();
+            switch (choice) {
+                case 1:
+                searchForOrder();
+                break;
+                case 2:
+                    System.out.print(cpusByName.inOrderString());
+                break;
+
+                case 3:
+
+                break;
+
+                case 4:
+                    finished2 = false;
+                    while(!finished2) {
+                        System.out.println("View Purchases Options:\n1: View Shipped orders\n2: View Unshipped orders");
+                        System.out.print("Please enter the number of your option: ");
+                        searchOption = input.nextInt();
+                        input.nextLine();
+                        if (searchOption == 1) {
+                            //call method for view shipped orders
+                            finished2 = true;
+                        } else if (searchOption == 2) {
+                            //call method for view unshipped orders
+                            finished2 = true;
+                        } else {
+                            System.out.println("Invalid option. Please try again.");
+                        }
+                    }
+                break;
+                case 5:
+                    //call read to file and quit method
+                    System.out.println("Quiting program. Thanks for choosing Microcenter's CPU Store!");
+                    finished1 = true;
+                break;
+                case 6:
+                // System.out.print()
+                break;
+                default:
+                    System.out.println("Invalid choice. Please try again.\n");
             }
         }
     }
@@ -221,7 +289,24 @@ public class UserInterface {
         }
         cpusByName.insert(newCPU, cpuNameComparator);
         cpusByPrice.insert(newCPU, cpuPriceComparator);
+
+        addCpuToFile(newCPU);
+
         return true;
+    }
+
+    private void addCpuToFile(CPU newCPU) {
+        try {
+            FileWriter writer = new FileWriter(new File("Users.txt"), true);
+            String lineToAdd = newCPU.getName() + " " + newCPU.getBrand() + " " + newCPU.getClockSpeed() + " " + newCPU.getCores() + " " + newCPU.getThreads() + " " + newCPU.getPrice() + " " + newCPU.getStockNum();
+            writer.write("\n" + lineToAdd);
+            writer.close();
+
+        } catch (IOException e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+        }
+  
     }
 
     /**
@@ -444,6 +529,7 @@ public class UserInterface {
                     String newPassword = input.nextLine();
 
                     Customer newCustomer = new Customer(firstName, lastName, newUsername, newPassword);
+                    addCustomerToFile(newCustomer);
                     customers.add(newCustomer);
                     System.out.println("New customer account created successfully!\n");
                     return newCustomer;
@@ -474,6 +560,23 @@ public class UserInterface {
             }
         }
         return null;
+    }
+
+    private static void addCustomerToFile(Customer newCustomer) {
+        try {
+            FileWriter writer = new FileWriter(new File("Users.txt"), true);
+            String lineToAdd = "C " + newCustomer.getFirstName() + " " 
+            + newCustomer.getLastName() 
+            + " " + newCustomer.getUsername() 
+            + " " + newCustomer.getPassword();
+            writer.write("\n" + lineToAdd);
+            writer.close();
+
+        } catch (IOException e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+        }
+  
     }
 
     /**
