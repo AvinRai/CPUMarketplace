@@ -198,9 +198,8 @@ public class Customer extends User {
     //will update the below methods as needed, may need different methods depending
     //customer interface
     
-    public boolean addOrder() {
-    	//fill in here
-    	return false;
+    public void addOrder(Order order) {
+      unshippedOrders.addLast(order);
     }
     
     public boolean addShippedOrder() {
@@ -243,15 +242,15 @@ public class Customer extends User {
     /**
      * Prints out all the Customer shipped orders.
      */
-    public void printShippedOrders() {
-       System.out.print(shippedOrders.toString());
+    public String printShippedOrders() {
+       return shippedOrders.toString();
     }
 
     /**
      * Prints out all the Customer unshipped orders.
      */
-    public void printUnshippedOrders() {
-        System.out.print(unshippedOrders.toString());
+    public String printUnshippedOrders() {
+      return unshippedOrders.toString();
     }
 
     /**

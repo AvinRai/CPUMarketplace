@@ -30,7 +30,8 @@ public abstract class User {
      * Creates a new User
      * @param username the User username
      * @param password the User password
-     * @param firstName User first name
+     * @param firstName User first na
+     * me
      * @param lastName User last name
      */
     public User(String firstName, String lastName, String username, String password) {

@@ -11,7 +11,7 @@ public class Order {
     private int orderId;
     private Customer customer;
     private LocalDateTime dateTime;
-    private CPU orderContents;
+    private LinkedList<CPU> orderContents;
     private String shippedSpeed;
     private int priority;
 
@@ -27,7 +27,7 @@ public class Order {
         this.priority = 0;
     }
 
-    public Order(int orderId, Customer customer, CPU orderContents,
+    public Order(int orderId, Customer customer, LinkedList<CPU> orderContents,
                  String shippedSpeed) {
         this.orderId = orderId;
         this.customer = customer;
@@ -77,8 +77,12 @@ public class Order {
         this.dateTime = date;
     }
 
-    public void setOrderContents(CPU orderContents) {
-        this.orderContents = orderContents;
+    // public void setOrderContents(CPU orderContents) {
+    //     this.orderContents = orderContents;
+    // }
+
+    public void addToOrder(CPU cpu) {
+        orderContents.addLast(cpu);
     }
 
     public void setShippedSpeed(String shippedSpeed) {
@@ -142,6 +146,18 @@ public class Order {
         }
 
         return priority;
+    }
+
+    // private int orderId;
+    // private Customer customer;
+    // private LocalDateTime dateTime;
+    // private CPU orderContents;
+    // private String shippedSpeed;
+    // private int priority;
+
+    public String toString() {
+        return "Order ID: " + orderId + "\nDate ordered: " + dateTime + "\nOrder contents: " + orderContents.toString() +
+        "\nShipping speed:" + shippedSpeed; 
     }
 }// end class Order
 

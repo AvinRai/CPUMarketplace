@@ -121,7 +121,7 @@ public class CPU {
                 "\nCores: " + cores +
                 "\nThreads: " + threads +
                 "\nPrice: $" + String.format("%.2f", price) +
-                "\nStock: " + stock;
+                "\nStock: " + stock + "\n";
         return result + "\n";
     }
 

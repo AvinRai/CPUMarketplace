@@ -5,6 +5,7 @@
  */
 import java.io.File;
 import java.io.FileNotFoundException;
+import java.util.ArrayList;
 import java.util.Scanner;
 
 public class UserInterface {
@@ -21,6 +22,9 @@ public class UserInterface {
     static Scanner input;
     static int orderCount; //calculated when read
     static final int SIZE = 100;
+    static int orderID = 0;
+    static Heap<Order> orders;
+    static boolean exit = false;
 
     public static void main(String[] args) {
         input = new Scanner(System.in);
@@ -32,13 +36,16 @@ public class UserInterface {
         cpuPriceComparator = new CpuPriceComparator();
         cpusByName = new BST<>();
         cpusByPrice = new BST<>();
-        System.out.println("Welcome to the CPU Store!");
-        inputInfo();
-        User user = logIn();
-        if (user instanceof Customer) {
-            customerInterface();
-        } else if (user instanceof Employee) {
-            employeeInterface();
+        orders = new Heap<>(new ArrayList(), priorityComparator);
+        while (!exit) {
+            System.out.println("Welcome to the CPU Store!");
+            inputInfo();
+            user = logIn();
+            if (user instanceof Customer) {
+                customerInterface();
+            } else if (user instanceof Employee) {
+                employeeInterface();
+            }
         }
     }
 
@@ -54,48 +61,25 @@ public class UserInterface {
         String searchKey;
         while(!finished1) {
             System.out.println("Customer Options: ");
-            System.out.println("1: Search for a product");
-            System.out.println("2: List Database of Products");
-            System.out.println("3: Place an order");
-            System.out.println("4: View Purchases");
-            System.out.println("5: Quit/Finish ");
+            System.out.println("1: Search for an order");
+            System.out.println("2: View order with highest priority");
+            System.out.println("3: View all orders sorted by priority");
+            System.out.println("4: Ship and order");
+            System.out.println("5: Log out ");
             System.out.print("Please enter your option:  ");
             choice = input.nextInt();
             input.nextLine();
             switch (choice) {
                 case 1:
-                    //call method for search product
-
+                searchForOrder();
+                break;
                 case 2:
-                    //call method to list database of products
+                    System.out.print(cpusByName.inOrderString());
+                break;
 
                 case 3:
-                    finished2 = false;
-                    while(!finished2) {
-                        System.out.println("Place Order Options:\n1: Search by order id\n2: Search by customer name");
-                        System.out.print("Please enter the number of your option: ");
-                        searchOption = input.nextInt();
-                        input.nextLine();
-                        switch(searchOption) {
-                            case 1:
-                            case 2:
-                            case 3:
-                            case 4:
-                            case 5:
-                            case 6:
-                            case 7:
-                            case 8:
-                            case 9:
-                            case 10:
-                            case 11:
-                            case 12:
-                            case 13:
-                            case 14:
-                            case 15:
-                            default:
-                        }
-                    }
-                    //call method to place order
+
+                break;
 
                 case 4:
                     finished2 = false;
@@ -130,7 +114,7 @@ public class UserInterface {
      * Runs interface for Customer Users
      */
     private static void customerInterface() {
-        System.out.println("Welcome to Microcenter's CPU store!");
+        System.out.println("Welcome to Microcenter's CPU store!\n");
         boolean finished1 = false;
         boolean finished2;
         int choice;
@@ -142,67 +126,46 @@ public class UserInterface {
             System.out.println("2: List Database of Products");
             System.out.println("3: Place an order");
             System.out.println("4: View Purchases");
-            System.out.println("5: Quit/Finish ");
-            System.out.print("Please enter your option:  ");
+            System.out.println("5: Log out ");
+            System.out.print("\nPlease enter your option: ");
             choice = input.nextInt();
             input.nextLine();
+            System.out.print("\n");
             switch (choice) {
                 case 1:
-                    searchForProduct();
-                    break;
+                if (searchForProduct() != null) {
+                    System.out.print("Product was found.\n\n");
+                } else {
+                    System.out.print("Sorry, we don't carry this product.\n\n");
+                }
+                break;
                 case 2:
-                    //call method to list database of products
+                    System.out.print(cpusByName.inOrderString());
                     break;
                 case 3:
-                    finished2 = false;
-                    while(!finished2) {
-                        System.out.println("Place Order Options:\n1: Search by order id\n2: Search by customer name");
-                        System.out.print("Please enter the number of your option: ");
-                        searchOption = input.nextInt();
-                        input.nextLine();
-                        switch(searchOption) {
-                            case 1:
-                            case 2:
-                            case 3:
-                            case 4:
-                            case 5:
-                            case 6:
-                            case 7:
-                            case 8:
-                            case 9:
-                            case 10:
-                            case 11:
-                            case 12:
-                            case 13:
-                            case 14:
-                            case 15:
-                            default:
-                        }
-                    }
-                    //call method to place order
-
+                    placeOrder();
+                    break;
                 case 4:
-                    finished2 = false;
-                    while(true) {
                         System.out.println("View Purchases Options:\n1: View Shipped orders\n2: View Unshipped orders");
                         System.out.print("Please enter the number of your option: ");
                         searchOption = input.nextInt();
                         input.nextLine();
+                        System.out.print("\n\n");
                         if (searchOption == 1) {
                             viewShippedOrders();
-                            finished2 = true;
                         } else if (searchOption == 2) {
                             viewUnshippedOrders();
-                            finished2 = true;
                         } else {
                             System.out.println("Invalid option. Please try again.");
                         }
-                    }
+                        break;
                     //call method to view purchases
                 case 5:
                     //call read to file and quit method
                     System.out.println("Quiting program. Thanks for choosing Microcenter's CPU Store!");
                     finished1 = true;
+                    break;
+
 
                 default:
                     System.out.println("Invalid choice. Please try again.\n");
@@ -211,6 +174,40 @@ public class UserInterface {
     }
 
     /***EMPLOYEE METHODS***/
+
+    private static void searchForOrder() {
+        System.out.print("Search options:\n\n1. Search by order id\n2. Search by customer first and last name\nEnter choice: ");
+        int searchOption = Integer.parseInt(input.next());
+
+        switch (searchOption) {
+            case 1:
+                //Search for order with order ID
+                // System.out.print("Enter order ID: "); 
+                // int orderID = Integer.parseInt(input.next());
+                // orders.getElement(orderID);
+                break;
+            case 2:
+                System.out.print("Enter the customer's first name: ");
+                String firstName = input.next();
+                System.out.print("Enter the customer's last name: ");
+                String lastName = input.next();
+                Customer customerToSearchFor = new Customer(firstName, lastName, null, null);
+                
+                for (int i = 1; i < orders.getHeapSize() + 1; i++) {
+                    Customer temp = orders.getElement(i).getCustomer();
+
+                    if (temp.getFirstName().compareTo(firstName) == 0 && temp.getLastName().compareTo(lastName) == 0) {
+                        System.out.print(temp.printUnshippedOrders());
+                        System.out.print(temp.printShippedOrders());
+                    } 
+                }
+                break;
+            default:
+                System.out.print("Invalid input. Please try again.");
+                break;
+        }
+
+    }
 
     /**
      * Updates the CPU BSTs to include a new product
@@ -305,10 +302,34 @@ public class UserInterface {
      * @param shippedSpeed the type of shippingSpeed
      *
      */
-    public void placeOrders(String shippedSpeed, String orderContents) {
-        orderCount++;
+    public static void placeOrder() {
+        //orderCount++;
         // Order newOrder = new Order(orderCount, this, orderContents, shippedSpeed);
         //add the order to heap of orders
+       // System.out.print("")
+       System.out.print(cpusByName.inOrderString());
+       System.out.print("Please enter the name of the product you wish to purchase: ");
+       String itemName = input.next();
+       CPU cpuForSearch = new CPU(itemName);
+       CPU returnedCpu = cpusByName.search(cpuForSearch, cpuNameComparator);
+       if (returnedCpu == null) {
+            System.out.print("Item not found. Please try again.");
+       } else {
+            System.out.print("Item found. What quantity do you wish to purchase? Only " + returnedCpu.getStockNum() + " remain.\nEnter the quantity: ");
+            int quantity = Integer.parseInt(input.next()); 
+            LinkedList<CPU> orderContents = new LinkedList<>();
+            for (int i = 0; i < quantity; i++) {
+                orderContents.addLast(returnedCpu);
+            }
+            System.out.print("Please select a shipping option (standard, rush, overnight):");
+            String shippingOption = input.next();
+            Order order = new Order(orderID, (Customer) user, orderContents, shippingOption);
+            ((Customer) user).addOrder(order);
+            orders.insert(order);
+            returnedCpu.updateStock(-1 * quantity);
+            orderID++;
+            System.out.print("Order has been successfully placed.\n\n");
+       }
     }
 
     /**
@@ -375,6 +396,7 @@ public class UserInterface {
     }
 
 
+
     /***ADDITIONAL METHODS***/
 
     /**
@@ -383,12 +405,13 @@ public class UserInterface {
      */
     private static User logIn() {
         int choice;
-        while (true) {
+        while (!exit) {
             System.out.println("\nLogin options: ");
             System.out.println("1. Login as a Customer");
             System.out.println("2. Create a new Customer account");
             System.out.println("3. Login as a Guest");
             System.out.println("4. Login as an Employee or Manager");
+            System.out.println("5. Exit program");
             System.out.print("\nPlease select an option: ");
 
             choice = input.nextInt();
@@ -443,11 +466,14 @@ public class UserInterface {
                         System.out.println("Invalid username or password.");
                         continue;
                     }
-
+                case 5:
+                    exit = true;
+                    break;
                 default:
                     System.out.println("Invalid choice.");
             }
         }
+        return null;
     }
 
     /**
