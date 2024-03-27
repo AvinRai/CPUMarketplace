@@ -61,6 +61,10 @@ public class Order {
         return priority;
     }
 
+    public LinkedList<CPU> getOrderContents() {
+    	return orderContents;
+    }
+
     /* Mutators */
 
     public void setOrderId(int orderId) {
