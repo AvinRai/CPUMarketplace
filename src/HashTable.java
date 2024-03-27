@@ -79,6 +79,20 @@ public class HashTable<T> {
     }
 
     /**
+     * Returns the LinkedList stored at a particular index
+     * @param index the index in the table
+     * @precondition 0 <= index < table.size
+     * @return the LinkedList at this index
+     * @throws IndexOutOfBoundsException when the precondition is violated
+     */
+    public LinkedList<T> getBucket(int index) throws IndexOutOfBoundsException {
+        if (index < 0 || index > table.size()) {
+            throw new IndexOutOfBoundsException("countBucket: index out of bounds");
+        }
+        return table.get(index);
+    }
+
+    /**
      * Determines total number of elements in the table
      * @return total number of elements
      */
