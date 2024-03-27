@@ -111,6 +111,7 @@ public class UserInterface {
                 break;
                 default:
                     System.out.println("Invalid choice. Please try again.\n");
+                    break;
             }
         }
     }
@@ -123,7 +124,7 @@ public class UserInterface {
         boolean finished1 = false;
         boolean finished2;
         int choice;
-        int searchOption;
+        String orderId;
         String searchKey;
         while(!finished1) {
             System.out.println("Employee Options: ");
@@ -144,34 +145,24 @@ public class UserInterface {
                 break;
 
                 case 3:
-
+                    viewSortedOrders();
                 break;
 
                 case 4:
-                    finished2 = false;
-                    while(!finished2) {
-                        System.out.println("View Purchases Options:\n1: View Shipped orders\n2: View Unshipped orders");
-                        System.out.print("Please enter the number of your option: ");
-                        searchOption = input.nextInt();
-                        input.nextLine();
-                        if (searchOption == 1) {
-                            //call method for view shipped orders
-                            finished2 = true;
-                        } else if (searchOption == 2) {
-                            //call method for view unshipped orders
-                            finished2 = true;
-                        } else {
-                            System.out.println("Invalid option. Please try again.");
-                        }
+                    System.out.print("Please enter the ID number of the order you are shipping: ");
+                    orderId = input.nextLine();
+                    if (!shipOrder(orderId)) {
+                        System.out.println("Invalid order ID. Please try again.");
                     }
-                    //call method to view purchases
+                    break;
                 case 5:
                     //call read to file and quit method
                     System.out.println("Quiting program. Thanks for choosing Microcenter's CPU Store!");
                     finished1 = true;
-
+                    break;
                 default:
                     System.out.println("Invalid choice. Please try again.\n");
+                    break;
             }
         }
     }
@@ -240,6 +231,16 @@ public class UserInterface {
     }
 
     /***EMPLOYEE METHODS***/
+
+    /**
+     * Ships an order (Remove from Heap. Insert Order to shipped
+     * Linked List for the Customer + Remove from Unshipped List)
+     */
+    public static boolean shipOrder(String orderId) {
+        //if order id is valid
+        //else return false;
+        return true;
+    }
 
     private static void searchForOrder() {
         System.out.print("Search options:\n\n1. Search by order id\n2. Search by customer first and last name\nEnter choice: ");
