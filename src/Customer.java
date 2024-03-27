@@ -232,6 +232,62 @@ public class Customer extends User {
     	sb.append("\nUnshipped Orders\n" + unshippedOrders.toString());
         return sb.toString();
     }
+	
+    /**
+     * Creates a string of customer information for file writing purposes
+     * @return a string of customer information
+     */
+    public String toStringForFile() {
+    	StringBuilder sb = new StringBuilder();
+    	sb.append("\n" + getFirstName());
+    	sb.append("\n" + getLastName());
+    	sb.append("\n" + getUsername());
+    	sb.append("\n" + getPassword());
+    	sb.append("\n" + getAddress());
+    	sb.append("\n" + getCity());
+    	sb.append("\n" + getState());
+    	sb.append("\n" + getZip());
+    	sb.append("\n" + getTotalNumOrders());
+    	if (!shippedOrders.isEmpty()) {
+    		//sb.append("\nshipped");
+    		shippedOrders.positionIterator();
+    		for (int i = 0; i < shippedOrders.getLength(); i++) {
+    			sb.append("\nshipped");
+    			Order currentOrder = shippedOrders.getIterator();
+    			sb.append("\n" + currentOrder.getOrderId());
+    			LinkedList<CPU> currentCPUList = currentOrder.getOrderContents();
+    			sb.append("\n" + currentCPUList.getLength());
+    			currentCPUList.positionIterator();
+    			for (int j = 0; j < currentCPUList.getLength(); j++) {
+    				sb.append("\n" + currentCPUList.getIterator().getName());
+    				currentCPUList.advanceIterator();
+    			}
+    			sb.append("\n" + currentOrder.getShippedSpeed());
+    			shippedOrders.advanceIterator();
+    		}
+    	}
+    	
+    	if (!unshippedOrders.isEmpty()) {
+    		//sb.append("\nunshipped");
+    		unshippedOrders.positionIterator();
+    		for (int i = 0; i < unshippedOrders.getLength(); i++) {
+    			sb.append("\nunshipped");
+    			Order currentOrder = unshippedOrders.getIterator();
+    			sb.append("\n" + currentOrder.getOrderId());
+    			LinkedList<CPU> currentCPUList = currentOrder.getOrderContents();
+    			sb.append("\n" + currentCPUList.getLength());
+    			currentCPUList.positionIterator();
+    			for (int j = 0; j < currentCPUList.getLength(); j++) {
+    				sb.append("\n" + currentCPUList.getIterator().getName());
+    				currentCPUList.advanceIterator();
+    			}
+    			sb.append("\n" + currentOrder.getShippedSpeed());
+    			unshippedOrders.advanceIterator();
+    		}
+    	}
+    	return sb.toString();
+    }
+
 
     /**
      * Prints out all the Customer shipped orders.
