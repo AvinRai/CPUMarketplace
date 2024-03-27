@@ -643,7 +643,8 @@ public class UserInterface {
                 cpusByName.insert(cpu, cpuNameComparator);
                 cpusByPrice.insert(cpu, cpuPriceComparator);
             }
-
+            
+            userReader.nextLine(); //clear first empty line
             while (userReader.hasNextLine()) {
                 String userType = userReader.nextLine();
                 firstName = userReader.nextLine();
@@ -664,7 +665,6 @@ public class UserInterface {
                     numOrders = Integer.parseInt(userReader.nextLine());
                 	for (int i = 0; i < numOrders; i++) {
                 		String shippingStatus = userReader.nextLine();
-                		orderID++;
                 		int foundOrderID = Integer.parseInt(userReader.nextLine());
                 		int numOrderContents = Integer.parseInt(userReader.nextLine());
                 		LinkedList<CPU> orderContents = new LinkedList<>();
@@ -694,7 +694,7 @@ public class UserInterface {
                     Employee employee = new Employee(firstName, lastName, username, password, isManager);
                     employees.add(employee);
                     //System.out.print(customers.toString());
-                } 
+                }
             }
 
             cpuReader.close();

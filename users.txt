@@ -1,3 +1,4 @@
+
 C
 George
 Washington
@@ -7,19 +8,7 @@ firstpresident32
 Westmoreland County
 Virginia
 67980
-2
-shipped
-1
-2
-i9-14900K
-i7-13700K
-rush
-unshipped
-2
-2
-i5-12400F
-i7-14700K
-standard
+0
 C
 John
 Adams
