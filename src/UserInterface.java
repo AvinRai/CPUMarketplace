@@ -124,7 +124,7 @@ public class UserInterface {
         boolean finished1 = false;
         boolean finished2;
         int choice;
-        String orderId;
+        int orderId;
         String searchKey;
         while(!finished1) {
             System.out.println("Employee Options: ");
@@ -150,7 +150,7 @@ public class UserInterface {
 
                 case 4:
                     System.out.print("Please enter the ID number of the order you are shipping: ");
-                    orderId = input.nextLine();
+                    orderId = input.nextInt();
                     if (!shipOrder(orderId)) {
                         System.out.println("Invalid order ID. Please try again.");
                     }
@@ -235,11 +235,20 @@ public class UserInterface {
     /**
      * Ships an order (Remove from Heap. Insert Order to shipped
      * Linked List for the Customer + Remove from Unshipped List)
+     * @param orderId the user's input of the order's id number
+     * @return a boolean value that determines if the order id was a valid one
      */
-    public static boolean shipOrder(String orderId) {
-        //if order id is valid
-        //else return false;
-        return true;
+    public static boolean shipOrder(int orderId) {
+        Heap<Order> copyOfOrders = orders;
+        while(copyOfOrders.getHeapSize() != 0) {
+            if (copyOfOrders.getElement(1).getOrderId() == (int) orderId) {
+                //remove from orders heap and insert order into shipped linked list
+                //remove form unshipped list
+                return true;
+            }
+            copyOfOrders.remove(1);
+        }
+        return false;
     }
 
     private static void searchForOrder() {
