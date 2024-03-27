@@ -46,10 +46,10 @@ public class UserInterface {
             user = logIn();
             if (user instanceof Customer) {
                 customerInterface();
-            } else if (user instanceof Employee) {
-                employeeInterface();
             } else if (user instanceof Employee && ((Employee)user).getIsManager()) {
                 managerInterface();
+            } else if (user instanceof Employee ) {
+                employeeInterface();
             }
         }
     }
@@ -62,14 +62,12 @@ public class UserInterface {
         int searchOption;
         String searchKey;
         while(!finished1) {
-            System.out.println("Customer Options: ");
+            System.out.println("Manager Options: ");
             System.out.println("1: Search for an order");
             System.out.println("2: View order with highest priority");
             System.out.println("3: View all orders sorted by priority");
             System.out.println("4: Ship and order");
-            System.out.println("5: Log out ");
-            System.out.println("5: Log out ");
-            System.out.println("5: Log out ");
+            System.out.println("5: Log out");
             System.out.print("Please enter your option:  ");
             choice = input.nextInt();
             input.nextLine();
@@ -128,7 +126,7 @@ public class UserInterface {
         int searchOption;
         String searchKey;
         while(!finished1) {
-            System.out.println("Customer Options: ");
+            System.out.println("Employee Options: ");
             System.out.println("1: Search for an order");
             System.out.println("2: View order with highest priority");
             System.out.println("3: View all orders sorted by priority");
