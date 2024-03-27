@@ -84,6 +84,20 @@ public class Employee extends User {
     }
 
     /**
+     * Creates a string of customer information for file writing purposes
+     * @return a string of customer information
+     */
+    public String toStringForFile() {
+    	StringBuilder sb = new StringBuilder();
+    	sb.append("\n" + getFirstName());
+    	sb.append("\n" + getLastName());
+    	sb.append("\n" + getUsername());
+    	sb.append("\n" + getPassword());
+    	sb.append("\n" + getIsManager());
+    	return sb.toString();
+    }
+
+    /**
      * Compares this Employee to another Object for equality.
      * @param obj another Object
      * @return true if obj is an Employee and has a matching username and password
