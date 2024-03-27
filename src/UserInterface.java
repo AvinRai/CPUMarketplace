@@ -176,7 +176,7 @@ public class UserInterface {
         }
     }
 
-    /**
+        /**
      * Runs interface for Customer Users
      */
     private static void customerInterface() {
@@ -218,9 +218,9 @@ public class UserInterface {
                         input.nextLine();
                         System.out.print("\n\n");
                         if (searchOption == 1) {
-                            viewShippedOrders();
+                            System.out.println(((Customer)user).printShippedOrders());
                         } else if (searchOption == 2) {
-                            viewUnshippedOrders();
+                            System.out.println(((Customer)user).printUnshippedOrders());
                         } else {
                             System.out.println("Invalid option. Please try again.");
                         }
@@ -419,8 +419,15 @@ public class UserInterface {
             for (int i = 0; i < quantity; i++) {
                 orderContents.addLast(returnedCpu);
             }
-            System.out.print("Please select a shipping option (standard, rush, overnight):");
-            String shippingOption = input.next();
+           String shippingOption;
+            while (true) {
+                System.out.print("Please select a shipping option (standard, rush, overnight): ");
+                shippingOption = input.next();
+                if (shippingOption.equals("standard") || shippingOption.equals("rush") || shippingOption.equals("overnight")) {
+                    break;
+                }
+                System.out.println("Not a valid shipping option!");
+            }
             Order order = new Order(orderID, (Customer) user, orderContents, shippingOption);
             ((Customer) user).addOrder(order);
             orders.insert(order);
@@ -429,6 +436,7 @@ public class UserInterface {
             System.out.print("Order has been successfully placed.\n\n");
        }
     }
+
 
     /**
      * Searches for a product depending on the key passed
