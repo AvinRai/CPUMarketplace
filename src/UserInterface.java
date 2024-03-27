@@ -602,47 +602,89 @@ public class UserInterface {
 
     /**
      * Read from CPUs.txt and Users.txt
-     * @postcondition all information from CPUs.txt and Users.txt is inputted
+     * @postcondition all information from cpus.txt and users.txt is inputted
      */
     private static void inputInfo() {
-        String firstName, lastName, username, password, cpuName, brand;
-        int cores, threads, stock;
+        String firstName, lastName, username, password, address, city, state, zip, cpuName, brand;
+        int cores, threads, stock, numOrders;
         double clockSpeed, price;
+        LinkedList<Order> shippedOrders, unshippedOrders;
         try {
-            File cpuFile = new File("CPUs.txt");
+            File cpuFile = new File("cpus.txt");
             File userFile = new File("users.txt");
             Scanner cpuReader = new Scanner(cpuFile);
             Scanner userReader = new Scanner(userFile);
             while (cpuReader.hasNextLine()) {
-                cpuName = cpuReader.next();
-                brand = cpuReader.next();
+                cpuName = cpuReader.nextLine();
+                brand = cpuReader.nextLine();
                 clockSpeed = cpuReader.nextDouble();
+                cpuReader.nextLine();
                 cores = cpuReader.nextInt();
+                cpuReader.nextLine();
                 threads = cpuReader.nextInt();
+                cpuReader.nextLine();
                 price = cpuReader.nextDouble();
+                cpuReader.nextLine();
                 stock = cpuReader.nextInt();
+                if (cpuReader.hasNextLine()) {
+                	cpuReader.nextLine();
+                }
                 CPU cpu = new CPU(cpuName, brand, clockSpeed, cores, threads, price, stock);
                 cpusByName.insert(cpu, cpuNameComparator);
                 cpusByPrice.insert(cpu, cpuPriceComparator);
             }
 
             while (userReader.hasNextLine()) {
-                String userType = userReader.next();
-                firstName = userReader.next();
-                lastName = userReader.next();
-                username = userReader.next();
-                password = userReader.next();
+                String userType = userReader.nextLine();
+                firstName = userReader.nextLine();
+                lastName = userReader.nextLine();
+                username = userReader.nextLine();
+                password = userReader.nextLine();
 
                 if (userType.equals("C")) {
-                    Customer customer = new Customer(firstName, lastName, username, password);
-                    customers.add(customer);
-                } else if (userType.equals("E")) {
-                    Employee employee = new Employee(firstName, lastName, username, password);
+                	address = userReader.nextLine();
+                	city = userReader.nextLine();
+                	state = userReader.nextLine();
+                	zip = userReader.nextLine();
+                	shippedOrders = new LinkedList<Order>();
+                	unshippedOrders = new LinkedList<Order>();
+                    Customer customer = new Customer(firstName, lastName, username, password,
+                    		address, city, state, zip, shippedOrders, unshippedOrders);
+                    //customers.add(customer);
+                    numOrders = Integer.parseInt(userReader.nextLine());
+                	for (int i = 0; i < numOrders; i++) {
+                		String shippingStatus = userReader.nextLine();
+                		orderID++;
+                		int foundOrderID = Integer.parseInt(userReader.nextLine());
+                		int numOrderContents = Integer.parseInt(userReader.nextLine());
+                		LinkedList<CPU> orderContents = new LinkedList<>();
+                		for (int j = 0; j < numOrderContents; j++) {
+                			String tempCPUName = userReader.nextLine();
+                			CPU tempCPU = new CPU(tempCPUName, "", 0, 0, 0, 0, 0);
+                			CPU foundCPU = cpusByName.search(tempCPU, cpuNameComparator);
+                			if (foundCPU != null) {
+                				orderContents.addLast(foundCPU);
+                			}
+                		}
+                		String shippingSpeed = userReader.nextLine();
+                		Order newOrder = new Order (foundOrderID, customer, orderContents, shippingSpeed);
+                		if (shippingStatus.equalsIgnoreCase("shipped")) {
+                			customer.addShippedOrder(newOrder);
+                		}
+                		else {
+                			customer.addOrder(newOrder);
+                			orders.insert(newOrder);
+                		}
+                	}
+                	customers.add(customer);
+                	//System.out.print(customers.toString());
+                	
+                } else {
+                	boolean isManager = Boolean.parseBoolean(userReader.nextLine());
+                    Employee employee = new Employee(firstName, lastName, username, password, isManager);
                     employees.add(employee);
-                } else if (userType.equals("M")) {
-                    Employee employee = new Employee(firstName, lastName, username, password, true);
-                    employees.add(employee);
-                }
+                    //System.out.print(customers.toString());
+                } 
             }
 
             cpuReader.close();
