@@ -714,6 +714,8 @@ public class UserInterface {
                         continue;
                     }
                 case 5:
+                    writeToUserFile();
+                	writeToCPUsFile();
                     exit = true;
                     break;
                 default:
@@ -740,6 +742,86 @@ public class UserInterface {
   
     }
 
+    private static void writeToCPUsFile() {
+    	try {
+    		FileWriter writer = new FileWriter(new File("cpus.txt"), false);
+
+    		String cpusString = cpusByName.preOrderString();
+    		String adjustedString = cpusString.replaceAll("(?m)^[ \t]*\r?\n", "");
+    		String lines[] = adjustedString.split("\\r?\\n");
+
+    		int count = 0;
+    		for (int j = 0; j < (lines.length/cpusByName.getSize()); j++) {
+    			String name = lines[0 + count].substring(lines[0 + count].lastIndexOf(" ") + 1);
+    			System.out.println(lines[0 + count]);
+    			String brand = lines[1 + count].substring(lines[1 + count].lastIndexOf(" ") + 1);
+    			System.out.println(lines[1 + count]);
+    			String speed = lines[2 + count].substring(lines[2 + count].lastIndexOf(" ") + 1);
+    			System.out.println(lines[2 + count]);  			
+    			String cores = lines[3 + count].substring(lines[3 + count].lastIndexOf(" ") + 1);
+    			System.out.println(lines[3 + count]);
+    			String threads = lines[4 + count].substring(lines[4 + count].lastIndexOf(" ") + 1);
+    			System.out.println(lines[4 + count]);
+    			String price = lines[5 + count].substring(lines[5 + count].lastIndexOf("$") + 1);
+    			System.out.println(lines[5 + count]);
+    			String stock = lines[6 + count].substring(lines[5 + count].lastIndexOf(" ") + 1);
+    			System.out.println(lines[6 + count]);
+    			count += 7;
+    			
+    			writer.write("\n" + name);
+    			writer.write("\n" + brand);
+    			writer.write("\n" + speed);
+    			writer.write("\n" + cores);
+    			writer.write("\n" + threads);
+    			writer.write("\n" + price);
+    			writer.write("\n" + stock);
+   
+    		}
+    		writer.flush();
+    	}
+    	catch (IOException e) {
+    		e.printStackTrace();
+    	}
+    }
+    
+    private static void writeToUserFile() {
+    	try {
+    		FileWriter writer = new FileWriter(new File("users.txt"), false);
+    		for (int i = 0; i < SIZE; i++) {
+    			if (customers.countBucket(i) > 0) {
+    				LinkedList<Customer> customersInBucket = customers.getBucket(i);
+    				customersInBucket.positionIterator();
+    				for (int j = 1; j < customersInBucket.getLength(); j++) {
+    					writer.write("\nC");
+    					writer.write(customersInBucket.getIterator().toStringForFile());
+    					customersInBucket.advanceIterator();
+    				}
+    			}
+    		}
+
+    		for (int i = 0; i < SIZE; i++) {
+    			if (employees.countBucket(i) > 0) {
+    				LinkedList<Employee> employeesInBucket = employees.getBucket(i);
+    				employeesInBucket.positionIterator();
+    				for (int j = 1; j < employeesInBucket.getLength(); j++) {
+    	    			if (employeesInBucket.getIterator().getIsManager() == true) {
+    	    				writer.write("\nM");
+    	    			}
+    	    			else {
+    	    				writer.write("\nE");
+    	    			}
+    					writer.write(employeesInBucket.getIterator().toStringForFile());
+    					employeesInBucket.advanceIterator();
+    				}
+    			}
+    		}
+    		writer.flush();
+    	}
+    	catch (IOException e) {
+    		e.printStackTrace();
+    	}
+    }
+
     /**
      * Read from CPUs.txt and Users.txt
      * @postcondition all information from cpus.txt and users.txt is inputted
@@ -754,6 +836,7 @@ public class UserInterface {
             File userFile = new File("users.txt");
             Scanner cpuReader = new Scanner(cpuFile);
             Scanner userReader = new Scanner(userFile);
+            cpuReader.nextLine();
             while (cpuReader.hasNextLine()) {
                 cpuName = cpuReader.nextLine();
                 brand = cpuReader.nextLine();
