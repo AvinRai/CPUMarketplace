@@ -237,6 +237,9 @@ public class Customer extends User {
      * Prints out all the Customer shipped orders.
      */
     public String printShippedOrders() {
+       if (shippedOrders.getLength() == 0) {
+           return "No shipped orders!\n";
+       }
        return shippedOrders.toString();
     }
 
@@ -244,7 +247,10 @@ public class Customer extends User {
      * Prints out all the Customer unshipped orders.
      */
     public String printUnshippedOrders() {
-      return unshippedOrders.toString();
+      if (unshippedOrders.getLength() == 0) {
+          return "No unshipped orders!\n";
+      }
+        return unshippedOrders.toString();
     }
 
     /**
