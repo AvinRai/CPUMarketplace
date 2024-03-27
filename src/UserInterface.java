@@ -52,7 +52,7 @@ public class UserInterface {
                 customerInterface();
             } else if (user instanceof Employee && ((Employee)user).getIsManager()) {
                 managerInterface();
-            } else if (user instanceof Employee) {
+            } else if (user instanceof Employee ) {
                 employeeInterface();
             }
         }
@@ -66,7 +66,7 @@ public class UserInterface {
         int searchOption;
         String searchKey;
         while(!finished1) {
-            System.out.println("Customer Options: ");
+            System.out.println("Manager Options: ");
             System.out.println("1: Search for an order");
             System.out.println("2: View order with highest priority");
             System.out.println("3: View all orders sorted by priority");
@@ -82,7 +82,7 @@ public class UserInterface {
                 searchForOrder();
                 break;
                 case 2:
-                    System.out.print(cpusByName.inOrderString());
+                    printHighestPriority();
                 break;
 
                 case 3:
@@ -121,7 +121,64 @@ public class UserInterface {
                 break;
                 default:
                     System.out.println("Invalid choice. Please try again.\n");
+                    break;
             }
+        }
+    }
+
+    private static void updateProducts() {
+        System.out.print("1. Add a new cpu\n2. update an existing cpu\nEnter option here: ");
+        int option = Integer.parseInt(input.next());
+        System.out.print("\n");
+
+        switch (option) {
+            case 1:
+                System.out.print("Enter the model name: ");
+                String modelName = input.next();
+                System.out.print("Enter the brand: ");
+                String brandName = input.next();
+                System.out.print("Enter the clockspeed: ");
+                double clockSpeed = Double.parseDouble(input.next());
+                System.out.print("Enter the number of cores: ");
+                int numCores = Integer.parseInt(input.next());
+                System.out.print("Enter the number of threads: ");
+                int numThreads = Integer.parseInt(input.next());
+                System.out.print("Enter the price: ");
+                double price = Double.parseDouble(input.next());
+                System.out.print("Enter the stock: ");
+                int stock = Integer.parseInt(input.next());
+
+                CPU cpuToAdd = new CPU(modelName, brandName, clockSpeed, numCores, numThreads, price, stock);
+                addProduct(cpuToAdd);
+                break;
+            case 2:
+                System.out.print("Enter the model name of the product you wish to modify: ");
+                String nameOfCpuToModify = input.next();
+                CPU cpuToModify = searchForProduct(nameOfCpuToModify);
+                if (cpuToModify != null) {
+                    System.out.print("Which attribute do you wish to change?\n1. Price\n2. Stock\nEnter choice here: ");
+                    int attributeChoice = Integer.parseInt(input.next());
+
+                    switch (attributeChoice) {
+                        case 1:
+
+                            System.out.print("Here is the current price: " + cpuToModify.getPrice() + "\nEnter new price: ");
+                            double newPrice = Double.parseDouble(input.next());
+                            updateProductPrice(cpuToModify, newPrice);
+                            break;
+                        case 2:
+                        System.out.print("Here is the current stock: " + cpuToModify.getStockNum() + "\nEnter new price: ");
+                        int newStockNum = Integer.parseInt(input.next());
+                        updateProductStock(cpuToModify, newStockNum);
+                            break;
+                        default:
+                            break;
+                    }
+                } 
+                break;
+            default:
+            System.out.print("Invalide choice. Please try again.\n");
+                break;
         }
     }
 
@@ -189,10 +246,10 @@ public class UserInterface {
         boolean finished1 = false;
         boolean finished2;
         int choice;
-        int searchOption;
+        int orderId;
         String searchKey;
         while(!finished1) {
-            System.out.println("Customer Options: ");
+            System.out.println("Employee Options: ");
             System.out.println("1: Search for an order");
             System.out.println("2: View order with highest priority");
             System.out.println("3: View all orders sorted by priority");
@@ -206,43 +263,33 @@ public class UserInterface {
                 searchForOrder();
                 break;
                 case 2:
-                    System.out.print(cpusByName.inOrderString());
+                    printHighestPriority();
                 break;
 
                 case 3:
-
+                    viewSortedOrders();
                 break;
 
                 case 4:
-                    finished2 = false;
-                    while(!finished2) {
-                        System.out.println("View Purchases Options:\n1: View Shipped orders\n2: View Unshipped orders");
-                        System.out.print("Please enter the number of your option: ");
-                        searchOption = input.nextInt();
-                        input.nextLine();
-                        if (searchOption == 1) {
-                            //call method for view shipped orders
-                            finished2 = true;
-                        } else if (searchOption == 2) {
-                            //call method for view unshipped orders
-                            finished2 = true;
-                        } else {
-                            System.out.println("Invalid option. Please try again.");
-                        }
+                    System.out.print("Please enter the ID number of the order you are shipping: ");
+                    orderId = input.nextInt();
+                    if (!shipOrder(orderId)) {
+                        System.out.println("Invalid order ID. Please try again.");
                     }
-                    //call method to view purchases
+                    break;
                 case 5:
                     //call read to file and quit method
                     System.out.println("Quiting program. Thanks for choosing Microcenter's CPU Store!");
                     finished1 = true;
-
+                    break;
                 default:
                     System.out.println("Invalid choice. Please try again.\n");
+                    break;
             }
         }
     }
 
-    /**
+        /**
      * Runs interface for Customer Users
      */
     private static void customerInterface() {
@@ -286,9 +333,9 @@ public class UserInterface {
                         input.nextLine();
                         System.out.print("\n\n");
                         if (searchOption == 1) {
-                            viewShippedOrders();
+                            System.out.println(((Customer)user).printShippedOrders());
                         } else if (searchOption == 2) {
-                            viewUnshippedOrders();
+                            System.out.println(((Customer)user).printUnshippedOrders());
                         } else {
                             System.out.println("Invalid option. Please try again.");
                         }
@@ -308,6 +355,25 @@ public class UserInterface {
     }
 
     /***EMPLOYEE METHODS***/
+
+    /**
+     * Ships an order (Remove from Heap. Insert Order to shipped
+     * Linked List for the Customer + Remove from Unshipped List)
+     * @param orderId the user's input of the order's id number
+     * @return a boolean value that determines if the order id was a valid one
+     */
+    public static boolean shipOrder(int orderId) {
+        Heap<Order> copyOfOrders = orders;
+        while(copyOfOrders.getHeapSize() != 0) {
+            if (copyOfOrders.getElement(1).getOrderId() == (int) orderId) {
+                //remove from orders heap and insert order into shipped linked list
+                //remove form unshipped list
+                return true;
+            }
+            copyOfOrders.remove(1);
+        }
+        return false;
+    }
 
     private static void searchForOrder() {
         System.out.print("Search options:\n\n1. Search by order id\n2. Search by customer first and last name\nEnter choice: ");
@@ -341,6 +407,23 @@ public class UserInterface {
                 break;
         }
 
+    }
+    private static void printHighestPriority(){
+        Order tempOrder = new Order();
+        tempOrder = orders.getElement(1);
+        System.out.print(tempOrder.toString());
+    }
+    /**
+     * Prints out a list of all orders sorted by Priority
+     */
+    public static void viewSortedOrders() {
+        Heap<Order> copyOfOrders = orders;
+        Order tempOrder;
+        while(copyOfOrders.getHeapSize() != 0) {
+            tempOrder = copyOfOrders.getElement(1);
+            System.out.print(tempOrder.toString());
+            copyOfOrders.remove(1);
+        }
     }
 
     /**
@@ -448,8 +531,6 @@ public class UserInterface {
 
     /**
      * Creates a new order
-     * @param shippedSpeed the type of shippingSpeed
-     *
      */
     public static void placeOrder() {
         //orderCount++;
@@ -470,8 +551,15 @@ public class UserInterface {
             for (int i = 0; i < quantity; i++) {
                 orderContents.addLast(returnedCpu);
             }
-            System.out.print("Please select a shipping option (standard, rush, overnight):");
-            String shippingOption = input.next();
+           String shippingOption;
+            while (true) {
+                System.out.print("Please select a shipping option (standard, rush, overnight): ");
+                shippingOption = input.next();
+                if (shippingOption.equals("standard") || shippingOption.equals("rush") || shippingOption.equals("overnight")) {
+                    break;
+                }
+                System.out.println("Not a valid shipping option!");
+            }
             Order order = new Order(orderID, (Customer) user, orderContents, shippingOption);
             ((Customer) user).addOrder(order);
             orders.insert(order);
@@ -480,6 +568,7 @@ public class UserInterface {
             System.out.print("Order has been successfully placed.\n\n");
        }
     }
+
 
     /**
      * Searches for a product depending on the key passed
@@ -643,46 +732,88 @@ public class UserInterface {
 
     /**
      * Read from CPUs.txt and Users.txt
-     * @postcondition all information from CPUs.txt and Users.txt is inputted
+     * @postcondition all information from cpus.txt and users.txt is inputted
      */
     private static void inputInfo() {
-        String firstName, lastName, username, password, cpuName, brand;
-        int cores, threads, stock;
+        String firstName, lastName, username, password, address, city, state, zip, cpuName, brand;
+        int cores, threads, stock, numOrders;
         double clockSpeed, price;
+        LinkedList<Order> shippedOrders, unshippedOrders;
         try {
-            File cpuFile = new File("CPUs.txt");
+            File cpuFile = new File("cpus.txt");
             File userFile = new File("users.txt");
             Scanner cpuReader = new Scanner(cpuFile);
             Scanner userReader = new Scanner(userFile);
             while (cpuReader.hasNextLine()) {
-                cpuName = cpuReader.next();
-                brand = cpuReader.next();
+                cpuName = cpuReader.nextLine();
+                brand = cpuReader.nextLine();
                 clockSpeed = cpuReader.nextDouble();
+                cpuReader.nextLine();
                 cores = cpuReader.nextInt();
+                cpuReader.nextLine();
                 threads = cpuReader.nextInt();
+                cpuReader.nextLine();
                 price = cpuReader.nextDouble();
+                cpuReader.nextLine();
                 stock = cpuReader.nextInt();
+                if (cpuReader.hasNextLine()) {
+                	cpuReader.nextLine();
+                }
                 CPU cpu = new CPU(cpuName, brand, clockSpeed, cores, threads, price, stock);
                 cpusByName.insert(cpu, cpuNameComparator);
                 cpusByPrice.insert(cpu, cpuPriceComparator);
             }
-
+            
+            userReader.nextLine(); //clear first empty line
             while (userReader.hasNextLine()) {
-                String userType = userReader.next();
-                firstName = userReader.next();
-                lastName = userReader.next();
-                username = userReader.next();
-                password = userReader.next();
+                String userType = userReader.nextLine();
+                firstName = userReader.nextLine();
+                lastName = userReader.nextLine();
+                username = userReader.nextLine();
+                password = userReader.nextLine();
 
                 if (userType.equals("C")) {
-                    Customer customer = new Customer(firstName, lastName, username, password);
-                    customers.add(customer);
-                } else if (userType.equals("E")) {
-                    Employee employee = new Employee(firstName, lastName, username, password);
+                	address = userReader.nextLine();
+                	city = userReader.nextLine();
+                	state = userReader.nextLine();
+                	zip = userReader.nextLine();
+                	shippedOrders = new LinkedList<Order>();
+                	unshippedOrders = new LinkedList<Order>();
+                    Customer customer = new Customer(firstName, lastName, username, password,
+                    		address, city, state, zip, shippedOrders, unshippedOrders);
+                    //customers.add(customer);
+                    numOrders = Integer.parseInt(userReader.nextLine());
+                	for (int i = 0; i < numOrders; i++) {
+                		String shippingStatus = userReader.nextLine();
+                		int foundOrderID = Integer.parseInt(userReader.nextLine());
+                		int numOrderContents = Integer.parseInt(userReader.nextLine());
+                		LinkedList<CPU> orderContents = new LinkedList<>();
+                		for (int j = 0; j < numOrderContents; j++) {
+                			String tempCPUName = userReader.nextLine();
+                			CPU tempCPU = new CPU(tempCPUName, "", 0, 0, 0, 0, 0);
+                			CPU foundCPU = cpusByName.search(tempCPU, cpuNameComparator);
+                			if (foundCPU != null) {
+                				orderContents.addLast(foundCPU);
+                			}
+                		}
+                		String shippingSpeed = userReader.nextLine();
+                		Order newOrder = new Order (foundOrderID, customer, orderContents, shippingSpeed);
+                		if (shippingStatus.equalsIgnoreCase("shipped")) {
+                			customer.addShippedOrder(newOrder);
+                		}
+                		else {
+                			customer.addOrder(newOrder);
+                			orders.insert(newOrder);
+                		}
+                	}
+                	customers.add(customer);
+                	//System.out.print(customers.toString());
+                	
+                } else {
+                	boolean isManager = Boolean.parseBoolean(userReader.nextLine());
+                    Employee employee = new Employee(firstName, lastName, username, password, isManager);
                     employees.add(employee);
-                } else if (userType.equals("M")) {
-                    Employee employee = new Employee(firstName, lastName, username, password, true);
-                    employees.add(employee);
+                    //System.out.print(customers.toString());
                 }
             }
 

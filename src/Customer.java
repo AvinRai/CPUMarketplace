@@ -199,17 +199,11 @@ public class Customer extends User {
     //customer interface
     
     public void addOrder(Order order) {
-      unshippedOrders.addLast(order);
+      	unshippedOrders.addLast(order);
     }
     
-    public boolean addShippedOrder() {
-    	//fill in here
-    	return false;
-    }
-    
-    public boolean addUnshippedOrder() {
-    	//fill in here
-    	return false;
+    public void addShippedOrder(Order order) {
+    	shippedOrders.addLast(order);
     }
     
     /**ADDITIONAL OPERATIONS*/
@@ -243,6 +237,9 @@ public class Customer extends User {
      * Prints out all the Customer shipped orders.
      */
     public String printShippedOrders() {
+       if (shippedOrders.getLength() == 0) {
+           return "No shipped orders!\n";
+       }
        return shippedOrders.toString();
     }
 
@@ -250,7 +247,10 @@ public class Customer extends User {
      * Prints out all the Customer unshipped orders.
      */
     public String printUnshippedOrders() {
-      return unshippedOrders.toString();
+      if (unshippedOrders.getLength() == 0) {
+          return "No unshipped orders!\n";
+      }
+        return unshippedOrders.toString();
     }
 
     /**
