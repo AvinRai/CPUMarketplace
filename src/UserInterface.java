@@ -79,16 +79,13 @@ public class UserInterface {
             input.nextLine();
             switch (choice) {
                 case 1:
-                searchForOrder();
-                break;
+                    searchForOrder();
+                    break;
                 case 2:
                     printHighestPriority();
-                break;
-
+                    break;
                 case 3:
-
-                break;
-
+                    break;
                 case 4:
                     finished2 = false;
                     while(!finished2) {
@@ -106,27 +103,24 @@ public class UserInterface {
                             System.out.println("Invalid option. Please try again.");
                         }
                     }
-                break;
+                    break;
                 case 5:
                     updateProducts();
-                break;
+                    break;
                 case 6:
-                    
-                // System.out.print()
-                break;
+                    // System.out.print()
+                    break;
                 case 7:
                     //call read to file and quit method
                     System.out.println("Quiting program. Thanks for choosing Microcenter's CPU Store!");
                     finished1 = true;                
-                break;
+                    break;
                 default:
                     System.out.println("Invalid choice. Please try again.\n");
                     break;
             }
         }
     }
-
-    
 
     private static void updateProducts() {
         System.out.print("1. Add a new cpu\n2. update an existing cpu\nEnter option here: ");
@@ -179,7 +173,7 @@ public class UserInterface {
                 } 
                 break;
             default:
-            System.out.print("Invalide choice. Please try again.\n");
+                System.out.print("Invalide choice. Please try again.\n");
                 break;
         }
     }
@@ -190,42 +184,42 @@ public class UserInterface {
     private static void employeeInterface() {
         System.out.println("Welcome to Microcenter's CPU store!");
         boolean finished1 = false;
-        boolean finished2;
         int choice;
         int orderId;
-        String searchKey;
-        while(!finished1) {
+
+        while (!finished1) {
             System.out.println("Employee Options: ");
             System.out.println("1: Search for an order");
             System.out.println("2: View order with highest priority");
             System.out.println("3: View all orders sorted by priority");
-            System.out.println("4: Ship and order");
+            System.out.println("4: Ship an order");
             System.out.println("5: Log out ");
             System.out.print("Please enter your option:  ");
             choice = input.nextInt();
             input.nextLine();
+
             switch (choice) {
                 case 1:
-                searchForOrder();
-                break;
+                    searchForOrder();
+                    break;
                 case 2:
                     printHighestPriority();
-                break;
-
+                    break;
                 case 3:
                     viewSortedOrders();
-                break;
-
+                    break;
                 case 4:
+                    System.out.println("\nUnshipped Orders:");
+                    displayUnshippedOrders();
                     System.out.print("Please enter the ID number of the order you are shipping: ");
                     orderId = input.nextInt();
                     if (!shipOrder(orderId)) {
                         System.out.println("Invalid order ID. Please try again.");
                     }
+                    System.out.println("Order has been successfully shipped.\n");
                     break;
                 case 5:
-                    //call read to file and quit method
-                    System.out.println("Quiting program. Thanks for choosing Microcenter's CPU Store!");
+                    System.out.println("Quitting program. Thanks for choosing Microcenter's CPU Store!");
                     finished1 = true;
                     break;
                 default:
@@ -309,16 +303,86 @@ public class UserInterface {
      * @return a boolean value that determines if the order id was a valid one
      */
     public static boolean shipOrder(int orderId) {
-        Heap<Order> copyOfOrders = orders;
-        while(copyOfOrders.getHeapSize() != 0) {
-            if (copyOfOrders.getElement(1).getOrderId() == (int) orderId) {
-                //remove from orders heap and insert order into shipped linked list
-                //remove form unshipped list
+        for (int i = 1; i <= orders.getHeapSize(); i++) {
+            Order order = orders.getElement(i);
+            if (order.getOrderId() == orderId) {
+                Customer customer = order.getCustomer();
+
+                // Remove the order from the orders heap
+                orders.remove(i);
+
+                // Add the order to the customer's shipped orders list
+                customer.addShippedOrder(order);
+
+                // Remove the order from the customer's unshipped orders list
+                LinkedList<Order> unshippedOrders = customer.getUnshippedOrders();
+                unshippedOrders.positionIterator();
+                while (!unshippedOrders.offEnd()) {
+                    Order currentOrder = unshippedOrders.getIterator();
+                    if (currentOrder.equals(order)) {
+                        unshippedOrders.removeIterator();
+                        break;
+                    }
+                    unshippedOrders.advanceIterator();
+                }
+
                 return true;
             }
-            copyOfOrders.remove(1);
         }
         return false;
+    }
+
+    /**
+     * Displays the list of unshipped orders sorted by shipping speed priority.
+     * The unshipped orders are retrieved from the orders heap, stored in an ArrayList,
+     * and then sorted based on their shipping speed priority (rush, overnight, standard).
+     * The sorted orders are then displayed with their details.
+     */
+    private static void displayUnshippedOrders() {
+        // Create a new ArrayList to store the unshipped orders
+        ArrayList<Order> unshippedOrders = new ArrayList<>();
+
+        // Add all unshipped orders to the ArrayList
+        for (int i = 1; i <= orders.getHeapSize(); i++) {
+            unshippedOrders.add(orders.getElement(i));
+        }
+
+        // Sort the unshipped orders based on shipping speed priority
+        unshippedOrders.sort((order1, order2) -> {
+            int priority1 = getShippingSpeedPriority(order1.getShippedSpeed());
+            int priority2 = getShippingSpeedPriority(order2.getShippedSpeed());
+            return Integer.compare(priority1, priority2);
+        });
+
+        // Display the sorted unshipped orders
+        for (Order order : unshippedOrders) {
+            System.out.println("Order ID: " + order.getOrderId());
+            System.out.println("Customer: " + order.getCustomer().getFirstName() + " " + order.getCustomer().getLastName());
+            System.out.println("Order Date: " + order.getDate());
+            System.out.println("Shipping Speed: " + order.getShippedSpeed());
+            System.out.println("Order Contents: \n" + order.getOrderContents());
+        }
+    }
+
+    /**
+     * Determines the priority of a given shipping speed.
+     * Rush orders have the highest priority (1), followed by overnight orders (2),
+     * and then standard orders (3). Any other shipping speed is assigned the lowest priority (4).
+     *
+     * @param shippingSpeed the shipping speed to determine the priority for
+     * @return the priority value of the shipping speed (1 for rush, 2 for overnight, 3 for standard, 4 for others)
+     */
+    private static int getShippingSpeedPriority(String shippingSpeed) {
+        switch (shippingSpeed) {
+            case "rush":
+                return 1;
+            case "overnight":
+                return 2;
+            case "standard":
+                return 3;
+            default:
+                return 4;
+        }
     }
 
     private static void searchForOrder() {
