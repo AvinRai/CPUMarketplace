@@ -48,7 +48,6 @@ public class Order {
     }
 
     public String getDate() {
-
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
         // Format the current date and time using the formatter
         return dateTime.format(formatter);
@@ -156,8 +155,10 @@ public class Order {
     // private int priority;
 
     public String toString() {
-        return "Order ID: " + orderId + "\nDate ordered: " + dateTime + "\nOrder contents: " + orderContents.toString() +
-        "\nShipping speed:" + shippedSpeed; 
+        return "Order ID: " + orderId +
+                "\nDate ordered: " + dateTime +
+                "\nShipping speed: " + shippedSpeed +
+                "\nOrder contents:\n\n" + orderContents.toString();
     }
 }// end class Order
 
@@ -209,7 +210,4 @@ class OrderIdComparator implements Comparator<Order> {
 
         return Integer.compare(priority1, priority2);
     }
-
 }
-
-
