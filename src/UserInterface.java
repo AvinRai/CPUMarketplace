@@ -66,7 +66,7 @@ public class UserInterface {
         int searchOption;
         String searchKey;
         while(!finished1) {
-            System.out.println("Customer Options: ");
+            System.out.println("Manager Options: ");
             System.out.println("1: Search for an order");
             System.out.println("2: View order with highest priority");
             System.out.println("3: View all orders sorted by priority");
@@ -192,7 +192,7 @@ public class UserInterface {
         int searchOption;
         String searchKey;
         while(!finished1) {
-            System.out.println("Customer Options: ");
+            System.out.println("Employee Options: ");
             System.out.println("1: Search for an order");
             System.out.println("2: View order with highest priority");
             System.out.println("3: View all orders sorted by priority");
