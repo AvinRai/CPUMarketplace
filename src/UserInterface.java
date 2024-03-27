@@ -76,9 +76,7 @@ public class UserInterface {
                 searchForOrder();
                 break;
                 case 2:
-                    Order tempOrder = new Order();
-                    tempOrder = orders.getElement(1);
-                    System.out.print(tempOrder.toString());
+                    printHighestPriority()
                 break;
 
                 case 3:
@@ -142,9 +140,7 @@ public class UserInterface {
                 searchForOrder();
                 break;
                 case 2:
-                    Order tempOrder = new Order();
-                    tempOrder = orders.getElement(1);
-                    System.out.print(tempOrder.toString());
+                    printHighestPriority()
                 break;
 
                 case 3:
@@ -278,7 +274,11 @@ public class UserInterface {
         }
 
     }
-
+    private static void printHighestPriority(){
+        Order tempOrder = new Order();
+        tempOrder = orders.getElement(1);
+        System.out.print(tempOrder.toString());
+    }
     /**
      * Prints out a list of all orders sorted by Priority
      */
