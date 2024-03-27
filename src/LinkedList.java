@@ -320,7 +320,7 @@ public class LinkedList<T> {
         StringBuilder result = new StringBuilder();
         Node temp = first;
         while (temp != null){
-            result.append(temp.data + " ");
+            result.append(temp.data);
             temp = temp.next;
         }
 
