@@ -199,17 +199,11 @@ public class Customer extends User {
     //customer interface
     
     public void addOrder(Order order) {
-      unshippedOrders.addLast(order);
+      	unshippedOrders.addLast(order);
     }
     
-    public boolean addShippedOrder() {
-    	//fill in here
-    	return false;
-    }
-    
-    public boolean addUnshippedOrder() {
-    	//fill in here
-    	return false;
+    public void addShippedOrder(Order order) {
+    	shippedOrders.addLast(order);
     }
     
     /**ADDITIONAL OPERATIONS*/
