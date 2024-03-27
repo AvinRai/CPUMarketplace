@@ -283,7 +283,11 @@ public class UserInterface {
      * Prints out a list of all orders sorted by Priority
      */
     public static void viewSortedOrders() {
-        //
+        Heap<Order> copyOfOrders = orders;
+        //call view the highest priority method
+        //remove the highest priority order from copyOfOrders (or copy view high-priority
+        //      method and add deletion at the end)
+        //repeat until all orders are printed
     }
 
     /**
