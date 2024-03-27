@@ -42,6 +42,10 @@ public class UserInterface {
         orders = new Heap<>(new ArrayList(), priorityComparator);
         while (!exit) {
             System.out.println("Welcome to the CPU Store!");
+            if (customers.getNumElements() != 0 && employees.getNumElements() != 0) {
+                customers.clear();
+                employees.clear();
+            }
             inputInfo();
             user = logIn();
             if (user instanceof Customer) {
@@ -66,8 +70,10 @@ public class UserInterface {
             System.out.println("1: Search for an order");
             System.out.println("2: View order with highest priority");
             System.out.println("3: View all orders sorted by priority");
-            System.out.println("4: Ship and order");
-            System.out.println("5: Log out");
+            System.out.println("4: Ship an order");
+            System.out.println("5: Update products");
+            System.out.println("6: Remove products");
+            System.out.println("7: Log out ");
             System.out.print("Please enter your option:  ");
             choice = input.nextInt();
             input.nextLine();
@@ -102,17 +108,79 @@ public class UserInterface {
                     }
                 break;
                 case 5:
-                    //call read to file and quit method
-                    System.out.println("Quiting program. Thanks for choosing Microcenter's CPU Store!");
-                    finished1 = true;
+                    updateProducts();
                 break;
                 case 6:
+                    
                 // System.out.print()
+                break;
+                case 7:
+                    //call read to file and quit method
+                    System.out.println("Quiting program. Thanks for choosing Microcenter's CPU Store!");
+                    finished1 = true;                
                 break;
                 default:
                     System.out.println("Invalid choice. Please try again.\n");
                     break;
             }
+        }
+    }
+
+    
+
+    private static void updateProducts() {
+        System.out.print("1. Add a new cpu\n2. update an existing cpu\nEnter option here: ");
+        int option = Integer.parseInt(input.next());
+        System.out.print("\n");
+
+        switch (option) {
+            case 1:
+                System.out.print("Enter the model name: ");
+                String modelName = input.next();
+                System.out.print("Enter the brand: ");
+                String brandName = input.next();
+                System.out.print("Enter the clockspeed: ");
+                double clockSpeed = Double.parseDouble(input.next());
+                System.out.print("Enter the number of cores: ");
+                int numCores = Integer.parseInt(input.next());
+                System.out.print("Enter the number of threads: ");
+                int numThreads = Integer.parseInt(input.next());
+                System.out.print("Enter the price: ");
+                double price = Double.parseDouble(input.next());
+                System.out.print("Enter the stock: ");
+                int stock = Integer.parseInt(input.next());
+
+                CPU cpuToAdd = new CPU(modelName, brandName, clockSpeed, numCores, numThreads, price, stock);
+                addProduct(cpuToAdd);
+                break;
+            case 2:
+                System.out.print("Enter the model name of the product you wish to modify: ");
+                String nameOfCpuToModify = input.next();
+                CPU cpuToModify = searchForProduct(nameOfCpuToModify);
+                if (cpuToModify != null) {
+                    System.out.print("Which attribute do you wish to change?\n1. Price\n2. Stock\nEnter choice here: ");
+                    int attributeChoice = Integer.parseInt(input.next());
+
+                    switch (attributeChoice) {
+                        case 1:
+
+                            System.out.print("Here is the current price: " + cpuToModify.getPrice() + "\nEnter new price: ");
+                            double newPrice = Double.parseDouble(input.next());
+                            updateProductPrice(cpuToModify, newPrice);
+                            break;
+                        case 2:
+                        System.out.print("Here is the current stock: " + cpuToModify.getStockNum() + "\nEnter new price: ");
+                        int newStockNum = Integer.parseInt(input.next());
+                        updateProductStock(cpuToModify, newStockNum);
+                            break;
+                        default:
+                            break;
+                    }
+                } 
+                break;
+            default:
+            System.out.print("Invalide choice. Please try again.\n");
+                break;
         }
     }
 
@@ -190,7 +258,9 @@ public class UserInterface {
             System.out.print("\n");
             switch (choice) {
                 case 1:
-                if (searchForProduct() != null) {
+                System.out.print("Enter the model name or price of the cpu you are looking for: ");
+                String keyString = input.next();
+                if (searchForProduct(keyString) != null) {
                     System.out.print("Product was found.\n\n");
                 } else {
                     System.out.print("Sorry, we don't carry this product.\n\n");
@@ -377,20 +447,18 @@ public class UserInterface {
      * @param newCPU the CPU to be added
      * @return if the product (CPU) was successfully added
      */
-    public boolean addProduct(CPU newCPU) {
+    public static void addProduct(CPU newCPU) {
         if (!((Employee)user).getIsManager()) {
             System.out.println("Invalid request: Restricted to manager");
-            return false;
+            return;
         }
         cpusByName.insert(newCPU, cpuNameComparator);
         cpusByPrice.insert(newCPU, cpuPriceComparator);
 
         addCpuToFile(newCPU);
-
-        return true;
     }
 
-    private void addCpuToFile(CPU newCPU) {
+    private static void addCpuToFile(CPU newCPU) {
         try {
             FileWriter writer = new FileWriter(new File("Users.txt"), true);
             String lineToAdd = newCPU.getName() + " " + newCPU.getBrand() + " " + newCPU.getClockSpeed() + " " + newCPU.getCores() + " " + newCPU.getThreads() + " " + newCPU.getPrice() + " " + newCPU.getStockNum();
@@ -409,7 +477,7 @@ public class UserInterface {
      * @param updateCPU the CPU to be updated
      * @return if the product (CPU) was successfully updated
      */
-    public boolean updateProductStock(CPU updateCPU, int updateStock) {
+    public static boolean updateProductStock(CPU updateCPU, int updateStock) {
         if (!((Employee)user).getIsManager()) {
             System.out.println("Invalid request: Restricted to manager");
             return false;
@@ -435,7 +503,7 @@ public class UserInterface {
      * @param updateCPU the CPU to be updated
      * @return if the product (CPU) was successfully updated
      */
-    public boolean updateProductPrice(CPU updateCPU, double updatePrice) {
+    public static boolean updateProductPrice(CPU updateCPU, double updatePrice) {
         if (!((Employee)user).getIsManager()) {
             System.out.println("Invalid request: Restricted to manager");
             return false;
@@ -522,9 +590,7 @@ public class UserInterface {
      * Searches for a product depending on the key passed
      * @return the cpu searched for if it exists
      */
-    private static CPU searchForProduct() {
-        System.out.print("Please enter the model name or the price of the cpu you are looking for: ");
-        String key = input.next();
+    private static CPU searchForProduct(String key) {
         CPU cpuToLookFor;
         if (key.matches("\\d{3}\\.\\d{2}")) {
             double price = Double.parseDouble(key);
