@@ -79,16 +79,13 @@ public class UserInterface {
             input.nextLine();
             switch (choice) {
                 case 1:
-                searchForOrder();
-                break;
+                    searchForOrder();
+                    break;
                 case 2:
                     printHighestPriority();
-                break;
-
+                    break;
                 case 3:
-
-                break;
-
+                    break;
                 case 4:
                     finished2 = false;
                     while(!finished2) {
@@ -106,27 +103,24 @@ public class UserInterface {
                             System.out.println("Invalid option. Please try again.");
                         }
                     }
-                break;
+                    break;
                 case 5:
                     updateProducts();
-                break;
+                    break;
                 case 6:
-                    
-                // System.out.print()
-                break;
+                    // System.out.print()
+                    break;
                 case 7:
                     //call read to file and quit method
                     System.out.println("Quiting program. Thanks for choosing Microcenter's CPU Store!");
                     finished1 = true;                
-                break;
+                    break;
                 default:
                     System.out.println("Invalid choice. Please try again.\n");
                     break;
             }
         }
     }
-
-    
 
     private static void updateProducts() {
         System.out.print("1. Add a new cpu\n2. update an existing cpu\nEnter option here: ");
@@ -179,7 +173,7 @@ public class UserInterface {
                 } 
                 break;
             default:
-            System.out.print("Invalide choice. Please try again.\n");
+                System.out.print("Invalide choice. Please try again.\n");
                 break;
         }
     }
