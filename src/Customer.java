@@ -144,6 +144,10 @@ public class Customer extends User {
     public boolean hasUnshippedOrders() {
        return !unshippedOrders.isEmpty();
     }
+	
+    public int getTotalNumOrders() {
+    	return shippedOrders.getLength() + unshippedOrders.getLength();
+    }
     
     /**MUTATORS*/
 
