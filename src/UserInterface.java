@@ -76,7 +76,7 @@ public class UserInterface {
                 searchForOrder();
                 break;
                 case 2:
-                    printHighestPriority()
+                    printHighestPriority();
                 break;
 
                 case 3:
@@ -140,7 +140,7 @@ public class UserInterface {
                 searchForOrder();
                 break;
                 case 2:
-                    printHighestPriority()
+                    printHighestPriority();
                 break;
 
                 case 3:
@@ -284,10 +284,12 @@ public class UserInterface {
      */
     public static void viewSortedOrders() {
         Heap<Order> copyOfOrders = orders;
-        //call view the highest priority method
-        //remove the highest priority order from copyOfOrders (or copy view high-priority
-        //      method and add deletion at the end)
-        //repeat until all orders are printed
+        Order tempOrder;
+        while(copyOfOrders.getHeapSize() != 0) {
+            tempOrder = copyOfOrders.getElement(1);
+            System.out.print(tempOrder.toString());
+            copyOfOrders.remove(1);
+        }
     }
 
     /**
