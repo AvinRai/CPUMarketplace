@@ -1,4 +1,4 @@
-<mxfile host="app.diagrams.net" modified="2024-03-27T23:53:07.639Z" agent="Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/122.0.0.0 Safari/537.36" etag="k7XrOkycXt8PN5nVV3Xe" version="24.0.8" type="github">
+<mxfile host="app.diagrams.net" modified="2024-03-27T23:53:23.839Z" agent="Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/122.0.0.0 Safari/537.36" etag="aHnLgdN-lcDNmD079KEf" version="24.0.8" type="github">
   <diagram name="Page-1" id="VIbLfAjZlDnv_QIKt-9u">
     <mxGraphModel dx="3798" dy="2452" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="850" pageHeight="1100" math="0" shadow="0">
       <root>
@@ -221,7 +221,7 @@
           <mxGeometry y="26" width="130" height="44" as="geometry" />
         </mxCell>
         <mxCell id="gGKqCEldxYjhQT9R2nt3-47" value="UserInterface" style="swimlane;fontStyle=1;align=center;verticalAlign=top;childLayout=stackLayout;horizontal=1;startSize=26;horizontalStack=0;resizeParent=1;resizeParentMax=0;resizeLast=0;collapsible=1;marginBottom=0;whiteSpace=wrap;html=1;" vertex="1" parent="1">
-          <mxGeometry x="-140" y="-250" width="400" height="420" as="geometry" />
+          <mxGeometry x="-140" y="-250" width="400" height="460" as="geometry" />
         </mxCell>
         <mxCell id="gGKqCEldxYjhQT9R2nt3-48" value="&lt;div&gt;- user: User&lt;/div&gt;&lt;div&gt;- cpusByName: BST&amp;lt;CPU&amp;gt;&lt;/div&gt;&lt;div&gt;- cpusByPrice: BST&amp;lt;CPU&amp;gt;&lt;/div&gt;&lt;div&gt;- priorityComparator: PriorityComparator&lt;/div&gt;&lt;div&gt;- orderIdComparator: OrderIdComparator&lt;/div&gt;&lt;div&gt;- cpuNameComparator: CpuNameComparator&lt;/div&gt;&lt;div&gt;- cpuPriceComparator: CpuPriceComparator&lt;/div&gt;&lt;div&gt;- customers: HashTable&amp;lt;Customer&amp;gt;&lt;/div&gt;&lt;div&gt;- employees: HashTable&amp;lt;Employee&amp;gt;&lt;/div&gt;&lt;div&gt;- input: Scanner&lt;/div&gt;&lt;div&gt;- orderCount: int&lt;/div&gt;&lt;div&gt;- SIZE: int&lt;/div&gt;" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=top;spacingLeft=4;spacingRight=4;overflow=hidden;rotatable=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;whiteSpace=wrap;html=1;" vertex="1" parent="gGKqCEldxYjhQT9R2nt3-47">
           <mxGeometry y="26" width="400" height="184" as="geometry" />
@@ -230,7 +230,7 @@
           <mxGeometry y="210" width="400" height="8" as="geometry" />
         </mxCell>
         <mxCell id="gGKqCEldxYjhQT9R2nt3-50" value="&lt;div&gt;+ main(args: String[]): void&lt;/div&gt;&lt;div&gt;- managerInterface(): void&lt;/div&gt;&lt;div&gt;- updateProducts(): void&lt;/div&gt;&lt;div&gt;- employeeInterface(): void&lt;/div&gt;&lt;div&gt;- customerInterface(): void&lt;/div&gt;&lt;div&gt;- shipOrder(orderId: int): boolean&lt;/div&gt;&lt;div&gt;- displayUnshippedOrders(): void&lt;/div&gt;&lt;div&gt;- getShippingSpeedPriority(shippingSpeed: String): int&lt;/div&gt;&lt;div&gt;- searchForOrder(): void&lt;/div&gt;&lt;div&gt;- printHighestPriority(): void&lt;/div&gt;&lt;div&gt;- viewSortedOrders(): void&lt;/div&gt;&lt;div&gt;+ addProduct(newCPU: CPU): void&lt;/div&gt;&lt;div&gt;- addCpuToFile(newCPU: CPU): void&lt;/div&gt;&lt;div&gt;+ updateProductStock(updateCPU: CPU, updateStock: int): boolean&lt;/div&gt;&lt;div&gt;+ updateProductPrice(updateCPU: CPU, updatePrice: double): boolean&lt;/div&gt;&lt;div&gt;+ removeProduct(removeCPU: CPU): boolean&lt;/div&gt;&lt;div&gt;+ placeOrder(): void&lt;/div&gt;&lt;div&gt;- searchForProduct(key: String): CPU&lt;/div&gt;&lt;div&gt;- viewShippedOrders(): void&lt;/div&gt;&lt;div&gt;- viewUnshippedOrders(): void&lt;/div&gt;&lt;div&gt;- logIn(): User&lt;/div&gt;&lt;div&gt;- addCustomerToFile(newCustomer: Customer): void&lt;/div&gt;&lt;div&gt;- writeToCPUsFile(): void&lt;/div&gt;&lt;div&gt;- writeToUserFile(): void&lt;/div&gt;&lt;div&gt;- inputInfo(): void&lt;/div&gt;" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=top;spacingLeft=4;spacingRight=4;overflow=hidden;rotatable=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;whiteSpace=wrap;html=1;" vertex="1" parent="gGKqCEldxYjhQT9R2nt3-47">
-          <mxGeometry y="218" width="400" height="202" as="geometry" />
+          <mxGeometry y="218" width="400" height="242" as="geometry" />
         </mxCell>
         <mxCell id="gGKqCEldxYjhQT9R2nt3-52" value="Extends" style="endArrow=block;endSize=16;endFill=0;html=1;rounded=0;entryX=1;entryY=0.5;entryDx=0;entryDy=0;exitX=0;exitY=0.5;exitDx=0;exitDy=0;" edge="1" parent="1" source="pu-xaRb8zsEWkZCLDYAN-28" target="Vfc2U9rWQ-liJhO9Auyf-12">
           <mxGeometry width="160" relative="1" as="geometry">
