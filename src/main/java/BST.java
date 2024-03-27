@@ -249,19 +249,21 @@ public class BST<T> {
      * @return the data stored in that Node of the tree, otherwise null.
      */
     private T search(T data, Node node, Comparator<T> cmp) {
-        if (cmp.compare(data, node.data) == 0){
-            return data;
+        if (cmp.compare(data, node.data) == 0) {
+        	return node.data;
         }
-        if (cmp.compare(data, node.data) < 0) {
-            if (node.left == null) {
-                return null;
-            }
-            return search(data, node.left, cmp);
+        if ((cmp.compare(data, node.data)) < 0) {
+        	if (node.left == null) {
+        		return null;
+        	} else {
+        		return search(data, node.left, cmp);
+        	}
         } else {
-            if (node.right == null) {
-                return null;
-            }
-            return search(data, node.right, cmp);
+        	if (node.right == null) {
+        		return null;
+        	} else {
+        		return search(data, node.right, cmp);
+        	}
         }
     }
 

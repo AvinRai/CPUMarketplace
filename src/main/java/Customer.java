@@ -4,7 +4,6 @@
  */
 
 import java.time.LocalDateTime;
-import java.util.LinkedList;
 //import order package/class, add later
 
 public class Customer extends User {
@@ -12,7 +11,6 @@ public class Customer extends User {
 	private String city;
 	private String state;
 	private String zip;
-    private int orderCount = 0;
 	private LinkedList<Order> shippedOrders;
 	private LinkedList<Order> unshippedOrders;
 	
@@ -81,7 +79,7 @@ public class Customer extends User {
         */
     }
 	
-    /**ACCESSORS*/
+    /*ACCESSORS*/
 
     /**
      * Accesses the Customer address
@@ -200,19 +198,12 @@ public class Customer extends User {
     //will update the below methods as needed, may need different methods depending
     //customer interface
     
-    public boolean addOrder() {
-    	//fill in here
-    	return false;
+    public void addOrder(Order order) {
+      	unshippedOrders.addLast(order);
     }
     
-    public boolean addShippedOrder() {
-    	//fill in here
-    	return false;
-    }
-    
-    public boolean addUnshippedOrder() {
-    	//fill in here
-    	return false;
+    public void addShippedOrder(Order order) {
+    	shippedOrders.addLast(order);
     }
     
     /**ADDITIONAL OPERATIONS*/
@@ -241,29 +232,19 @@ public class Customer extends User {
     	sb.append("\nUnshipped Orders\n" + unshippedOrders.toString());
         return sb.toString();
     }
-    /**
-     * Creates a new order
-     * @param shippedSpeed the type of shippingSpeed
-     *                     
-     */
-    public void placeOrders(String shippedSpeed, String orderContents) {
-        orderCount++;
-        Order newOrder = new Order(orderCount, this, orderContents, shippedSpeed);
-        //add the order to heap of orders
-    }
 
     /**
      * Prints out all the Customer shipped orders.
      */
-    public void printShippedOrders() {
-       System.out.print(shippedOrders.toString());
+    public String printShippedOrders() {
+       return shippedOrders.toString();
     }
 
     /**
      * Prints out all the Customer unshipped orders.
      */
-    public void printUnshippedOrders() {
-        System.out.print(unshippedOrders.toString());
+    public String printUnshippedOrders() {
+      return unshippedOrders.toString();
     }
 
     /**

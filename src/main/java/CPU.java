@@ -46,6 +46,14 @@ public class CPU {
         this.price = price;
         this.stock = stock;
     }
+
+    public CPU(double price) {
+        this.price = price;
+    }
+
+    public CPU(String name) {
+        this.name = name;
+    }
     /**ACCESSORS */
 
     /**
@@ -62,6 +70,18 @@ public class CPU {
      */
     public String getBrand() {
         return this.brand;
+    }
+
+    public double getClockSpeed() {
+        return this.clockSpeed;
+    }
+
+    public int getCores() {
+        return this.cores;
+    }
+    
+    public int getThreads() {
+        return this.threads;
     }
 
     /**
@@ -113,7 +133,7 @@ public class CPU {
                 "\nCores: " + cores +
                 "\nThreads: " + threads +
                 "\nPrice: $" + String.format("%.2f", price) +
-                "\nStock: " + stock;
+                "\nStock: " + stock + "\n";
         return result + "\n";
     }
 

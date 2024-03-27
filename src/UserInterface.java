@@ -3,43 +3,58 @@
  * @author DSA Team 1
  * Team 1 Final Project
  */
+import java.io.BufferedWriter;
 import java.io.File;
 import java.io.FileNotFoundException;
+import java.io.FileWriter;
+import java.io.IOException;
+import java.util.ArrayList;
 import java.util.Scanner;
 
 public class UserInterface {
+
+    static User user;
+    static BST<CPU> cpusByName;
+    static BST<CPU> cpusByPrice;
+    static PriorityComparator priorityComparator;
+    static OrderIdComparator orderIdComparator;
+    static CpuNameComparator cpuNameComparator;
+    static CpuPriceComparator cpuPriceComparator;
+    static HashTable<Customer> customers;
+    static HashTable<Employee> employees;
+    static Scanner input;
+    static int orderCount; //calculated when read
+    static final int SIZE = 100;
+    static int orderID = 0;
+    static Heap<Order> orders;
+    static boolean exit = false;
+
     public static void main(String[] args) {
-        final int SIZE = 100;
-        Scanner input = new Scanner(System.in);
-        HashTable<Customer> customers = new HashTable<>(SIZE);
-        HashTable<Employee> employees = new HashTable<>(SIZE);
-        CustomerUsernameComparator customerUsernameComparator = new CustomerUsernameComparator();
-        PriorityComparator priorityComparator = new PriorityComparator();
-        OrderIdComparator orderIdComparator = new OrderIdComparator();
-        CpuNameComparator cpuNameComparator = new CpuNameComparator();
-        CpuPriceComparator cpuPriceComparator = new CpuPriceComparator();
-        BST<CPU> cpusByName = new BST<>();
-        BST<CPU> cpusByPrice = new BST<>();
-        System.out.println("Welcome to the CPU Store!");
-        inputInfo(customers, employees, cpusByName, cpusByPrice, cpuNameComparator, cpuPriceComparator);
-        User user = logIn(input, customers, employees);
-        System.out.println(user);
-        if (user instanceof Customer) {
-            customerInterface(cpusByName, cpusByPrice, user, input);
-        } else if (user instanceof Employee) {
-            employeeInterface(cpusByName, cpusByPrice, user, input);
+        input = new Scanner(System.in);
+        customers = new HashTable<>(SIZE);
+        employees = new HashTable<>(SIZE);
+        priorityComparator = new PriorityComparator();
+        orderIdComparator = new OrderIdComparator();
+        cpuNameComparator = new CpuNameComparator();
+        cpuPriceComparator = new CpuPriceComparator();
+        cpusByName = new BST<>();
+        cpusByPrice = new BST<>();
+        orders = new Heap<>(new ArrayList(), priorityComparator);
+        while (!exit) {
+            System.out.println("Welcome to the CPU Store!");
+            inputInfo();
+            user = logIn();
+            if (user instanceof Customer) {
+                customerInterface();
+            } else if (user instanceof Employee && ((Employee)user).getIsManager()) {
+                managerInterface();
+            } else if (user instanceof Employee ) {
+                employeeInterface();
+            }
         }
     }
 
-    /**
-     * Interface for Employee Users
-     *
-     * @param cpusByName  BST of cpus sorted by name
-     * @param cpusByPrice BST of cpus sorted by cpusByPrice
-     * @param user of current user
-     * @param input to read user input
-     */
-    private static void employeeInterface(BST<CPU> cpusByName, BST<CPU> cpusByPrice, User user, Scanner input) {
+    private static void managerInterface() {
         System.out.println("Welcome to Microcenter's CPU store!");
         boolean finished1 = false;
         boolean finished2;
@@ -47,49 +62,90 @@ public class UserInterface {
         int searchOption;
         String searchKey;
         while(!finished1) {
-            System.out.println("Customer Options: ");
-            System.out.println("1: Search for a product");
-            System.out.println("2: List Database of Products");
-            System.out.println("3: Place an order");
-            System.out.println("4: View Purchases");
-            System.out.println("5: Quit/Finish ");
+            System.out.println("Manager Options: ");
+            System.out.println("1: Search for an order");
+            System.out.println("2: View order with highest priority");
+            System.out.println("3: View all orders sorted by priority");
+            System.out.println("4: Ship and order");
+            System.out.println("5: Log out");
             System.out.print("Please enter your option:  ");
             choice = input.nextInt();
             input.nextLine();
             switch (choice) {
                 case 1:
-                    //call method for search product
-
+                searchForOrder();
+                break;
                 case 2:
-                    //call method to list database of products
+                    System.out.print(cpusByName.inOrderString());
+                break;
 
                 case 3:
+
+                break;
+
+                case 4:
                     finished2 = false;
                     while(!finished2) {
-                        System.out.println("Place Order Options:\n1: Search by order id\n2: Search by customer name");
+                        System.out.println("View Purchases Options:\n1: View Shipped orders\n2: View Unshipped orders");
                         System.out.print("Please enter the number of your option: ");
                         searchOption = input.nextInt();
                         input.nextLine();
-                        switch(searchOption) {
-                            case 1:
-                            case 2:
-                            case 3:
-                            case 4:
-                            case 5:
-                            case 6:
-                            case 7:
-                            case 8:
-                            case 9:
-                            case 10:
-                            case 11:
-                            case 12:
-                            case 13:
-                            case 14:
-                            case 15:
-                            default:
+                        if (searchOption == 1) {
+                            //call method for view shipped orders
+                            finished2 = true;
+                        } else if (searchOption == 2) {
+                            //call method for view unshipped orders
+                            finished2 = true;
+                        } else {
+                            System.out.println("Invalid option. Please try again.");
                         }
                     }
-                    //call method to place order
+                break;
+                case 5:
+                    //call read to file and quit method
+                    System.out.println("Quiting program. Thanks for choosing Microcenter's CPU Store!");
+                    finished1 = true;
+                break;
+                case 6:
+                // System.out.print()
+                break;
+                default:
+                    System.out.println("Invalid choice. Please try again.\n");
+            }
+        }
+    }
+
+    /**
+     * Runs interface for Employee Users
+     */
+    private static void employeeInterface() {
+        System.out.println("Welcome to Microcenter's CPU store!");
+        boolean finished1 = false;
+        boolean finished2;
+        int choice;
+        int searchOption;
+        String searchKey;
+        while(!finished1) {
+            System.out.println("Employee Options: ");
+            System.out.println("1: Search for an order");
+            System.out.println("2: View order with highest priority");
+            System.out.println("3: View all orders sorted by priority");
+            System.out.println("4: Ship and order");
+            System.out.println("5: Log out ");
+            System.out.print("Please enter your option:  ");
+            choice = input.nextInt();
+            input.nextLine();
+            switch (choice) {
+                case 1:
+                searchForOrder();
+                break;
+                case 2:
+                    System.out.print(cpusByName.inOrderString());
+                break;
+
+                case 3:
+
+                break;
 
                 case 4:
                     finished2 = false;
@@ -121,62 +177,61 @@ public class UserInterface {
     }
 
     /**
-     * Interface for Customer Users
-     *
-     * @param cpusByName  BST of cpus sorted by name
-     * @param cpusByPrice BST of cpus sorted by price
-     * @param user of current user
-     * @param input to read user input
+     * Runs interface for Customer Users
      */
-    private static void customerInterface(BST<CPU> cpusByName, BST<CPU> cpusByPrice, User user, Scanner input) {
-        System.out.println("Welcome to Microcenter's CPU store!");
-        boolean finish = false;
+    private static void customerInterface() {
+        System.out.println("Welcome to Microcenter's CPU store!\n");
+        boolean finished1 = false;
+        boolean finished2;
         int choice;
         int searchOption;
         String searchKey;
-        while(!finish) {
-            System.out.println("Employee Options: ");
-            System.out.println("1: Search for an order");
-            System.out.println("2: View order with the highest priority");
-            System.out.println("3: View all orders sorted by priority");
-            System.out.println("4: ship an order");
-            System.out.println("5: Quit/Finish");
-            System.out.print("Please enter your option: ");
+        while(!finished1) {
+            System.out.println("Customer Options: ");
+            System.out.println("1: Search for a product");
+            System.out.println("2: List Database of Products");
+            System.out.println("3: Place an order");
+            System.out.println("4: View Purchases");
+            System.out.println("5: Log out ");
+            System.out.print("\nPlease enter your option: ");
             choice = input.nextInt();
             input.nextLine();
+            System.out.print("\n");
             switch (choice) {
                 case 1:
-                    boolean finished1 = false;
-                    while(!finished1) {
-                        System.out.println("Order Search Options:\n1: Search by order id\n2: Search by customer name");
+                if (searchForProduct() != null) {
+                    System.out.print("Product was found.\n\n");
+                } else {
+                    System.out.print("Sorry, we don't carry this product.\n\n");
+                }
+                break;
+                case 2:
+                    System.out.print(cpusByName.inOrderString());
+                    break;
+                case 3:
+                    placeOrder();
+                    break;
+                case 4:
+                        System.out.println("View Purchases Options:\n1: View Shipped orders\n2: View Unshipped orders");
                         System.out.print("Please enter the number of your option: ");
                         searchOption = input.nextInt();
                         input.nextLine();
+                        System.out.print("\n\n");
                         if (searchOption == 1) {
-                            System.out.print("Please enter the id of the order you are searching for: ");
-                            searchKey = input.nextLine();
-                            //call method for search order
-                            finished1 = true;
+                            viewShippedOrders();
                         } else if (searchOption == 2) {
-                            //call method for search order using user.getFirstName() and user.getFirstName()
-                            finished1 = true;
+                            viewUnshippedOrders();
                         } else {
                             System.out.println("Invalid option. Please try again.");
                         }
-                    }
-
-                case 2:
-                    //call method of view order with highest priority
-
-                case 3:
-                    //call method of view all orders sorted by priority
-
-                case 4:
-                    //call method to ship order
+                        break;
+                    //call method to view purchases
                 case 5:
                     //call read to file and quit method
-                    System.out.println("Quiting program. See you next time!");
-                    finish = true;
+                    System.out.println("Quiting program. Thanks for choosing Microcenter's CPU Store!");
+                    finished1 = true;
+                    break;
+
 
                 default:
                     System.out.println("Invalid choice. Please try again.\n");
@@ -184,132 +239,262 @@ public class UserInterface {
         }
     }
 
+    /***EMPLOYEE METHODS***/
+
+    private static void searchForOrder() {
+        System.out.print("Search options:\n\n1. Search by order id\n2. Search by customer first and last name\nEnter choice: ");
+        int searchOption = Integer.parseInt(input.next());
+
+        switch (searchOption) {
+            case 1:
+                //Search for order with order ID
+                // System.out.print("Enter order ID: "); 
+                // int orderID = Integer.parseInt(input.next());
+                // orders.getElement(orderID);
+                break;
+            case 2:
+                System.out.print("Enter the customer's first name: ");
+                String firstName = input.next();
+                System.out.print("Enter the customer's last name: ");
+                String lastName = input.next();
+                Customer customerToSearchFor = new Customer(firstName, lastName, null, null);
+                
+                for (int i = 1; i < orders.getHeapSize() + 1; i++) {
+                    Customer temp = orders.getElement(i).getCustomer();
+
+                    if (temp.getFirstName().compareTo(firstName) == 0 && temp.getLastName().compareTo(lastName) == 0) {
+                        System.out.print(temp.printUnshippedOrders());
+                        System.out.print(temp.printShippedOrders());
+                    } 
+                }
+                break;
+            default:
+                System.out.print("Invalid input. Please try again.");
+                break;
+        }
+
+    }
+
     /**
      * Updates the CPU BSTs to include a new product
-     * @param emp current employee user
      * @param newCPU the CPU to be added
-     * @param cpusByName BST of cpus sorted by name
-     * @param cpusByPrice BST of cpus sorted by price
-     * @param cmpName compares CPUs by name
-     * @param cmpPrice compares CPUs by price
      * @return if the product (CPU) was successfully added
      */
-    public boolean addProduct(Employee emp, CPU newCPU, BST<CPU> cpusByName, BST<CPU> cpusByPrice,
-                              CpuNameComparator cmpName, CpuPriceComparator cmpPrice) {
-        if (!emp.getIsManager()) {
+    public boolean addProduct(CPU newCPU) {
+        if (!((Employee)user).getIsManager()) {
             System.out.println("Invalid request: Restricted to manager");
             return false;
         }
-        cpusByName.insert(newCPU, cmpName);
-        cpusByPrice.insert(newCPU, cmpPrice);
+        cpusByName.insert(newCPU, cpuNameComparator);
+        cpusByPrice.insert(newCPU, cpuPriceComparator);
+
+        addCpuToFile(newCPU);
+
         return true;
+    }
+
+    private void addCpuToFile(CPU newCPU) {
+        try {
+            FileWriter writer = new FileWriter(new File("Users.txt"), true);
+            String lineToAdd = newCPU.getName() + " " + newCPU.getBrand() + " " + newCPU.getClockSpeed() + " " + newCPU.getCores() + " " + newCPU.getThreads() + " " + newCPU.getPrice() + " " + newCPU.getStockNum();
+            writer.write("\n" + lineToAdd);
+            writer.close();
+
+        } catch (IOException e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+        }
+  
     }
 
     /**
      * Updates an existing product's stock in the CPU BSTs
-     * @param emp current employee
      * @param updateCPU the CPU to be updated
-     * @param cpusByName BST of cpus sorted by name
-     * @param cpusByPrice BST of cpus sorted by price
-     * @param cmpName compares CPUs by name
-     * @param cmpPrice compares CPUs by price
      * @return if the product (CPU) was successfully updated
      */
-
-    public boolean updateProductStock(Employee emp, CPU updateCPU, int updateStock, BST<CPU> cpusByName,
-                                      BST<CPU> cpusByPrice, CpuNameComparator cmpName, CpuPriceComparator cmpPrice) {
-        if (!emp.getIsManager()) {
+    public boolean updateProductStock(CPU updateCPU, int updateStock) {
+        if (!((Employee)user).getIsManager()) {
             System.out.println("Invalid request: Restricted to manager");
             return false;
         }
-        if (cpusByName.search(updateCPU, cmpName) == null) {
+        if (cpusByName.search(updateCPU, cpuNameComparator) == null) {
             System.out.println("Invalid request: The CPU Store does not carry this product");
             return false;
         }
-        CPU tempCPU = cpusByName.search(updateCPU, cmpName);
+        CPU tempCPU = cpusByName.search(updateCPU, cpuNameComparator);
 
-        cpusByName.remove(updateCPU, cmpName);
-        cpusByPrice.remove(updateCPU, cmpPrice);
+        cpusByName.remove(updateCPU, cpuNameComparator);
+        cpusByPrice.remove(updateCPU, cpuPriceComparator);
 
         tempCPU.updateStock(updateStock); //need to add updateStock() method to CPU class, written below
 
-        cpusByName.insert(tempCPU, cmpName);
-        cpusByPrice.insert(tempCPU, cmpPrice);
+        cpusByName.insert(tempCPU, cpuNameComparator);
+        cpusByPrice.insert(tempCPU, cpuPriceComparator);
         return true;
     }
 
     /**
      * Updates an existing product's price in the CPU BSTs
-     * @param emp current employee
      * @param updateCPU the CPU to be updated
-     * @param cpusByName BST of cpus sorted by name
-     * @param cpusByPrice BST of cpus sorted by price
-     * @param cmpName compares CPUs by name
-     * @param cmpPrice compares CPUs by price
      * @return if the product (CPU) was successfully updated
      */
-    public boolean updateProductPrice(Employee emp, CPU updateCPU, double updatePrice, BST<CPU> cpusByName,
-                                      BST<CPU> cpusByPrice, CpuNameComparator cmpName, CpuPriceComparator cmpPrice) {
-        if (!emp.getIsManager()) {
+    public boolean updateProductPrice(CPU updateCPU, double updatePrice) {
+        if (!((Employee)user).getIsManager()) {
             System.out.println("Invalid request: Restricted to manager");
             return false;
         }
-        if (cpusByName.search(updateCPU, cmpName) == null) {
+        if (cpusByName.search(updateCPU, cpuNameComparator) == null) {
             System.out.println("Invalid request: The CPU Store does not carry this product");
             return false;
         }
-        CPU tempCPU = cpusByName.search(updateCPU, cmpName);
+        CPU tempCPU = cpusByName.search(updateCPU, cpuNameComparator);
 
-        cpusByName.remove(updateCPU, cmpName);
-        cpusByPrice.remove(updateCPU, cmpPrice);
+        cpusByName.remove(updateCPU, cpuNameComparator);
+        cpusByPrice.remove(updateCPU, cpuPriceComparator);
 
         tempCPU.updatePrice(updatePrice); //need to add setters to CPU class
 
-        cpusByName.insert(tempCPU, cmpName);
-        cpusByPrice.insert(tempCPU, cmpPrice);
+        cpusByName.insert(tempCPU, cpuNameComparator);
+        cpusByPrice.insert(tempCPU, cpuPriceComparator);
         return true;
     }
 
     /**
      * Updates the CPU BSTs to remove a product
-     * @param emp current employee
      * @param removeCPU the CPU to be removed
-     * @param cpusByName BST of cpus sorted by name
-     * @param cpusByPrice BST of cpus sorted by price
-     * @param cmpName compares CPUs by name
-     * @param cmpPrice compares CPUs by price
      * @return if the product (CPU) was successfully removed
      */
-    public boolean removeProduct(Employee emp, CPU removeCPU, BST<CPU> cpusByName, BST<CPU> cpusByPrice,
-                                 CpuNameComparator cmpName, CpuPriceComparator cmpPrice) {
-        if (!emp.getIsManager()) {
+    public boolean removeProduct(CPU removeCPU) {
+        if (!((Employee) user).getIsManager()) {
             System.out.println("Invalid request: Restricted to manager");
             return false;
         }
-        if (cpusByName.search(removeCPU, cmpName) == null) {
+        if (cpusByName.search(removeCPU, cpuNameComparator) == null) {
             System.out.println("Invalid request: The CPU Store does not carry this product");
             return false;
         }
-        cpusByName.remove(removeCPU, cmpName);
-        cpusByPrice.remove(removeCPU, cmpPrice);
+        cpusByName.remove(removeCPU, cpuNameComparator);
+        cpusByPrice.remove(removeCPU, cpuPriceComparator);
         return true;
     }
 
+    /***CUSTOMER METHODS***/
+
+    /**
+     * Creates a new order
+     * @param shippedSpeed the type of shippingSpeed
+     *
+     */
+    public static void placeOrder() {
+        //orderCount++;
+        // Order newOrder = new Order(orderCount, this, orderContents, shippedSpeed);
+        //add the order to heap of orders
+       // System.out.print("")
+       System.out.print(cpusByName.inOrderString());
+       System.out.print("Please enter the name of the product you wish to purchase: ");
+       String itemName = input.next();
+       CPU cpuForSearch = new CPU(itemName);
+       CPU returnedCpu = cpusByName.search(cpuForSearch, cpuNameComparator);
+       if (returnedCpu == null) {
+            System.out.print("Item not found. Please try again.");
+       } else {
+            System.out.print("Item found. What quantity do you wish to purchase? Only " + returnedCpu.getStockNum() + " remain.\nEnter the quantity: ");
+            int quantity = Integer.parseInt(input.next()); 
+            LinkedList<CPU> orderContents = new LinkedList<>();
+            for (int i = 0; i < quantity; i++) {
+                orderContents.addLast(returnedCpu);
+            }
+            System.out.print("Please select a shipping option (standard, rush, overnight):");
+            String shippingOption = input.next();
+            Order order = new Order(orderID, (Customer) user, orderContents, shippingOption);
+            ((Customer) user).addOrder(order);
+            orders.insert(order);
+            returnedCpu.updateStock(-1 * quantity);
+            orderID++;
+            System.out.print("Order has been successfully placed.\n\n");
+       }
+    }
+
+    /**
+     * Searches for a product depending on the key passed
+     * @return the cpu searched for if it exists
+     */
+    private static CPU searchForProduct() {
+        System.out.print("Please enter the model name or the price of the cpu you are looking for: ");
+        String key = input.next();
+        CPU cpuToLookFor;
+        if (key.matches("\\d{3}\\.\\d{2}")) {
+            double price = Double.parseDouble(key);
+            cpuToLookFor = new CPU(price);
+        } else {
+            cpuToLookFor = new CPU(key);
+        }
+
+        CPU findByName = cpusByName.search(cpuToLookFor, cpuNameComparator);
+        CPU findByValue = cpusByName.search(cpuToLookFor, cpuPriceComparator);
+
+        if (findByName != null) {
+            return findByName;
+        } else if (findByValue != null) {
+            return findByValue;
+        } else {
+            return null;
+        }
+
+
+    }
+
+    /**
+     * Views shipped orders
+     * @postcondition prints a list of user's current shipped orders
+     */
+    private static void viewShippedOrders() {
+        try {
+            LinkedList<Order> shipped = ((Customer) user).getShippedOrders();
+            shipped.positionIterator();
+            for (int i = 0; i < shipped.getLength(); i++) {
+                System.out.println(shipped.getIterator());
+                shipped.advanceIterator();
+            }
+        } catch (NullPointerException e) {
+            System.out.println("No shipped orders!");
+        }
+    }
+
+    /**
+     * Views unshipped orders
+     * @postcondition prints a list of user's current unshipped orders
+     */
+    private static void viewUnshippedOrders() {
+        try {
+            LinkedList<Order> shipped = ((Customer) user).getUnshippedOrders();
+            shipped.positionIterator();
+            for (int i = 0; i < shipped.getLength(); i++) {
+                System.out.println(shipped.getIterator());
+                shipped.advanceIterator();
+            }
+        } catch (NullPointerException e) {
+            System.out.println("No unshipped orders!");
+        }
+    }
+
+
+
+    /***ADDITIONAL METHODS***/
+
     /**
      * Prompt the user to login
-     * @param input to read user input
-     * @param customers hashtable of customers
-     * @param employees hashtable of employees
      * @postcondition enable the user to log in or register/sign in as guest
      */
-    private static User logIn(Scanner input, HashTable<Customer> customers, HashTable<Employee> employees) {
+    private static User logIn() {
         int choice;
-        while (true) {
+        while (!exit) {
             System.out.println("\nLogin options: ");
             System.out.println("1. Login as a Customer");
             System.out.println("2. Create a new Customer account");
             System.out.println("3. Login as a Guest");
             System.out.println("4. Login as an Employee or Manager");
+            System.out.println("5. Exit program");
             System.out.print("\nPlease select an option: ");
 
             choice = input.nextInt();
@@ -324,7 +509,7 @@ public class UserInterface {
 
                     Customer customer = customers.get(new Customer(null, null, username, password));
                     if (customer != null) {
-                        System.out.println("Login successful!");
+                        System.out.println("Login successful!\n");
                         return customer;
                     } else {
                         System.out.println("Invalid username or password.");
@@ -342,12 +527,13 @@ public class UserInterface {
                     String newPassword = input.nextLine();
 
                     Customer newCustomer = new Customer(firstName, lastName, newUsername, newPassword);
+                    addCustomerToFile(newCustomer);
                     customers.add(newCustomer);
-                    System.out.println("New customer account created successfully!");
+                    System.out.println("New customer account created successfully!\n");
                     return newCustomer;
 
                 case 3:
-                    System.out.println("Logged in as a Guest.");
+                    System.out.println("Logged in as a Guest.\n");
                     return new Customer("Guest", "abc123");
 
                 case 4:
@@ -358,31 +544,44 @@ public class UserInterface {
 
                     Employee employee = employees.get(new Employee(null, null, employeeUsername, employeePassword));
                     if (employee != null) {
-                        System.out.println("Login successful!");
+                        System.out.println("Login successful!\n");
                         return employee;
                     } else {
                         System.out.println("Invalid username or password.");
                         continue;
                     }
-
+                case 5:
+                    exit = true;
+                    break;
                 default:
                     System.out.println("Invalid choice.");
             }
         }
+        return null;
+    }
+
+    private static void addCustomerToFile(Customer newCustomer) {
+        try {
+            FileWriter writer = new FileWriter(new File("Users.txt"), true);
+            String lineToAdd = "C " + newCustomer.getFirstName() + " " 
+            + newCustomer.getLastName() 
+            + " " + newCustomer.getUsername() 
+            + " " + newCustomer.getPassword();
+            writer.write("\n" + lineToAdd);
+            writer.close();
+
+        } catch (IOException e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+        }
+  
     }
 
     /**
      * Read from CPUs.txt and Users.txt
-     *
-     * @param customers hash table of customers
-     * @param employees hash table of employees
-     * @param cpusByName BST of cpus sorted by name
-     * @param cpusByPrice BST of cpus sorted by price
-     * @param cpuNameComparator compares CPUs by name
-     * @param cpuPriceComparator compares CPUs by price
+     * @postcondition all information from CPUs.txt and Users.txt is inputted
      */
-    private static void inputInfo(HashTable<Customer> customers, HashTable<Employee> employees,
-                                  BST<CPU> cpusByName, BST<CPU> cpusByPrice, CpuNameComparator cpuNameComparator, CpuPriceComparator cpuPriceComparator) {
+    private static void inputInfo() {
         String firstName, lastName, username, password, cpuName, brand;
         int cores, threads, stock;
         double clockSpeed, price;
@@ -428,27 +627,5 @@ public class UserInterface {
         } catch (FileNotFoundException e) {
             throw new RuntimeException(e);
         }
-    }
-
-    /**
-     * Searches for a product depending on the key passed
-     * @param cpusByName the cpus available
-     * @param key the key provided. either the model name or the price
-     * @param cpuNameComparator compares CPUs by name
-     * @param cpuPriceComparator compares CPUs by price
-     * @return the cpu searched for if it exists
-     */
-    private static CPU searchForProduct(BST<CPU> cpusByName, CPU key, CpuNameComparator cpuNameComparator, CpuPriceComparator cpuPriceComparator) {
-        CPU findByName = cpusByName.search(key, cpuNameComparator);
-        CPU findByValue = cpusByName.search(key, cpuPriceComparator);
-
-        if (findByName != null) {
-            return findByName;
-        } else if (findByValue != null) {
-            return findByValue;
-        } else {
-            return null;
-        }
-
     }
 }
