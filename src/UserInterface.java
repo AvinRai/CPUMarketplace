@@ -344,6 +344,13 @@ public class UserInterface {
     }
 
     /**
+     * Prints out a list of all orders sorted by Priority
+     */
+    public static void viewSortedOrders() {
+        //
+    }
+
+    /**
      * Updates the CPU BSTs to include a new product
      * @param newCPU the CPU to be added
      * @return if the product (CPU) was successfully added
@@ -448,8 +455,6 @@ public class UserInterface {
 
     /**
      * Creates a new order
-     * @param shippedSpeed the type of shippingSpeed
-     *
      */
     public static void placeOrder() {
         //orderCount++;
