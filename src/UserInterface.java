@@ -266,7 +266,19 @@ public class UserInterface {
                 }
                 break;
                 case 2:
-                    System.out.print(cpusByName.inOrderString());
+                        System.out.print("List by: 1. Name 2. Price\nEnter choice: ");
+                        int listByChoice = Integer.parseInt(input.next());
+                        switch (listByChoice) {
+                            case 1:
+                                    System.out.print(cpusByName.inOrderString());       
+                                break;
+                            case 2:
+                                    System.out.print(cpusByPrice.inOrderString());
+                                break;
+                            default:
+                                    System.out.print("Invalid choice. Please try again.");
+                                break;
+                        }
                     break;
                 case 3:
                     placeOrder();
@@ -391,16 +403,6 @@ public class UserInterface {
 
         switch (searchOption) {
             case 1:
-                // // Search for order with order ID
-                // System.out.print("Enter order ID: "); 
-                // int orderID = Integer.parseInt(input.next());
-                // for (int i = 1; i < orders.getHeapSize() + 1; i++) {
-                //     Order orderToCheck = orders.getElement(i);
-                //     if (orderToCheck.getOrderId() == orderID) {
-                //         System.out.print("Order found! Order information:\n\n");
-                //         System.out.print(orderToCheck.toString());
-                //     }
-                // }
                 System.out.print("Enter order ID: "); 
                 int orderID = Integer.parseInt(input.next());
                 for (int i = 0; i < SIZE; i++) {
@@ -944,10 +946,12 @@ public class UserInterface {
                 		Order newOrder = new Order (foundOrderID, customer, orderContents, shippingSpeed);
                 		if (shippingStatus.equalsIgnoreCase("shipped")) {
                 			customer.addShippedOrder(newOrder);
+                            orderID++;
                 		}
                 		else {
                 			customer.addOrder(newOrder);
                 			orders.insert(newOrder);
+                            orderID++;
                 		}
                 	}
                 	customers.add(customer);

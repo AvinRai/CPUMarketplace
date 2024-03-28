@@ -20,16 +20,6 @@ Virginia
 62126
 0
 C
-steve
-jobs
-job12
-appleOne
-address unknown
-city unknown
-state unknown
-zip unknown
-0
-C
 John
 Adams
 johnadams
@@ -38,7 +28,12 @@ secondpres1735
 Brookline
 Massachusetts
 84555
-0
+1
+unshipped
+1
+1
+i9-13900KS
+rush
 C
 George
 Washington
@@ -48,24 +43,11 @@ firstpresident32
 Westmoreland County
 Virginia
 67980
-3
-shipped
+1
+unshipped
 0
 1
-i5-12600K
-rush
-unshipped
-0
-2
-i9-13900KS
-i9-13900KS
-overnight
-unshipped
-0
-3
-i7-12700K
-i7-12700K
-i7-12700K
+i9-14900K
 standard
 C
 Abraham
