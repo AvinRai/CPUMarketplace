@@ -75,6 +75,7 @@ public class UserInterface {
             System.out.println("4: Ship an order");
             System.out.println("5: Update products");
             System.out.println("6: Remove products");
+            System.out.println("7: Quit and write to files");
             System.out.print("Please enter your option:  ");
             choice = input.nextInt();
             input.nextLine();
@@ -109,7 +110,12 @@ public class UserInterface {
                     updateProducts();
                     break;
                 case 6:
-                    // System.out.print()
+                    System.out.print("Enter the model name of cpu to remove: ");
+                    String cpuNameToRemove = input.next();
+                    CPU cpuToRemove = searchForProduct(cpuNameToRemove);
+                    break;
+                case 7:
+                    finished1 = true;
                     break;
                 default:
                     System.out.println("Invalid choice. Please try again.\n");
@@ -159,7 +165,7 @@ public class UserInterface {
                             updateProductPrice(cpuToModify, newPrice);
                             break;
                         case 2:
-                        System.out.print("Here is the current stock: " + cpuToModify.getStockNum() + "\nEnter new price: ");
+                        System.out.print("Here is the current stock: " + cpuToModify.getStockNum() + "\nEnter new stock number: ");
                         int newStockNum = Integer.parseInt(input.next());
                         updateProductStock(cpuToModify, newStockNum);
                             break;
@@ -189,6 +195,7 @@ public class UserInterface {
             System.out.println("2: View order with highest priority");
             System.out.println("3: View all orders sorted by priority");
             System.out.println("4: Ship an order");
+            System.out.println("5: Quit and write to file");
             System.out.print("Please enter your option:  ");
             choice = input.nextInt();
             input.nextLine();
@@ -198,10 +205,14 @@ public class UserInterface {
                     searchForOrder();
                     break;
                 case 2:
-                    printHighestPriority();
+                try {
+                    printHighestPriority();   
+                } catch (Exception e) {
+                    System.out.print("\nThere are no orders!\n\n");
+                }
                     break;
                 case 3:
-                    viewSortedOrders();
+                        viewSortedOrders();
                     break;
                 case 4:
                     System.out.println("\nUnshipped Orders:");
@@ -212,6 +223,9 @@ public class UserInterface {
                         System.out.println("Invalid order ID. Please try again.");
                     }
                     System.out.println("Order has been successfully shipped.\n");
+                    break;
+                case 5:
+                    finished1 = true;
                     break;
                 default:
                     System.out.println("Invalid choice. Please try again.\n");
@@ -236,6 +250,7 @@ public class UserInterface {
             System.out.println("2: List Database of Products");
             System.out.println("3: Place an order");
             System.out.println("4: View Purchases");
+            System.out.println("5. Quit and write to files");
             System.out.print("\nPlease enter your option: ");
             choice = input.nextInt();
             input.nextLine();
@@ -269,6 +284,9 @@ public class UserInterface {
                         } else {
                             System.out.println("Invalid option. Please try again.");
                         }
+                        break;
+                case 5:
+                        finished1 = true;
                         break;
                 default:
                     System.out.println("Invalid choice. Please try again.\n");
@@ -373,10 +391,51 @@ public class UserInterface {
 
         switch (searchOption) {
             case 1:
-                //Search for order with order ID
+                // // Search for order with order ID
                 // System.out.print("Enter order ID: "); 
                 // int orderID = Integer.parseInt(input.next());
-                // orders.getElement(orderID);
+                // for (int i = 1; i < orders.getHeapSize() + 1; i++) {
+                //     Order orderToCheck = orders.getElement(i);
+                //     if (orderToCheck.getOrderId() == orderID) {
+                //         System.out.print("Order found! Order information:\n\n");
+                //         System.out.print(orderToCheck.toString());
+                //     }
+                // }
+                System.out.print("Enter order ID: "); 
+                int orderID = Integer.parseInt(input.next());
+                for (int i = 0; i < SIZE; i++) {
+                    if (customers.countBucket(i) > 0) {
+                        LinkedList<Customer> customersInBucket = customers.getBucket(i);
+                        customersInBucket.positionIterator();
+                        for (int j = 0; j < customersInBucket.getLength(); j++) {
+                            Customer customerToCheck = customersInBucket.getIterator();
+                            LinkedList<Order> unShippedOrdersToCheck = customerToCheck.getUnshippedOrders();
+                            LinkedList<Order> shippedOrdersToCheck = customerToCheck.getShippedOrders();
+                            unShippedOrdersToCheck.positionIterator();
+                            shippedOrdersToCheck.positionIterator();
+                            while (!unShippedOrdersToCheck.offEnd()) {
+                                Order unShippedOrder = unShippedOrdersToCheck.getIterator();
+                                if (unShippedOrder.getOrderId() == orderID) {
+                                    System.out.print("Order found! Order information:\n\n");
+                                    System.out.print(unShippedOrder.toString());
+                                    return;
+                                }
+                                unShippedOrdersToCheck.advanceIterator();
+                            }
+                            while (!shippedOrdersToCheck.offEnd()) {
+                                Order shippedOrder = shippedOrdersToCheck.getIterator();
+                                if (shippedOrder.getOrderId() == orderID) {
+                                    System.out.print("Order found! Order information:\n\n");
+                                    System.out.print(shippedOrder.toString());
+                                    return;
+                                }
+                                shippedOrdersToCheck.advanceIterator();
+                            }
+                            customersInBucket.advanceIterator();
+                        }
+                    }
+                }
+                    
                 break;
             case 2:
                 System.out.print("Enter the customer's first name: ");
@@ -385,13 +444,18 @@ public class UserInterface {
                 String lastName = input.next();
                 Customer customerToSearchFor = new Customer(firstName, lastName, null, null);
                 
-                for (int i = 1; i < orders.getHeapSize() + 1; i++) {
-                    Customer temp = orders.getElement(i).getCustomer();
-
-                    if (temp.getFirstName().compareTo(firstName) == 0 && temp.getLastName().compareTo(lastName) == 0) {
-                        System.out.print(temp.printUnshippedOrders());
-                        System.out.print(temp.printShippedOrders());
-                    } 
+                for (int i = 0; i < SIZE; i++) {
+                    if (customers.countBucket(i) > 0) {
+                        LinkedList<Customer> customersInBucket = customers.getBucket(i);
+                        customersInBucket.positionIterator();
+                        for (int j = 0; j < customersInBucket.getLength(); j++) {
+                            Customer customerToCheck = customersInBucket.getIterator();
+                            if (customerToCheck.getFirstName().compareTo(firstName) == 0 && customerToCheck.getLastName().compareTo(lastName) == 0) {
+                                System.out.print("Unshipped orders:\n" + customerToCheck.getUnshippedOrders().toString() + "Shipped orders:\n" + customerToCheck.getShippedOrders());
+                            }
+                            customersInBucket.advanceIterator();
+                        }
+                    }
                 }
                 break;
             default:
@@ -411,10 +475,14 @@ public class UserInterface {
     public static void viewSortedOrders() {
         Heap<Order> copyOfOrders = orders;
         Order tempOrder;
-        while(copyOfOrders.getHeapSize() != 0) {
-            tempOrder = copyOfOrders.getElement(1);
-            System.out.print(tempOrder.toString());
-            copyOfOrders.remove(1);
+        if (copyOfOrders.getHeapSize() == 0) {
+            System.out.print("\nThere are no orders!\n\n");
+        } else {
+            while(copyOfOrders.getHeapSize() != 0) {
+                tempOrder = copyOfOrders.getElement(1);
+                System.out.print(tempOrder.toString());
+                copyOfOrders.remove(1);
+            }
         }
     }
 
@@ -702,6 +770,7 @@ public class UserInterface {
                     break;
                 default:
                     System.out.println("Invalid choice.");
+                    break;
             }
         }
         return null;
