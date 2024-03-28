@@ -87,6 +87,7 @@ public class UserInterface {
                     printHighestPriority();
                     break;
                 case 3:
+			    viewSortedOrders();
                     break;
                 case 4:
                     finished2 = false;
