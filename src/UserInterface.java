@@ -27,7 +27,7 @@ public class UserInterface {
     static final int SIZE = 100;
     static int orderID = 0;
     static Heap<Order> orders;
-    static boolean exit = false;
+    static boolean exit;
 
     public static void main(String[] args) {
         input = new Scanner(System.in);
@@ -39,23 +39,25 @@ public class UserInterface {
         cpuPriceComparator = new CpuPriceComparator();
         cpusByName = new BST<>();
         cpusByPrice = new BST<>();
+        exit = false;
         orders = new Heap<>(new ArrayList(), priorityComparator);
-        while (!exit) {
-            System.out.println("Welcome to the CPU Store!");
-            if (customers.getNumElements() != 0 && employees.getNumElements() != 0) {
-                customers.clear();
-                employees.clear();
-            }
-            inputInfo();
-            user = logIn();
-            if (user instanceof Customer) {
-                customerInterface();
-            } else if (user instanceof Employee && ((Employee)user).getIsManager()) {
-                managerInterface();
-            } else if (user instanceof Employee ) {
-                employeeInterface();
-            }
+        System.out.println("Welcome to the CPU Store!");
+        if (customers.getNumElements() != 0 && employees.getNumElements() != 0) {
+            customers.clear();
+            employees.clear();
         }
+        inputInfo();
+        user = logIn();
+        if (user instanceof Customer) {
+            customerInterface();
+        } else if (user instanceof Employee && ((Employee)user).getIsManager()) {
+            managerInterface();
+        } else if (user instanceof Employee ) {
+            employeeInterface();
+        }
+        //write to file
+        writeToCPUsFile();
+        writeToUserFile();
     }
 
     private static void managerInterface() {
@@ -73,7 +75,6 @@ public class UserInterface {
             System.out.println("4: Ship an order");
             System.out.println("5: Update products");
             System.out.println("6: Remove products");
-            System.out.println("7: Log out ");
             System.out.print("Please enter your option:  ");
             choice = input.nextInt();
             input.nextLine();
@@ -109,11 +110,6 @@ public class UserInterface {
                     break;
                 case 6:
                     // System.out.print()
-                    break;
-                case 7:
-                    //call read to file and quit method
-                    System.out.println("Quiting program. Thanks for choosing Microcenter's CPU Store!");
-                    finished1 = true;                
                     break;
                 default:
                     System.out.println("Invalid choice. Please try again.\n");
@@ -193,7 +189,6 @@ public class UserInterface {
             System.out.println("2: View order with highest priority");
             System.out.println("3: View all orders sorted by priority");
             System.out.println("4: Ship an order");
-            System.out.println("5: Log out ");
             System.out.print("Please enter your option:  ");
             choice = input.nextInt();
             input.nextLine();
@@ -218,10 +213,6 @@ public class UserInterface {
                     }
                     System.out.println("Order has been successfully shipped.\n");
                     break;
-                case 5:
-                    System.out.println("Quitting program. Thanks for choosing Microcenter's CPU Store!");
-                    finished1 = true;
-                    break;
                 default:
                     System.out.println("Invalid choice. Please try again.\n");
                     break;
@@ -245,7 +236,6 @@ public class UserInterface {
             System.out.println("2: List Database of Products");
             System.out.println("3: Place an order");
             System.out.println("4: View Purchases");
-            System.out.println("5: Log out ");
             System.out.print("\nPlease enter your option: ");
             choice = input.nextInt();
             input.nextLine();
@@ -280,14 +270,6 @@ public class UserInterface {
                             System.out.println("Invalid option. Please try again.");
                         }
                         break;
-                    //call method to view purchases
-                case 5:
-                    //call read to file and quit method
-                    System.out.println("Quiting program. Thanks for choosing Microcenter's CPU Store!");
-                    finished1 = true;
-                    break;
-
-
                 default:
                     System.out.println("Invalid choice. Please try again.\n");
             }
@@ -751,7 +733,7 @@ public class UserInterface {
     		String lines[] = adjustedString.split("\\r?\\n");
 
     		int count = 0;
-    		for (int j = 0; j < (lines.length/cpusByName.getSize()); j++) {
+    		for (int j = 0; j < cpusByName.getSize(); j++) {
     			String name = lines[0 + count].substring(lines[0 + count].lastIndexOf(" ") + 1);
     			System.out.println(lines[0 + count]);
     			String brand = lines[1 + count].substring(lines[1 + count].lastIndexOf(" ") + 1);
@@ -791,7 +773,7 @@ public class UserInterface {
     			if (customers.countBucket(i) > 0) {
     				LinkedList<Customer> customersInBucket = customers.getBucket(i);
     				customersInBucket.positionIterator();
-    				for (int j = 1; j < customersInBucket.getLength(); j++) {
+    				for (int j = 0; j < customersInBucket.getLength(); j++) {
     					writer.write("\nC");
     					writer.write(customersInBucket.getIterator().toStringForFile());
     					customersInBucket.advanceIterator();
@@ -803,7 +785,7 @@ public class UserInterface {
     			if (employees.countBucket(i) > 0) {
     				LinkedList<Employee> employeesInBucket = employees.getBucket(i);
     				employeesInBucket.positionIterator();
-    				for (int j = 1; j < employeesInBucket.getLength(); j++) {
+    				for (int j = 0; j < employeesInBucket.getLength(); j++) {
     	    			if (employeesInBucket.getIterator().getIsManager() == true) {
     	    				writer.write("\nM");
     	    			}

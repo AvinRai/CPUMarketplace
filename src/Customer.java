@@ -275,7 +275,7 @@ public class Customer extends User {
     		//sb.append("\nunshipped");
     		unshippedOrders.positionIterator();
     		for (int i = 0; i < unshippedOrders.getLength(); i++) {
-    			sb.append("\nunshipped");
+    			sb.append("\nunshipped"); 
     			Order currentOrder = unshippedOrders.getIterator();
     			sb.append("\n" + currentOrder.getOrderId());
     			LinkedList<CPU> currentCPUList = currentOrder.getOrderContents();

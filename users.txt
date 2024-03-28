@@ -1,23 +1,13 @@
 
 C
-George
-Washington
-georgewashington
-firstpresident32
-101 White House Dr
-Westmoreland County
-Virginia
-67980
-0
-C
-John
-Adams
-johnadams
-secondpres1735
-18 Quincy St
-Brookline
-Massachusetts
-84555
+Victor
+Fugere
+vic03
+password
+1414 De Anza Blvd
+Cupertino
+California
+95148
 0
 C
 Thomas
@@ -30,14 +20,24 @@ Virginia
 62126
 0
 C
-James
-Madison
-jamesmadison
-ConstitutionFather
-54 Eleanor Way
-Port Conway
+John
+Adams
+johnadams
+secondpres1735
+18 Quincy St
+Brookline
+Massachusetts
+84555
+0
+C
+George
+Washington
+georgewashington
+firstpresident32
+101 White House Dr
+Westmoreland County
 Virginia
-09445
+67980
 0
 C
 Abraham
@@ -49,6 +49,16 @@ Hodgenville
 Kentucky
 77653
 0
+C
+James
+Madison
+jamesmadison
+ConstitutionFather
+54 Eleanor Way
+Port Conway
+Virginia
+09445
+0
 M
 Michael
 Jordan
@@ -56,10 +66,10 @@ michaeljordan
 airJordan23
 true
 E
-LeBron
-James
-lebronjames
-goated23
+Stephen
+Curry
+stephcurry
+sharpShooter30
 false
 E
 Kobe
@@ -68,18 +78,8 @@ kobebryant
 legend24
 false
 E
-Stephen
-Curry
-stephcurry
-sharpShooter30
+LeBron
+James
+lebronjames
+goated23
 false
-C
-Victor
-Fugere
-vic03
-password
-1414 De Anza Blvd
-Cupertino
-California
-95148
-0
