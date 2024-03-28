@@ -259,6 +259,7 @@ public class Customer extends User {
     			sb.append("\nshipped");
     			Order currentOrder = shippedOrders.getIterator();
     			sb.append("\n" + currentOrder.getOrderId());
+    			sb.append("\n" + currentOrder.getDate());
     			LinkedList<CPU> currentCPUList = currentOrder.getOrderContents();
     			sb.append("\n" + currentCPUList.getLength());
     			currentCPUList.positionIterator();
@@ -275,9 +276,10 @@ public class Customer extends User {
     		//sb.append("\nunshipped");
     		unshippedOrders.positionIterator();
     		for (int i = 0; i < unshippedOrders.getLength(); i++) {
-    			sb.append("\nunshipped"); 
+    			sb.append("\nunshipped");
     			Order currentOrder = unshippedOrders.getIterator();
     			sb.append("\n" + currentOrder.getOrderId());
+    			sb.append("\n" + currentOrder.getDate());
     			LinkedList<CPU> currentCPUList = currentOrder.getOrderContents();
     			sb.append("\n" + currentCPUList.getLength());
     			currentCPUList.positionIterator();
