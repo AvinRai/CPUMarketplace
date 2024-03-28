@@ -87,7 +87,6 @@ public class UserInterface {
                     printHighestPriority();
                     break;
                 case 3:
-			viewSortedOrders();
                     break;
                 case 4:
                     finished2 = false;
@@ -260,10 +259,8 @@ public class UserInterface {
                 case 1:
                 System.out.print("Enter the model name or price of the cpu you are looking for: ");
                 String keyString = input.next();
-                CPU foundCPU = searchForProduct(keyString);
-                if (foundCPU != null) {
-                    System.out.print("Product was found.\n");
-                    System.out.println(foundCPU);
+                if (searchForProduct(keyString) != null) {
+                    System.out.print("Product was found.\n\n");
                 } else {
                     System.out.print("Sorry, we don't carry this product.\n\n");
                 }
@@ -641,20 +638,15 @@ public class UserInterface {
      */
     private static CPU searchForProduct(String key) {
         CPU cpuToLookFor;
-        if (key.matches("\\d{3}\\.\\d{2}")) {
+        if (key.matches("\\d*\\.\\d{2}")) {
             double price = Double.parseDouble(key);
-            cpuToLookFor = new CPU(price);
+            cpuToLookFor = cpusByName.search(new CPU(price), cpuPriceComparator);
         } else {
-            cpuToLookFor = new CPU(key);
+            cpuToLookFor = cpusByName.search(new CPU(key), cpuNameComparator);
         }
 
-        CPU findByName = cpusByName.search(cpuToLookFor, cpuNameComparator);
-        CPU findByValue = cpusByName.search(cpuToLookFor, cpuPriceComparator);
-
-        if (findByName != null) {
-            return findByName;
-        } else if (findByValue != null) {
-            return findByValue;
+        if (cpuToLookFor != null) {
+            return cpuToLookFor;
         } else {
             return null;
         }
@@ -695,6 +687,8 @@ public class UserInterface {
             System.out.println("No unshipped orders!");
         }
     }
+
+
 
     /***ADDITIONAL METHODS***/
 
