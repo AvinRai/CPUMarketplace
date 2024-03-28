@@ -160,6 +160,7 @@ public class Order {
 
     public String toString() {
         return "Order ID: " + orderId +
+            "\nCustomer Name: " + customer.getFirstName() + " " + customer.getLastName()+
                 "\nDate ordered: " + dateTime +
                 "\nShipping speed: " + shippedSpeed +
                 "\nOrder contents:\n\n" + orderContents.toString();
