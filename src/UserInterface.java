@@ -936,6 +936,9 @@ public class UserInterface {
                 	for (int i = 0; i < numOrders; i++) {
                 		String shippingStatus = userReader.nextLine();
                 		int foundOrderID = Integer.parseInt(userReader.nextLine());
+                		String foundDate = userReader.nextLine();
+                		DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd'T'HH:mm:ss");
+                		LocalDateTime dateTime = LocalDateTime.parse(foundDate, formatter);
                 		int numOrderContents = Integer.parseInt(userReader.nextLine());
                 		LinkedList<CPU> orderContents = new LinkedList<>();
                 		for (int j = 0; j < numOrderContents; j++) {
@@ -947,7 +950,7 @@ public class UserInterface {
                 			}
                 		}
                 		String shippingSpeed = userReader.nextLine();
-                		Order newOrder = new Order (foundOrderID, customer, orderContents, shippingSpeed);
+                		Order newOrder = new Order (foundOrderID, customer, dateTime, orderContents, shippingSpeed);
                 		if (shippingStatus.equalsIgnoreCase("shipped")) {
                 			customer.addShippedOrder(newOrder);
                             orderID++;
