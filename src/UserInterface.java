@@ -259,8 +259,10 @@ public class UserInterface {
                 case 1:
                 System.out.print("Enter the model name or price of the cpu you are looking for: ");
                 String keyString = input.next();
-                if (searchForProduct(keyString) != null) {
-                    System.out.print("Product was found.\n\n");
+                CPU foundCPU = searchForProduct(keyString);
+                if (foundCPU != null) {
+                    System.out.print("Product was found.\n");
+                    System.out.println(foundCPU);
                 } else {
                     System.out.print("Sorry, we don't carry this product.\n\n");
                 }
@@ -692,8 +694,6 @@ public class UserInterface {
             System.out.println("No unshipped orders!");
         }
     }
-
-
 
     /***ADDITIONAL METHODS***/
 
