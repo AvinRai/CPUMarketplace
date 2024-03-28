@@ -1,13 +1,23 @@
 
 C
-Victor
-Fugere
-vic03
-password
-1414 De Anza Blvd
-Cupertino
-California
-95148
+George
+Washington
+georgewashington
+firstpresident32
+101 White House Dr
+Westmoreland County
+Virginia
+67980
+0
+C
+John
+Adams
+johnadams
+secondpres1735
+18 Quincy St
+Brookline
+Massachusetts
+84555
 0
 C
 Thomas
@@ -20,50 +30,15 @@ Virginia
 62126
 0
 C
-steve
-jobs
-steve03
-apple1
-23 san francisco street
-f
-f
-f
-1
-shipped
-0
-1
-i9-14900K
-standard
-C
-John
-Adams
-johnadams
-secondpres1735
-18 Quincy St
-Brookline
-Massachusetts
-84555
-0
-C
-George
-Washington
-georgewashington
-firstpresident32
-101 White House Dr
-Westmoreland County
+James
+Madison
+jamesmadison
+ConstitutionFather
+54 Eleanor Way
+Port Conway
 Virginia
-67980
-2
-unshipped
-1
-1
-i7-14700K
-rush
-unshipped
-2
-1
-Ryzen9-7950X3D
-rush
+09445
+0
 C
 Abraham
 Lincoln
@@ -74,16 +49,6 @@ Hodgenville
 Kentucky
 77653
 0
-C
-James
-Madison
-jamesmadison
-ConstitutionFather
-54 Eleanor Way
-Port Conway
-Virginia
-09445
-0
 M
 Michael
 Jordan
@@ -91,10 +56,10 @@ michaeljordan
 airJordan23
 true
 E
-Stephen
-Curry
-stephcurry
-sharpShooter30
+LeBron
+James
+lebronjames
+goated23
 false
 E
 Kobe
@@ -103,8 +68,18 @@ kobebryant
 legend24
 false
 E
-LeBron
-James
-lebronjames
-goated23
+Stephen
+Curry
+stephcurry
+sharpShooter30
 false
+C
+Victor
+Fugere
+vic03
+password
+1414 De Anza Blvd
+Cupertino
+California
+95148
+0

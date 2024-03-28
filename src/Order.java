@@ -144,13 +144,13 @@ public class Order {
         int priority = BASE_PRIORITY - (int) (daysUntilDelivery * DATE_FACTOR);
 
         switch (shippingSpeed) {
-            case "standard":
+            case "overnight":
                 priority -= 0;  // No change in priority for standard shipping
                 break;
             case "rush":
                 priority -= SPEED_FACTOR;  // Increase priority for express shipping
                 break;
-            case "overnight":
+            case "standard":
                 priority -= 2 * SPEED_FACTOR;  // Increase priority even more for overnight shipping
                 break;
             // Add more cases if needed for other shipping speeds
@@ -173,6 +173,7 @@ public class Order {
             "\nCustomer Name: " + customer.getFirstName() + " " + customer.getLastName()+
                 "\nDate ordered: " + dateTime +
                 "\nShipping speed: " + shippedSpeed +
+                "\nPriority: " + getPriority() +
                 "\nOrder contents:\n\n" + orderContents.toString();
     }
 }// end class Order

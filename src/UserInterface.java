@@ -223,14 +223,12 @@ public class UserInterface {
                         viewSortedOrders();
                     break;
                 case 4:
-                    System.out.println("\nUnshipped Orders:");
-                    displayUnshippedOrders();
-                    System.out.print("Please enter the ID number of the order you are shipping: ");
-                    orderId = input.nextInt();
-                    if (!shipOrder(orderId)) {
-                        System.out.println("Invalid order ID. Please try again.");
+                    if (orders.getHeapSize() == 0) {
+                        System.out.print("No orders!");
+                    } else {
+                        shipOrder();
+                        System.out.println("Order has been successfully shipped.\n");
                     }
-                    System.out.println("Order has been successfully shipped.\n");
                     break;
                 case 5:
                     finished1 = true;
@@ -323,34 +321,32 @@ public class UserInterface {
      * @param orderId the user's input of the order's id number
      * @return a boolean value that determines if the order id was a valid one
      */
-    public static boolean shipOrder(int orderId) {
-        for (int i = 1; i <= orders.getHeapSize(); i++) {
-            Order order = orders.getElement(i);
-            if (order.getOrderId() == orderId) {
-                Customer customer = order.getCustomer();
+    public static boolean shipOrder() {
+        
+            Order order = orders.getElement(1);
+            
+            Customer customer = order.getCustomer();
+            
+            orders.remove(1);
 
-                // Remove the order from the orders heap
-                orders.remove(i);
+            // Add the order to the customer's shipped orders list
+            customer.addShippedOrder(order);
 
-                // Add the order to the customer's shipped orders list
-                customer.addShippedOrder(order);
-
-                // Remove the order from the customer's unshipped orders list
-                LinkedList<Order> unshippedOrders = customer.getUnshippedOrders();
-                unshippedOrders.positionIterator();
-                while (!unshippedOrders.offEnd()) {
-                    Order currentOrder = unshippedOrders.getIterator();
-                    if (currentOrder.equals(order)) {
-                        unshippedOrders.removeIterator();
-                        break;
-                    }
-                    unshippedOrders.advanceIterator();
+            // Remove the order from the customer's unshipped orders list
+            LinkedList<Order> unshippedOrders = customer.getUnshippedOrders();
+            
+            unshippedOrders.positionIterator();
+            
+            while (!unshippedOrders.offEnd()) {
+                Order currentOrder = unshippedOrders.getIterator();
+                if (orderIdComparator.compare(order, currentOrder) == 0) {
+                    unshippedOrders.removeIterator();
+                    break;
                 }
-
-                return true;
+                unshippedOrders.advanceIterator();
             }
-        }
-        return false;
+            //System.out.print("UNSHIPPED ORDER LENGTH: " + unshippedOrders.getLength());
+            return true;
     }
 
     /**
@@ -477,7 +473,9 @@ public class UserInterface {
     }
     private static void printHighestPriority(){
         Order tempOrder = new Order();
+    
         tempOrder = orders.getElement(1);
+
         System.out.print(tempOrder.toString());
     }
     /**
@@ -487,9 +485,13 @@ public class UserInterface {
         if (orders.getHeapSize() == 0) {
             System.out.print("\nThere are no orders!\n\n");
         } else {
-            System.out.println(orders.toString());
-
+            System.out.print("\n");
+            ArrayList<Order> list = orders.sort();
+            for (Order order : list) {
+                System.out.println(order);
             }
+
+        }
     }
 
     /**
@@ -939,7 +941,7 @@ public class UserInterface {
                 		String shippingStatus = userReader.nextLine();
                 		int foundOrderID = Integer.parseInt(userReader.nextLine());
                 		String foundDate = userReader.nextLine();
-                		DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd'T'HH:mm:ss");
+                		DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
                 		LocalDateTime dateTime = LocalDateTime.parse(foundDate, formatter);
                 		int numOrderContents = Integer.parseInt(userReader.nextLine());
                 		LinkedList<CPU> orderContents = new LinkedList<>();
