@@ -735,8 +735,18 @@ public class UserInterface {
                     String newUsername = input.nextLine();
                     System.out.print("Enter password: ");
                     String newPassword = input.nextLine();
-
-                    Customer newCustomer = new Customer(firstName, lastName, newUsername, newPassword);
+                    System.out.print("Enter your address: ");
+                    String newAddress = input.nextLine();
+                    System.out.print("Enter your city: ");
+                    String newCity = input.nextLine();
+                    System.out.print("Enter your state: ");
+                    String newState = input.nextLine();
+                    System.out.print("Enter your zip code: ");
+                    String newZip = input.nextLine();
+                	LinkedList<Order> newShippedOrders = new LinkedList<Order>();
+                	LinkedList<Order> newUnshippedOrders = new LinkedList<Order>();
+                    Customer newCustomer = new Customer(firstName, lastName, newUsername, newPassword,
+                    		newAddress, newCity, newState, newZip, newShippedOrders, newUnshippedOrders);
                     addCustomerToFile(newCustomer);
                     customers.add(newCustomer);
                     System.out.println("New customer account created successfully!\n");
@@ -775,12 +785,9 @@ public class UserInterface {
 
     private static void addCustomerToFile(Customer newCustomer) {
         try {
-            FileWriter writer = new FileWriter(new File("Users.txt"), true);
-            String lineToAdd = "C " + newCustomer.getFirstName() + " " 
-            + newCustomer.getLastName() 
-            + " " + newCustomer.getUsername() 
-            + " " + newCustomer.getPassword();
-            writer.write("\n" + lineToAdd);
+            FileWriter writer = new FileWriter(new File("users.txt"), true);
+            writer.write("\nC");
+            writer.write(newCustomer.toStringForFile());
             writer.close();
 
         } catch (IOException e) {
