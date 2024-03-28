@@ -475,17 +475,12 @@ public class UserInterface {
      * Prints out a list of all orders sorted by Priority
      */
     public static void viewSortedOrders() {
-        Heap<Order> copyOfOrders = orders;
-        Order tempOrder;
-        if (copyOfOrders.getHeapSize() == 0) {
+        if (orders.getHeapSize() == 0) {
             System.out.print("\nThere are no orders!\n\n");
         } else {
-            while(copyOfOrders.getHeapSize() != 0) {
-                tempOrder = copyOfOrders.getElement(1);
-                System.out.print(tempOrder.toString());
-                copyOfOrders.remove(1);
+            System.out.println(orders.toString());
+
             }
-        }
     }
 
     /**
