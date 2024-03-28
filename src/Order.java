@@ -36,6 +36,16 @@ public class Order {
         this.shippedSpeed = shippedSpeed;
         this.priority = calculatePriority(dateTime, shippedSpeed);
     }
+    
+        public Order(int orderId, Customer customer, LocalDateTime dateNTime, LinkedList<CPU> orderContents,
+                 String shippedSpeed) {
+        this.orderId = orderId;
+        this.customer = customer;
+        this.dateTime = dateNTime;
+        this.orderContents = orderContents;
+        this.shippedSpeed = shippedSpeed;
+        this.priority = calculatePriority(dateTime, shippedSpeed);
+    }
 
     /* Accessors */
 
