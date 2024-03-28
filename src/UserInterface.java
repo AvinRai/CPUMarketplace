@@ -114,6 +114,11 @@ public class UserInterface {
                     System.out.print("Enter the model name of cpu to remove: ");
                     String cpuNameToRemove = input.next();
                     CPU cpuToRemove = searchForProduct(cpuNameToRemove);
+                    if (cpuToRemove != null) {
+                        removeProduct(cpuToRemove);
+                    } else {
+                        System.out.print("Product not found. Try again.");
+                    }
                     break;
                 case 7:
                     finished1 = true;
@@ -572,7 +577,7 @@ public class UserInterface {
      * @param removeCPU the CPU to be removed
      * @return if the product (CPU) was successfully removed
      */
-    public boolean removeProduct(CPU removeCPU) {
+    public static boolean removeProduct(CPU removeCPU) {
         if (!((Employee) user).getIsManager()) {
             System.out.println("Invalid request: Restricted to manager");
             return false;

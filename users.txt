@@ -20,6 +20,21 @@ Virginia
 62126
 0
 C
+steve
+jobs
+steve03
+apple1
+23 san francisco street
+f
+f
+f
+1
+shipped
+0
+1
+i9-14900K
+standard
+C
 John
 Adams
 johnadams
@@ -28,12 +43,7 @@ secondpres1735
 Brookline
 Massachusetts
 84555
-1
-unshipped
-1
-1
-i9-13900KS
-rush
+0
 C
 George
 Washington
@@ -43,12 +53,17 @@ firstpresident32
 Westmoreland County
 Virginia
 67980
-1
+2
 unshipped
-0
 1
-i9-14900K
-standard
+1
+i7-14700K
+rush
+unshipped
+2
+1
+Ryzen9-7950X3D
+rush
 C
 Abraham
 Lincoln
