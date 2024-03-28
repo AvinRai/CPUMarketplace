@@ -806,19 +806,19 @@ public class UserInterface {
     		int count = 0;
     		for (int j = 0; j < cpusByName.getSize(); j++) {
     			String name = lines[0 + count].substring(lines[0 + count].lastIndexOf(" ") + 1);
-    			System.out.println(lines[0 + count]);
+
     			String brand = lines[1 + count].substring(lines[1 + count].lastIndexOf(" ") + 1);
-    			System.out.println(lines[1 + count]);
+
     			String speed = lines[2 + count].substring(lines[2 + count].lastIndexOf(" ") + 1);
-    			System.out.println(lines[2 + count]);  			
+		
     			String cores = lines[3 + count].substring(lines[3 + count].lastIndexOf(" ") + 1);
-    			System.out.println(lines[3 + count]);
+
     			String threads = lines[4 + count].substring(lines[4 + count].lastIndexOf(" ") + 1);
-    			System.out.println(lines[4 + count]);
+
     			String price = lines[5 + count].substring(lines[5 + count].lastIndexOf("$") + 1);
-    			System.out.println(lines[5 + count]);
+
     			String stock = lines[6 + count].substring(lines[5 + count].lastIndexOf(" ") + 1);
-    			System.out.println(lines[6 + count]);
+
     			count += 7;
     			
     			writer.write("\n" + name);
