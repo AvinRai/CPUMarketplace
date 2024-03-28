@@ -199,7 +199,7 @@ public class Heap<T> {
         StringBuilder result = new StringBuilder();
         for (int i = 1; i < this.heap.size(); i++) {
             if (i != heap.size() - 1) {
-                result.append(this.heap.get(i)).append(", ");
+                result.append(this.heap.get(i));
             } else {
                 result.append(this.heap.get(i));
             }
