@@ -260,8 +260,9 @@ public class UserInterface {
                 case 1:
                 System.out.print("Enter the model name or price of the cpu you are looking for: ");
                 String keyString = input.next();
-                if (searchForProduct(keyString) != null) {
-                    System.out.print("Product was found.\n\n");
+                CPU cpuReturned = searchForProduct(keyString);
+                if (cpuReturned != null) {
+                    System.out.print("\n" + cpuReturned.toString());
                 } else {
                     System.out.print("Sorry, we don't carry this product.\n\n");
                 }
@@ -636,7 +637,7 @@ public class UserInterface {
         CPU cpuToLookFor;
         if (key.matches("\\d*\\.\\d{2}")) {
             double price = Double.parseDouble(key);
-            cpuToLookFor = cpusByName.search(new CPU(price), cpuPriceComparator);
+            cpuToLookFor = cpusByPrice.search(new CPU(price), cpuPriceComparator);
         } else {
             cpuToLookFor = cpusByName.search(new CPU(key), cpuNameComparator);
         }
