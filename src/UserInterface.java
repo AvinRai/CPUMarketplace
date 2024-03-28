@@ -266,7 +266,7 @@ public class UserInterface {
                 }
                 break;
                 case 2:
-                        System.out.print("List by: 1. Name 2. Price\nEnter choice: ");
+                        System.out.print("List by: " + "\n1. Name" + "\n2. Price" + "\nEnter choice: ");
                         int listByChoice = Integer.parseInt(input.next());
                         switch (listByChoice) {
                             case 1:
