@@ -1,4 +1,4 @@
-# DSATeam1Final
+# CPU Marketplace
 
 Final project for CIS22C class. This is a data processing system for CPUs (Central Processing Units).
 
