@@ -183,7 +183,7 @@ public class UserInterface {
                 } 
                 break;
             default:
-                System.out.print("Invalide choice. Please try again.\n");
+                System.out.print("Invalid choice. Please try again.\n");
                 break;
         }
     }
@@ -318,7 +318,6 @@ public class UserInterface {
     /**
      * Ships an order (Remove from Heap. Insert Order to shipped
      * Linked List for the Customer + Remove from Unshipped List)
-     * @param orderId the user's input of the order's id number
      * @return a boolean value that determines if the order id was a valid one
      */
     public static boolean shipOrder() {
